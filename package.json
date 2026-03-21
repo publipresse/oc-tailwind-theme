@@ -1,0 +1,13 @@
+{
+  "name": "oc-tailwind-theme",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "css:build": "npx @tailwindcss/cli -i ./assets/css/config.css -o ./assets/css/tailwind.css",
+    "css:watch": "npx @tailwindcss/cli -i ./assets/css/config.css -o ./assets/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "tailwindcss": "^4.2.0"
+  }
+}

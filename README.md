@@ -1,18 +1,43 @@
 # oc-tailwind-theme
 Tailwind Starter theme
 
-## Tailwind CLI standalone
+## Tailwind CSS 4.2 avec npm
 
-Ce theme est configure pour Tailwind CSS 4.2 (CLI standalone).
+Ce theme est configuré pour Tailwind CSS 4.2 via npm avec `@tailwindcss/cli`.
 
-Lancer les commandes depuis le dossier du theme.
+### Installation
+
+D'abord, installer Node.js 21+ (voir `.nvmrc`), puis les dépendances :
+
+```bash
+cd themes/oc-tailwind-theme
+npm install
+```
+
+### Compilation
 
 Le fichier source `assets/css/config.css` centralise toute la configuration Tailwind v4 :
-- import Tailwind
+- import de Tailwind
 - breakpoints via `@theme`
-- detection des classes via `@source`
+- détection des classes via `@source`
 
-Extrait :
+**Compilation unique :**
+
+```bash
+npm run css:build
+```
+
+**Mode watch (compilation auto à chaque changement) :**
+
+```bash
+npm run css:watch
+```
+
+### Configuration
+
+Fichier source : `assets/css/config.css`
+
+Exemple :
 
 ```css
 @import "tailwindcss";
@@ -23,6 +48,7 @@ Extrait :
 	--breakpoint-lg: 1024px;
 	--breakpoint-xl: 1280px;
 	--breakpoint-2xl: 1536px;
+	--spacing-header-height: 80px;
 }
 
 @source "../../layouts/**/*.htm";
@@ -31,55 +57,15 @@ Extrait :
 @source "../../content/**/*.htm";
 ```
 
-Important : le binaire doit etre executable. Si besoin :
+### Output
 
-```bash
-cd /var/www/vhosts/dev02.publipresse.ovh/github.dev02.publipresse.ovh/httpdocs/themes/oc-tailwind-theme
-chmod +x ./assets/vendor/tailwind/tailwind
-```
+Fichier généré : `assets/css/tailwind.css` (minifié en production)
 
-### Developpement
-
-Compilation automatique a chaque modification :
-
-```bash
-cd /var/www/vhosts/dev02.publipresse.ovh/github.dev02.publipresse.ovh/httpdocs/themes/oc-tailwind-theme
-./assets/vendor/tailwind/tailwind -i ./assets/css/config.css -o ./assets/css/tailwind.css --watch
-```
-
-### Production
-
-Generation du CSS optimise et minifie :
-
-```bash
-cd /var/www/vhosts/dev02.publipresse.ovh/github.dev02.publipresse.ovh/httpdocs/themes/oc-tailwind-theme
-./assets/vendor/tailwind/tailwind -i ./assets/css/config.css -o ./assets/css/tailwind.css --minify
-```
-
-### Verification version
-
-Verifier la version du CLI installe :
-
-```bash
-cd /var/www/vhosts/dev02.publipresse.ovh/github.dev02.publipresse.ovh/httpdocs/themes/oc-tailwind-theme
-./assets/vendor/tailwind/tailwind --version 2>&1
-```
-
-La sortie attendue doit contenir `tailwindcss v4.2` (ou un patch `v4.2.x`).
-
-### Diagnostic serveur
-
-Si la commande est tuee (`Killed` / code 137), tester d'abord sans minification :
-
-```bash
-cd /var/www/vhosts/dev02.publipresse.ovh/github.dev02.publipresse.ovh/httpdocs/themes/oc-tailwind-theme
-./assets/vendor/tailwind/tailwind -i ./assets/css/config.css -o ./assets/css/tailwind.css
-```
-
-Si le binaire est tue meme sur `--version`, le probleme vient du serveur (limite memoire/process) et pas de la configuration Tailwind.
+Les scripts npm utilisent automatiquement la minification en production.
 
 ### Fichiers
 
 - Source Tailwind : `assets/css/config.css`
-- CSS compile : `assets/css/tailwind.css`
-- CLI standalone : `assets/vendor/tailwind/tailwind`
+- CSS compilé : `assets/css/tailwind.css`
+- Dépendances : `node_modules/` et `package.json`
+- Version Node requise : voir `.nvmrc`
