@@ -1,0 +1,39 @@
+url = "/merci"
+layout = "default"
+title = "Merci"
+meta_title = "Merci pour votre message"
+meta_description = "Nous vous remercions pour votre message, votre demande sera traitée dans les plus brefs délais."
+
+[global seo]
+handle = "Seo\Config"
+==
+<?php
+function onStart() {
+    if(empty(Session::get('contact-form'))) { 
+        return Cms::redirect('contact');
+    }
+    
+    $user = BackendAuth::getUser();
+    if($user && $user->hasAccess('publipresse.fronteditor.editor')) {
+        return;
+    }
+    
+    foreach(Session::get('contact-form') as $key => $info) {
+        View::share($key, $info);
+    }
+
+    Session::forget('contact-form');
+}
+?>
+==
+<section id="core" class="grid grid-2 g-0 align-stretch" sm="grid-1">
+    <div class="text col text-center p-lg" sm="order-2">
+        {% component 'editor' file='core/merci/message' toolbar="h1 h2 p | bold italic link" %}
+        <div id="row">
+            <a class="btn" href="{{ 'accueil'|page }}">{{ "Retourner à l'accueil"|_ }}</a>
+        </div>
+    </div>
+    <div class="image overflow" sm="order-1">
+        {% partial 'image' class="w-100 h-100" image=seo.core_image width=1000 height=1000 %}
+    </div>
+</section>

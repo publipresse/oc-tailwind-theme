@@ -1,0 +1,78 @@
+[global seo]
+handle = "Seo\Config"
+
+[global infos]
+handle = "Config\Infos"
+
+[global matomo]
+handle = "Seo\Matomo"
+
+[schemaName]
+name = "{{ infos.company_name }}"
+
+[schemaLogo]
+logo = "assets/img/logo.svg"
+==
+{# Define variables #}
+{% set meta_title = placeholder('meta_title')|default(this.page.meta_title)|default(this.page.title) %}
+{% set meta_prefix = (seo.meta_suffix == 'prefix') ? placeholder('meta_prefix')|default(seo.meta_title) : null %}
+{% set meta_suffix = (seo.meta_suffix == 'suffix') ? placeholder('meta_suffix')|default(seo.meta_title) : null %}
+{% set meta_description = placeholder('meta_description')|default(this.page.meta_description)|default(seo.meta_description) %}
+{% set canonical_url = placeholder('canonical_url')|default(this.page.canonical_url)|default(boxesPage.real_canonical_url)|default(this|page) %}
+{% set meta_robots = placeholder('meta_robots')|default(this.page.meta_robots)|default(boxesPage.meta_robots|join(', '))|default('all') %}
+{% set theme_color = this.page.theme_color|default(seo.theme_color) %}
+{% set og_title = placeholder('og_title')|default(this.page.og_title)|default(boxesPage.og_title)|default(meta_title) %}
+{% set og_description = placeholder('og_description')|default(this.page.og_description)|default(boxesPage.og_description)|default(meta_description) %}
+{% set og_url = placeholder('og_url')|default(this.page.og_url)|default(canonical_url) %}
+{% set og_locale = placeholder('og_locale')|default(this.page.og_locale)|default('fr_FR') %}
+{% set og_type = placeholder('og_type')|default(this.page.og_type)|default(boxesPage.og_type)|default('website') %}
+{% set og_image = placeholder('og_image')|default(this.page.og_image)|default(boxesPage.og_image)|default(seo.og_image)|resize(1200,630,{mode:'crop'}) %}
+{% set favicon = this.page.favicon|default(seo.favicon.path) %}
+{% set turbo_routing = this.page.turbo_routing|default(seo.turbo_routing) %}
+{% set turbo_cache = this.page.turbo_cache|default(seo.turbo_cache) %}
+
+{# Metas #}
+<title>{{ meta_prefix }} {{ meta_title }} {{ meta_suffix }}</title>
+<link rel="icon" href="{{ favicon|default('assets/img/logo.svg') }}" type="image/svg+xml" color="{{ theme_color }}">
+<link rel="canonical" href="{{ canonical_url }}">
+<meta name="description" content="{{ meta_description }}">
+<meta name="robots" content="{{ meta_robots }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="turbo-visit-control" content="{{ turbo_routing }}">
+<meta name="turbo-cache-control" content="{{ turbo_cache }}">
+<meta name="theme-color" content="{{ theme_color }}">
+<meta property="og:title" content="{{ og_title }}">
+<meta property="og:description" content="{{ og_description }}">
+<meta property="og:url" content="{{ og_url }}">
+<meta property="og:type" content="{{ og_type }}">
+<meta property="og:image" content="{{ og_image }}">
+{{ seo.head_code }}
+
+{# Multisite #}
+{% if sitePicker.sites|length > 1 %}
+    {% for site in sitePicker.sites %}
+        <link rel="alternate" hreflang="{{ site.locale }}" href="{{ site.url }}">
+    {% endfor %}
+    <link rel="alternate" hreflang="x-default" href="{{ sitePicker.sites.first.url }}">
+{% endif %}
+
+{# Matomo #}
+{% if matomo.url is not empty and matomo.website_id is not empty %}
+    <script>
+        var _paq = window._paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="{{ matomo.url }}";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '{{ matomo.website_id }}']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript><p><img src="{{ matomo.url }}matomo.php?idsite={{ matomo.website_id }}&amp;rec=1" style="border:0;" alt=""></p></noscript>
+{% endif %}
+
+{# Schema #}
+{% component 'schemaName' %}
+{% component 'schemaLogo' %}

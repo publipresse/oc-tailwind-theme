@@ -1,0 +1,18 @@
+{% if record.mode == 'cta' %}
+    <a class="btn btn-primary" href="{{ record.url }}" {% if record.target %} target="_blank"{% endif %}>
+        {{ record.text }}
+    </a>
+{% endif %}
+{% if record.mode == 'preview' %}
+    {% set preview = record.url|linkpreview('general') %}
+    <div class="grid grid-2 align-stretch">
+        <div class="image">
+            {% partial 'image' image=preview.cover alt=preview.title class="w-100 h-100" %}
+        </div>
+        <div class="text col g-sm">
+            <div class="h4">{{ preview.title }}</div>
+            <p>{{ preview.description }}</p>
+            <a class="align-self-start" href="{{ content.url }}" {% if content.target %}target="_blank"{% endif %}>{{ record.url }}</a>
+        </div>
+    </div>
+{% endif %}

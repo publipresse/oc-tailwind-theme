@@ -1,0 +1,88 @@
+uuid: config_infos
+handle: Config\Infos
+type: global
+name: Informations générales
+multisite: true
+
+navigation:
+    parent: settings
+    category: Général
+    description: Informations générales sur l'entreprise
+    icon: icon-info-circle
+    order: 10
+
+fields:
+    company_name:
+        label: Nom
+        span: auto
+        tab: Coordonnées
+    company_status:
+        label: Statut
+        span: auto
+        tab: Coordonnées
+    company_website:
+        label: Url du site web
+        span: full
+        tab: Coordonnées
+        placeholder: www.domain.tld
+    company_address:
+        label: Adresse postale
+        type: textarea
+        size: tiny
+        span: full
+        tab: Coordonnées
+    company_email:
+        label: Email
+        span: left
+        tab: Coordonnées
+    company_tel:
+        label: Téléphone
+        span: auto
+        tab: Coordonnées
+    company_siren:
+        label: Siren
+        span: auto
+        tab: Informations légales
+    company_vat:
+        label: Numéro de TVA
+        span: auto
+        tab: Informations légales
+    company_capital:
+        label: Capital
+        span: auto
+        tab: Informations légales
+    publisher_section:
+        label: Responsable de publication
+        type: section
+        tab: Publication
+    publisher_name:
+        label: Nom
+        span: auto
+        tab: Publication
+    publisher_email:
+        label: Email
+        span: auto
+        tab: Publication
+    dpo_section:
+        label: DPO
+        type: section
+        tab: Publication
+    dpo_name:
+        label: Nom du DPO
+        span: auto
+        tab: Publication
+    dpo_email:
+        label: Adresse email
+        span: auto
+        tab: Publication
+    host_name:
+        label: Nom
+        span: auto
+        tab: Hébergement
+        default: Altinea
+    host_address:
+        label: Adresse postale
+        type: text
+        span: auto
+        tab: Hébergement
+        default: 9 Rue du Faubourg, 39570 Nogna

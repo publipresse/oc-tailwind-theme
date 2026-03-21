@@ -1,0 +1,21 @@
+uuid: seo_matomo
+handle: Seo\Matomo
+type: global
+name: Matomo
+multisite: false
+
+navigation:
+    parent: settings
+    icon: icon-area-chart
+    category: Seo
+    description: Configuration de Matomo
+    order: 30
+
+fields:
+    url:
+        label: Matomo URL
+        default: https://matomo.publipresse.fr/
+        tab: Configuration
+    website_id:
+        label: Identifiant du site
+        tab: Configuration

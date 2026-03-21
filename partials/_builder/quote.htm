@@ -1,0 +1,17 @@
+<blockquote class="col">
+    <div>
+        {{ record.quote|content }}
+    </div>
+    <footer>
+        {% if record.author %}
+            <div>
+                {{ record.author }}
+            </div>
+        {% endif %}
+        {% if record.role %}
+            <div>
+                {{ record.role }}
+            </div>
+        {% endif %}
+    </footer>
+</blockquote>

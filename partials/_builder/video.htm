@@ -1,0 +1,23 @@
+[viewBag]
+==
+<?php
+function onStart() {
+    $this->addCss('assets/vendor/videojs/video.min.css');
+    $this->addJs('assets/vendor/videojs/video.min.js', ['defer' => true]);
+    $this->addJs('assets/vendor/videojs/Youtube.min.js', ['defer' => true]);
+}
+?>
+==
+<video
+    id="video-{{ record.id }}"
+    class="video-js"
+    controls
+    preload="auto"
+    {% if record.source == 'local' %}
+        data-setup='{ "responsive": true, "fluid": true }'>
+        <source src="{{ record.video.path }}" type="video/mp4"></source>
+    {% endif %}
+    {% if record.source == 'youtube' %}
+        data-setup='{ "responsive": true, "fluid": true, "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "{{ record.url }}"}] }'>
+    {% endif %}
+</video>

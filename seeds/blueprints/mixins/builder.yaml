@@ -1,0 +1,228 @@
+uuid: 6b371c81-01f3-4443-b265-a83ae31f5d90
+handle: Builder
+type: mixin
+name: Builder
+
+fields:
+    builder:
+        label: Contenu
+        type: repeater
+        prompt: Ajouter un élément
+        displayMode: builder
+        column: false
+        groups:
+            title:
+                name: Titre
+                icon: ph ph-text-h-two
+                description: Un titre Hn
+                fields:
+                    title:
+                        label: Titre
+                        type: text
+                        span: auto
+                    tag:
+                        label: Tag
+                        type: balloon-selector
+                        span: auto
+                        default: h2
+                        options:
+                            h1: H1
+                            h2: H2
+                            h3: H3
+                            h4: H4
+                            h5: H5
+                            h6: H6
+            richeditor:
+                name: Texte
+                icon: ph ph-article
+                description: Une zone de texte large
+                fields:
+                    content:
+                        label: Zone de texte
+                        type: richeditor
+                        size: giant
+                        toolbarButtons: paragraphFormat, bold, italic, underline, -, insertPageLink, emoticons, -, formatOL, formatUL, insertTable, -, html, fullscreen
+            textimage:
+                name: Texte + Image
+                icon: ph ph-square-half
+                description: Texte et image à gauche ou à droite
+                fields:
+                    image_position:
+                        label: Position de l'image
+                        type: balloon-selector
+                        options:
+                            left: Image à gauche
+                            right: Image à droite
+                        default: left
+                        span: full
+                    content:
+                        label: Zone de texte
+                        type: richeditor
+                        size: large
+                        span: left
+                        toolbarButtons: paragraphFormat, bold, italic, underline, -, insertPageLink, emoticons, -, formatOL, formatUL, insertTable, -, html, fullscreen
+                    image:
+                        label: Image
+                        type: fileupload
+                        mode: image
+                        tab: Infos
+                        span: right
+                        maxFiles: 1
+            quote:
+                name: Citation
+                icon: ph ph-quotes
+                description: Citation d'un auteur
+                fields:
+                    quote:
+                        label: Citation
+                        type: richeditor
+                        toolbarButtons: bold, italic, underline, insertPageLink, emoticons
+                    author:
+                        label: Auteur
+                        type: text
+                        span: auto
+                    role:
+                        label: Rôle
+                        type: text
+                        span: auto
+            featured:
+                name: Exergue
+                icon: ph ph-megaphone
+                description: Texte mis en avant
+                fields:
+                    content:
+                        label: Contenu
+                        type: richeditor
+                        toolbarButtons: bold, italic, underline, insertPageLink, emoticons
+            image:
+                name: Image
+                icon: icon-image
+                description: Une grande image
+                fields:
+                    image:
+                        label: Image
+                        type: fileupload
+                        mode: image
+                        tab: Infos
+                        maxFiles: 1
+            gallery:
+                name: Galerie d'images
+                icon: ph ph-images
+                description: Une galerie d'images
+                fields:
+                    images:
+                        label: Images
+                        type: fileupload
+                        mode: image
+                        tab: Infos
+                        maxFiles: 99
+                    mode:
+                        label: Mode d'affichage
+                        type: balloon-selector
+                        span: row
+                        spanClass: col-md-4
+                        options:
+                            grid: Grille
+                            slider: Slider
+                        default: grid
+                    cols:
+                        label: Nombre d'images par ligne
+                        type: balloon-selector
+                        span: row
+                        spanClass: col-md-4
+                        options: 
+                            1: 1
+                            2: 2
+                            3: 3
+                            4: 4
+                            5: 5
+                            6: 6
+                        default: 4
+                    lightbox:
+                        label: Lightbox
+                        type: switch
+                        span: row
+                        spanClass: col-md-4
+                        comment: Afficher les images originales quand on clique dessus
+            video:
+                name: Vidéo
+                icon: ph ph-youtube-logo
+                description: Ajouter une vidéo locale ou youtube
+                fields:
+                    source:
+                        label: Source
+                        type: balloon-selector
+                        span: auto
+                        options:
+                            local: Uploader une vidéo
+                            youtube: Youtube
+                        default: local
+                    video:
+                        label: Vidéo
+                        type: fileupload
+                        fileTypes: mp4
+                        maxFiles: 1
+                        trigger:
+                            action: show
+                            field: source
+                            condition: value[local]
+                    url:
+                        label: Url
+                        type: text
+                        placeholder: https://www.youtube.com/watch?v=ScMzIvxBSi4
+                        trigger:
+                            action: hide
+                            field: source
+                            condition: value[local]
+            link:
+                name: Lien
+                icon: ph ph-link
+                description: Ajouter un lien vers une page interne ou un site externe
+                fields:
+                    mode:
+                        label: Mode
+                        type: balloon-selector
+                        options:
+                            cta: Call to action
+                            preview: Aperçu
+                        default: cta
+                    url:
+                        label: Adresse du lien
+                        type: text
+                    text:
+                        label: Texte du lien
+                        type: text
+                        trigger:
+                            action: show
+                            field: mode
+                            condition: value[cta]
+                    target:
+                        label: Ouvrir dans une nouvelle fenêtre
+                        type: switch
+            files:
+                name: Fichiers
+                icon: ph ph-paperclip
+                description: Ajouter des fichiers à ouvrir ou télécharger
+                fields:
+                    files:
+                        label: Fichiers
+                        type: fileupload
+                        fileTypes: pdf
+                        mode: file
+                    action:
+                        label: Action
+                        type: balloon-selector
+                        options:
+                            open: Ouvrir
+                            download: Télécharger
+                        default: open
+            html:
+                name: HTML
+                icon: ph ph-code
+                description: Code HTML pour une utilisation avancée
+                fields:
+                    content:
+                        label: Code
+                        type: codeeditor
+                        size: large
+                        language: html

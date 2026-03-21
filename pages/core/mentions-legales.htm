@@ -1,0 +1,31 @@
+url = "/mentions-legales"
+layout = "default"
+title = "Mentions légales"
+is_hidden = 0
+meta_title = "Mentions légales"
+meta_description = "Découvrez les mentions légales de notre site web, incluant les informations sur les droits d'auteur, les conditions d'utilisation et la politique de confidentialité."
+
+[global infos]
+handle = "Config\Infos"
+==
+<?php
+function onStart() {
+    $user = BackendAuth::getUser();
+    if($user && $user->hasAccess('publipresse.fronteditor.editor')) {
+        return;
+    }
+    foreach($this->infos->attributes as $key => $info) {
+        View::share($key, $info);
+    }
+}
+?>
+==
+<section id="legal" class="py-md">
+    <div class="container">
+        {% component 'editor' file="core/mentions-legales/mentions-legales.html" %}
+        <div id="matomo-opt-out" class="mt-md">
+            <script src="https://matomo.publipresse.fr/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=auto&showIntro=1"></script>
+        </div>
+    </script>
+    </div>
+</section>

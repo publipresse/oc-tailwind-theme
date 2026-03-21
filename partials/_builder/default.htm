@@ -1,0 +1,7 @@
+<div class="builder">
+    {% for record in builder %}
+        <div class="builder-{{ record.content_group }} my-md">
+            {% partial '_builder/'~record.content_group %}
+        </div>
+    {% endfor %}
+</div>

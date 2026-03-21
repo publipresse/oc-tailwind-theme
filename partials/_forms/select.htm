@@ -1,0 +1,52 @@
+{% set placeholder = placeholder|default(items[default])|default('- Choisissez -') %}
+{% set id = id|default('field-'~name|slug) %}
+
+<div class="field field-select {{ class }}" 
+    x-data="{ open: false, selected: '{{ default|default(0) }}', placeholder: '{{ placeholder }}' }" :class="[open ? 'field-focus' : '', selected != 0 ? 'field-filled' : '']"
+    x-modelable="selected" 
+    {% for key, value in alpine %}
+        {{ key }}="{{ value }}"
+    {% endfor %}
+>
+    {% if label is not same as false %}
+        <label for="field-{{ name|slug }}" class="field-label">{{ label|default(name)|_ }}</label>
+    {% endif %}
+    {# Standard select #}
+    <select 
+        name="{{ name }}" 
+        id="{{ id }}" 
+        class="field-input" 
+        style="display:none;"
+        {% for key, value in request %}
+            {{ key }}="{{ value }}"
+        {% endfor %}
+        {% for key, value in alpine %}
+            {{ key }}="{{ value }}"
+        {% endfor %}
+        x-model="selected"
+    >
+        <option value="" :selected="selected == 0 ? true : false">{{ placeholder ? placeholder : '- Choisissez -' }}</option>
+        {% for key, item in items %}
+            <option value="{{ key matches '/^\\d+$/' ? item : key }}" :selected="selected == '{{ key }}' ? true : false">{{ item }}</option>
+        {% endfor %}
+    </select>
+    {# Replacement select #}
+    <div class="select-wrapper">
+        <div class="select-placeholder field-input" x-ref="button" x-on:click="open = !open" x-on:click.outside="open = false" x-text="placeholder"></div>
+        <div class="select-options field-input" x-anchor.offset.-1="$refs.button">
+            {% for key, item in items %}
+                <div 
+                    class="select-option" 
+                    @click="[placeholder = '{{ item }}', selected = '{{ key }}']; {% if request['data-request'] %}oc.request('#{{ id }}');{% endif %}"
+                    :class="{ 'select-active': selected == '{{ key }}' }"
+                >
+                    {{ item }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if comment %}
+        <div class="field-comment">{{ comment|raw }}</div>
+    {% endif %}
+    <div data-validate-for="{{ name|replace({' ':'_'}) }}"></div>
+</div>

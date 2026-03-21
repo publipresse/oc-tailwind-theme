@@ -1,0 +1,8 @@
+name: 'Tailwind theme'
+description: 'Starter theme based on Tailwind CSS with some default markup and libraries'
+author: Publipresse
+homepage: 'https://www.publipresse.fr'
+authorCode: Publipresse
+code: oc-tailwind-theme
+parent: ''
+database: '0'

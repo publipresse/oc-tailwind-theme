@@ -1,0 +1,11 @@
+<div class="grid grid-{{ record.cols }}">
+    {% for image in record.images %}
+        {% if record.lightbox %}
+            <a href="{{ record.image.path }}" data-fancybox="gallery-{{ record.id }}">
+        {% endif %}
+            {% partial 'image' image=image alt=image.title width=700 height=700 mode="crop" class="w-100 h-100" %}
+        {% if record.lightbox %}
+            </a>
+        {% endif %}
+    {% endfor %}
+</div>

@@ -1,0 +1,41 @@
+<div class="field field-text {{ class }}">
+    {% if label is not same as false %}
+        <label class="field-label" for="{{ id|default('field-'~name|slug) }}">{{ label|default(name)|_ }}</label>
+    {% endif %}
+    {% if prefix or suffix %}
+        <div class="field-group {% if prefix %}field-group-prefix{% endif %}{% if suffix %}field-group-suffix{% endif %} relative">
+    {% endif %}
+    {% if prefix %}
+        <div class="field-prefix">{{ prefix|raw }}</div>
+    {% endif %}
+    <input 
+        type="{{ type|default('text') }}"
+        id="{{ id|default('field-'~name|slug) }}"
+        class="field-input"
+        name="{{ name }}"
+        value="{{ default }}"
+        {% if type in ['number', 'range'] %}
+            min="{{ min }}"
+            max="{{ max }}"
+            step="{{ step }}"
+        {% endif %}
+        autocomplete="{{ autocomplete }}"
+        placeholder="{{ placeholder }}"
+        {% for key, value in request %}
+            {{ key }}="{{ value }}"
+        {% endfor %}
+        {% for key, value in alpine %}
+            {{ key }}="{{ value }}"
+        {% endfor %}
+    >
+    {% if suffix %}
+        <div class="field-suffix">{{ suffix|raw }}</div>
+    {% endif %}
+    {% if prefix or suffix %}
+        </div>
+    {% endif %}
+    {% if comment %}
+        <div class="field-comment">{{ comment|raw }}</div>
+    {% endif %}
+    <div data-validate-for="{{ name|replace({' ':'_'}) }}"></div>
+</div>

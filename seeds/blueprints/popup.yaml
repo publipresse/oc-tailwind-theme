@@ -1,0 +1,36 @@
+uuid: popups
+handle: Popups
+type: structure
+name: Popup
+drafts: false
+
+structure:
+    maxDepth: 1
+
+primaryNavigation:
+    label: Popups
+    icon: icon-bullhorn
+    order: 900
+
+fields:
+    media:
+        label: Image ou vidéo
+        type: fileupload
+        mode: image
+        span: right
+        focuspoint: true
+        maxFiles: 1
+        fileTypes: jpg,png,mp4,webp,svg
+    date:
+        label: Date
+        type: datepicker
+        default: now
+        span: left
+        mode: date
+    content:
+        label: Contenu
+        type: richeditor
+        span: left
+        size: large
+        toolbarButtons: paragraphFormat,-,bold,italic,insertPageLink,emoticons,-,formatUL,formatOL,insertFile,-,html
+        column: false

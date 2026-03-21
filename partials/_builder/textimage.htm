@@ -1,0 +1,8 @@
+<div class="grid grid-2">
+    <div class="image {% if record.image_position == 'right' %}order-2{% endif %}">
+        {% partial 'image' image=record.image alt=record.image.title width=700 mode="crop" %}
+    </div>
+    <div class="text">
+        {{ record.content|content }}
+    </div>
+</div>

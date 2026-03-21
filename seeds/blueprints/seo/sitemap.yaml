@@ -1,0 +1,57 @@
+uuid: seo_sitemap
+handle: Seo\Sitemap
+type: structure
+name: Sitemap
+drafts: false
+
+structure:
+    maxDepth: 1
+
+navigation:
+    parent: settings
+    icon: icon-sitemap
+    category: Seo
+    description: Générer une sitemap.xml
+    order: 20
+
+fields:
+    reference:
+        label: Référence
+        type: pagefinder
+        
+    priority:
+        label: Priorité
+        type: balloon-selector
+        default: '0.8'
+        options:
+            '0.1': '0.1'
+            '0.2': '0.2'
+            '0.3': '0.3'
+            '0.4': '0.4'
+            '0.5': '0.5'
+            '0.6': '0.6'
+            '0.7': '0.7'
+            '0.8': '0.8'
+            '0.9': '0.9'
+            '1.0': '1.0'
+
+    changefreq:
+        label: Fréquence de modification
+        shortLabel: Fréquence
+        type: balloon-selector
+        default: monthly
+        options:
+            always: Tout le temps
+            hourly: Toutes les heures
+            daily: Tous les jours
+            weekly: Toutes les semaines
+            monthly: Tous les mois
+            yearly: Tous les ans
+            never: Jamais
+
+    nesting:
+        label: Inclure les enfants
+        shortLabel: Enfants
+        comment: Cocher cette case si vous voulez inclure les enfants dans la sitemap (dans le cas d'une structure à plusieurs niveau).
+        type: switch
+        default: true

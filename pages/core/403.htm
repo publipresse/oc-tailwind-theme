@@ -1,0 +1,22 @@
+url = "/403"
+layout = "default"
+title = 403
+is_hidden = 0
+meta_title = "Accès interdit - Erreur 403"
+meta_description = "Vous n'avez pas les autorisations nécessaires pour accéder à cette page. Veuillez contacter l'administrateur si vous pensez qu'il s'agit d'une erreur."
+
+[global seo]
+handle = "Seo\Config"
+==
+<section id="core" class="grid grid-2 g-0 align-stretch" sm="grid-1">
+    <div class="text col text-center p-lg" sm="order-2">
+        <h1>{{ "Accès refusé"|_ }}</h1>
+        <p>{{ "Vous essayez d'accéder à une page à accès restreint. Merci de vous identifier pour continuer"|_ }}</p>
+        <div id="row">
+            <a class="btn" href="{{ 'accueil'|page }}">{{ "Retourner à l'accueil"|_ }}</a>
+        </div>
+    </div>
+    <div class="image overflow" sm="order-1">
+        {% partial 'image' class="w-100 h-100" image=seo.core_image width=1000 height=1000 %}
+    </div>
+</section>

@@ -1,0 +1,57 @@
+[viewBag]
+==
+<?php
+function onStart() {
+    $this->addCss('assets/vendor/swiper/swiper-bundle.min.css');
+    $this->addJs('assets/vendor/swiper/swiper-bundle.min.js', ['defer' => true]);
+}
+?>
+==
+<div id="swiper-{{ record.id }}" class="swiper">
+    <div class="swiper-wrapper">
+        {% for image in record.images %}
+            <div class="swiper-slide">
+                {% if record.lightbox %}
+                    <a href="{{ record.image.path }}" data-fancybox="gallery-{{ record.id }}">
+                {% endif %}
+                    {% partial 'image' image=image alt=image.title width=1400 height=1400 mode="crop" class="w-100 h-100" %}
+                {% if record.lightbox %}
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-scrollbar"></div>
+</div>
+
+{% put scripts %}
+<script>
+addEventListener('page:loaded', function() {
+    const el = document.querySelector('#swiper-{{ record.id }}');
+    new Swiper(el, {
+        speed: 750,
+        spaceBetween: 24,
+        slidesPerView: {{ record.cols }},
+        rewind: true,
+        autoplay: {
+            delay: 4000,
+        },
+        pagination: {
+            el: el.querySelector('.swiper-pagination'),
+            clickable: true,
+        },
+        navigation: {
+            prevEl: el.querySelector('.swiper-button-prev'),
+            nextEl: el.querySelector('.swiper-button-next'),
+        },
+        scrollbar: {
+            el: el.querySelector('.swiper-scrollbar'),
+            draggable: true,
+        },
+    });
+});
+</script>
+{% endput %}

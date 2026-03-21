@@ -1,0 +1,22 @@
+<div class="field field-textarea {{ class }}">
+    {% if label is not same as false %}
+        <label class="field-label" for="{{ id|default('field-'~name|slug) }}">{{ label|default(name)|_ }}</label>
+    {% endif %}
+    <textarea
+        id="{{ id|default('field-'~name|slug) }}"
+        class="field-input"
+        name="{{ name }}"
+        rows="{{ rows|default(5) }}"
+        placeholder="{{ placeholder }}"
+        {% for key, value in request %}
+            {{ key }}="{{ value }}"
+        {% endfor %}
+        {% for key, value in alpine %}
+            {{ key }}="{{ value }}"
+        {% endfor %}
+    >{{ default }}</textarea>
+    {% if comment %}
+        <div class="field-comment">{{ comment|raw }}</div>
+    {% endif %}
+    <div data-validate-for="{{ name|replace({' ':'_'}) }}"></div>
+</div>

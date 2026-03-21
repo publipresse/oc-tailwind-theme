@@ -1,0 +1,96 @@
+uuid: seo_config
+handle: Seo\Config
+type: global
+name: Configuration
+multisite: true
+
+navigation:
+    parent: settings
+    icon: icon-cog
+    category: Seo
+    description: Paramètres Seo de base
+    order: 10
+
+fields:
+    meta_suffix:
+        label: Ajouter un prefixe ou un suffixe
+        type: balloon-selector
+        default: 0
+        options:
+            0: Désactivé
+            prefix: Préfixe
+            suffix: Suffixe
+        tab: Métas
+    meta_title:
+        label: Nom du site
+        required: true
+        trigger:
+            action: show
+            field: meta_suffix
+            condition: value[prefix], value[suffix]
+        validation: 'required_if:suffix,prefix,suffix'
+        tab: Métas
+        translatable: true
+    meta_description:
+        label: Meta description
+        comment: Meta description qui sera utilisée par défaut pour les pages qui n'en possèdent pas
+        type: textarea
+        size: tiny
+        tab: Métas
+        translatable: true
+    head_code:
+        label: Code additionnel
+        type: codeeditor
+        language: html
+        comment: Code additionnel qui sera ajouté dans la balise <head>
+        size: huge
+        tab: Métas
+    turbo_routing:
+        label: Turbo routing
+        type: dropdown
+        default: disable
+        tab: Turbo routing
+        options:
+            disable: disable
+            reload: reload
+            enable: enable
+    turbo_cache:
+        label: Turbo cache
+        type: dropdown
+        default: no-cache
+        tab: Turbo routing
+        options:
+            enable: enable
+            no-cache: no-cache
+    favicon:
+        label: Favicon
+        type: fileupload
+        tab: Favicon
+        mode: image
+        maxFiles: 1
+        fileTypes: png, svg
+        useCaption: false
+    theme_color:
+        label: Couleur du navigateur
+        type: colorpicker
+        tab: Favicon
+        default: '#ffffff'
+    og_image:
+        label: OG Image
+        type: fileupload
+        maxFiles: 1
+        comment: 1200px x 630px
+        tab: Open Graph
+        useCaption: false
+    core_image:
+        label: Image pages 404, 403, maintenance...
+        type: fileupload
+        focuspoint: true
+        maxFiles: 1
+        tab: 'Pages spéciales'
+    merci_image:
+        label: Image page merci du formulaire de contact
+        type: fileupload
+        focuspoint: true
+        maxFiles: 1
+        tab: 'Pages spéciales'

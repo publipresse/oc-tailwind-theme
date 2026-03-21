@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+    --spacing-header-height: 80px;
+}
+
+@source "../../layouts/**/*.htm";
+@source "../../pages/**/*.htm";
+@source "../../partials/**/*.htm";
+@source "../../content/**/*.htm";
+
+[data-validate-for] {
+    @apply hidden;
+}
+
+[data-validate-for].jax-visible {
+    @apply block;
+}
