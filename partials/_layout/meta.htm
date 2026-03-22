@@ -11,23 +11,22 @@ handle = "Seo\Matomo"
 name = "{{ infos.company_name }}"
 
 [schemaLogo]
-logo = "assets/img/logo.svg"
+logo = "{{ infos.company_logo.path }}"
 ==
 {# Define variables #}
 {% set meta_title = placeholder('meta_title')|default(this.page.meta_title)|default(this.page.title) %}
-{% set meta_prefix = (seo.meta_suffix == 'prefix') ? placeholder('meta_prefix')|default(seo.meta_title) : null %}
-{% set meta_suffix = (seo.meta_suffix == 'suffix') ? placeholder('meta_suffix')|default(seo.meta_title) : null %}
-{% set meta_description = placeholder('meta_description')|default(this.page.meta_description)|default(seo.meta_description) %}
-{% set canonical_url = placeholder('canonical_url')|default(this.page.canonical_url)|default(boxesPage.real_canonical_url)|default(this|page) %}
+{% set meta_prefix = placeholder('meta_prefix')|default(seo.meta_prefix) %}
+{% set meta_suffix = placeholder('meta_suffix')|default(seo.meta_suffix) %}
+{% set meta_description = placeholder('meta_description')|default(this.page.meta_description) %}
+{% set canonical_url = placeholder('canonical_url')|default(boxesPage.real_canonical_url)|default(this|page) %}
 {% set meta_robots = placeholder('meta_robots')|default(this.page.meta_robots)|default(boxesPage.meta_robots|join(', '))|default('all') %}
-{% set theme_color = this.page.theme_color|default(seo.theme_color) %}
-{% set og_title = placeholder('og_title')|default(this.page.og_title)|default(boxesPage.og_title)|default(meta_title) %}
-{% set og_description = placeholder('og_description')|default(this.page.og_description)|default(boxesPage.og_description)|default(meta_description) %}
-{% set og_url = placeholder('og_url')|default(this.page.og_url)|default(canonical_url) %}
-{% set og_locale = placeholder('og_locale')|default(this.page.og_locale)|default('fr_FR') %}
-{% set og_type = placeholder('og_type')|default(this.page.og_type)|default(boxesPage.og_type)|default('website') %}
-{% set og_image = placeholder('og_image')|default(this.page.og_image)|default(boxesPage.og_image)|default(seo.og_image)|resize(1200,630,{mode:'crop'}) %}
-{% set favicon = this.page.favicon|default(seo.favicon.path) %}
+{% set theme_color = placeholder('theme_color')|default(seo.theme_color) %}
+{% set og_title = placeholder('og_title')|default(boxesPage.og_title)|default(meta_title) %}
+{% set og_description = placeholder('og_description')|default(boxesPage.og_description)|default(meta_description) %}
+{% set og_url = placeholder('og_url')|default(canonical_url) %}
+{% set og_type = placeholder('og_type')|default(this.page.meta_type)|default(boxesPage.og_type)|default('website') %}
+{% set og_image = placeholder('og_image')|default(this.page.meta_image)|default(boxesPage.og_image)|default(seo.og_image)|resize(1200, 630, { mode:'crop', force: true }) %}
+{% set favicon = seo.favicon.path %}
 {% set turbo_routing = this.page.turbo_routing|default(seo.turbo_routing) %}
 {% set turbo_cache = this.page.turbo_cache|default(seo.turbo_cache) %}
 
@@ -46,7 +45,7 @@ logo = "assets/img/logo.svg"
 <meta property="og:url" content="{{ og_url }}">
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:image" content="{{ og_image }}">
-{{ seo.head_code }}
+{% meta %}
 
 {# Multisite #}
 {% if sitePicker.sites|length > 1 %}

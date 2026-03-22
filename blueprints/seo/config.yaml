@@ -1,0 +1,65 @@
+uuid: seo_config
+handle: Seo\Config
+type: global
+name: Configuration
+multisite: true
+
+navigation:
+    parent: settings
+    icon: icon-cog
+    category: Seo
+    description: Paramètres Seo de base
+    order: 10
+
+fields:
+    _meta_title:
+        label: Meta title
+        type: section
+        tab: Métas
+    meta_prefix:
+        label: Préfixe du titre
+        tab: Métas
+        translatable: true
+        span: auto
+    meta_suffix:
+        label: Suffixe du titre
+        tab: Métas
+        translatable: true
+        span: auto
+    turbo_routing:
+        label: Turbo routing
+        type: dropdown
+        default: disable
+        tab: Turbo routing
+        options:
+            disable: disable
+            reload: reload
+            enable: enable
+    turbo_cache:
+        label: Turbo cache
+        type: dropdown
+        default: no-cache
+        tab: Turbo routing
+        options:
+            enable: enable
+            no-cache: no-cache
+    favicon:
+        label: Favicon
+        type: fileupload
+        tab: Favicon
+        mode: image
+        maxFiles: 1
+        fileTypes: png, svg
+        useCaption: false
+    theme_color:
+        label: Couleur du navigateur
+        type: colorpicker
+        tab: Favicon
+        default: '#ffffff'
+    og_image:
+        label: OG Image
+        type: fileupload
+        maxFiles: 1
+        comment: 1200px x 630px
+        tab: Open Graph
+        useCaption: false

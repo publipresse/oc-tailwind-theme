@@ -12,6 +12,12 @@ navigation:
     order: 10
 
 fields:
+    company_logo:
+        label: Logo
+        span: full
+        type: fileupload
+        maxFiles: 1
+        tab: Coordonnées
     company_name:
         label: Nom
         span: auto

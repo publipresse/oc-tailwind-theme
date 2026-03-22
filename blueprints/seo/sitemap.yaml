@@ -3,6 +3,11 @@ handle: Seo\Sitemap
 type: structure
 name: Sitemap
 drafts: false
+showImport: false
+showExport: false
+
+customMessages:
+    buttonCreate: Ajouter un élément à la sitemap
 
 structure:
     maxDepth: 1
@@ -15,6 +20,10 @@ navigation:
     order: 20
 
 fields:
+    title:
+        placeholder: Titre de l'élément
+        type: text
+
     reference:
         label: Référence
         type: pagefinder
