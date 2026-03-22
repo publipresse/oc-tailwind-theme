@@ -16,6 +16,13 @@
     --breakpoint-2xl: 1536px;
 
     /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 3rem;
+    --spacing-xl: 5rem;
+    --spacing-2xl: 7.5rem;
+
     --spacing-header-height: 80px;
 
     /* Colors */
@@ -24,6 +31,14 @@
     --color-field-error: #f00;
 
     /* Typography */
+    --font-h1: Arial, sans-serif;
+    --font-h2: Arial, sans-serif;
+    --font-h3: Arial, sans-serif;
+    --font-h4: Arial, sans-serif;
+    --font-sm: Arial, sans-serif;
+    --font-md: Arial, sans-serif;
+    --font-lg: Arial, sans-serif;
+
     --text-h1: clamp(1.875rem, calc(1.375rem + 2vw), 3.75rem);
     --text-h1--line-height: 1.25;
     --text-h2: clamp(1.5625rem, calc(1.2292rem + 1.3333vw), 2.8125rem);
@@ -41,14 +56,42 @@
 
     /* Fancybox */
     --f-html-padding: 0;
+
+}
+
+@layer base {
+    h1,
+    .h1 {
+        @apply text-h1 font-h1 font-bold;
+    }
+
+    h2,
+    .h2 {
+        @apply text-h2 font-h2 font-bold;
+    }
+
+    h3,
+    .h3 {
+        @apply text-h3 font-h3 font-bold;
+    }
+
+    h4,
+    .h4 {
+        @apply text-h4 font-h4 font-bold;
+    }
+
+    body {
+        @apply text-md font-md font-normal;
+    }
 }
 
 
-
-
-[data-validate-for] {
-    @apply hidden text-field-error;
-}
-[data-validate-for].jax-visible {
-    @apply block;
+@layer components {
+    /* Forms */
+    [data-validate-for] {
+        @apply hidden text-field-error;
+    }
+    [data-validate-for].jax-visible {
+        @apply block;
+    }
 }

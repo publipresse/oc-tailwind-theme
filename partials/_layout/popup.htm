@@ -1,11 +1,11 @@
 {% for record in popup.records %}
-    <aside id="fancybox-popup-{{ record.id }}" class="max-w-[1000px] overflow-y-auto" {% if not popup.cookie %}data-fancybox-popup="{{ popup.alias }}"{% endif %} style="display:none;" data-lenis-prevent>
+    <aside id="fancybox-popup-{{ record.id }}" class="max-w-[1000px]" {% if not popup.cookie %}data-fancybox-popup="{{ popup.alias }}"{% endif %} style="display:none;" data-lenis-prevent>
         {# {{ d(record)}} #}
         <div class="grid grid-cols-2">
             {% if record.media %}
                 <div class="media">
                     {% if record.media.content_type in ['video/mp4'] %}
-                        <video controls src="{{ record.media.path }}"></video>
+                        <video class="h-full object-cover" controls src="{{ record.media.path }}"></video>
                     {% else %}
                         {% partial 'image' image = record.media width = 1000 class="h-full object-cover" %}
                     {% endif %}
