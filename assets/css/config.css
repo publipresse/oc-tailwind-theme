@@ -13,6 +13,7 @@
 @source "../../pages/**/*.htm";
 @source "../../partials/**/*.htm";
 @source "../../content/**/*.htm";
+@source "../../../../plugins/**/*.htm";
 
 [data-validate-for] {
     @apply hidden;

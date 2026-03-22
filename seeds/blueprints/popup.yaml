@@ -3,6 +3,11 @@ handle: Popups
 type: structure
 name: Popup
 drafts: false
+showImport: false
+showExport: false
+
+customMessages:
+    buttonCreate: Créer une nouvelle popup
 
 structure:
     maxDepth: 1
@@ -13,6 +18,8 @@ primaryNavigation:
     order: 900
 
 fields:
+    title:
+        placeholder: Titre de la popup
     media:
         label: Image ou vidéo
         type: fileupload
