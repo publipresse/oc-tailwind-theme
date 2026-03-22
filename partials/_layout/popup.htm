@@ -1,0 +1,22 @@
+{% for record in popup.records %}
+    <aside id="fancybox-popup-{{ record.id }}" class="max-w-[1000px] overflow-y-auto" {% if not popup.cookie %}data-fancybox-popup="{{ popup.alias }}"{% endif %} style="display:none;" data-lenis-prevent>
+        {# {{ d(record)}} #}
+        <div class="grid grid-cols-2">
+            {% if record.media %}
+                <div class="media">
+                    {% if record.media.content_type in ['video/mp4'] %}
+                        <video controls src="{{ record.media.path }}"></video>
+                    {% else %}
+                        {% partial 'image' image = record.media width = 1000 class="h-full object-cover" %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if record.content %}
+                <div class="texte p-6 content-center">
+                    <div class="text-h2 mb-[0.5em]">{{ record.title }}</div>
+                    {{ record.content|raw }}
+                </div>
+            {% endif %}
+        </div>
+    </aside>
+{% endfor %}

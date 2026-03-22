@@ -13,8 +13,8 @@ cookie = 24
     {% partial '_layout/meta' %}
     {# Css #}
     <link href="{{ ['assets/vendor/lenis/lenis.min.css', 'assets/vendor/hamburgers/hamburgers.min.css']|theme }}.css" rel="stylesheet">
-    {% styles %}
     <link href="{{ ['assets/css/tailwind.css', 'assets/css/styles.css']|theme }}.css" rel="stylesheet">
+    {% styles %}
     {# Js #}
     <script defer src="{{ ['@framework.bundle', 'assets/js/init.js']|theme }}.js"></script>
     <script defer src="{{ ['assets/vendor/lenis/lenis.min.js', 'assets/vendor/gsap/gsap.min.js', 'assets/vendor/gsap/ScrollTrigger.min.js']|theme }}.js"></script>
@@ -30,7 +30,7 @@ cookie = 24
             {% page %}
         </main>
         {% partial '_layout/footer' %}
-        {% component 'popup' %}
+        {% partial '_layout/popup' %}
     </div>
     {% placeholder frontEditor %}
 </body>
