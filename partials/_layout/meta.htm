@@ -1,17 +1,18 @@
 [global seo]
 handle = "Seo\Config"
 
-[global infos]
-handle = "Config\Infos"
-
 [global matomo]
 handle = "Seo\Matomo"
+
+[global infos]
+handle = "Config\Infos"
 
 [schemaName]
 name = "{{ infos.company_name }}"
 
 [schemaLogo]
 logo = "{{ infos.company_logo.path }}"
+
 ==
 {# Define variables #}
 {% set meta_title = placeholder('meta_title')|default(this.page.meta_title)|default(this.page.title) %}

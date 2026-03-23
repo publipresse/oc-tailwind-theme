@@ -2,22 +2,16 @@ url = "/erreur"
 layout = "default"
 title = "Error"
 is_hidden = 0
-meta_title = "Erreur - Quelque chose s'est mal passé"
-meta_description = "Une erreur est survenue lors de l'accès à cette page. Veuillez réessayer plus tard ou contacter l'administrateur si le problème persiste."
 
-[global seo]
-handle = "Seo\Config"
 ==
-<section id="core" class="grid grid-2 g-0 align-stretch" sm="grid-1">
-    <div class="text col text-center p-lg" sm="order-2">
-        <h1>{{ "Erreur"|_ }}</h1>
-        <p>{{ "La page que vous essayez de consulter retourne une erreur, essayez de rafraichir votre navigateur. Si le problème persiste, merci de nous contacter"|_ }}</p>
-        <div id="row">
-            <a class="btn" href="{{ 'accueil'|page }}">{{ "Retourner à l'accueil"|_ }}</a>
-            <a class="btn" href="{{ 'contact'|page }}">{{ "Nous contacter"|_ }}</a>
-        </div>
-    </div>
-    <div class="image overflow" sm="order-1">
-        {% partial 'image' class="w-100 h-100" image=seo.core_image width=1000 height=1000 %}
-    </div>
-</section>
+
+{% partial '_layout/core' body %}
+    {% put code = "403" %}
+    {% put titre = "Erreur"|_ %}
+    {% put message = "La page que vous essayez de consulter retourne une erreur, essayez de rafraichir votre navigateur. Si le problème persiste, merci de nous contacter"|_ %}
+    {% put boutons %}
+        <a href="{{ 'accueil'|page }}" class="btn btn-primary">
+            {{ "Retourner à l'accueil"|_ }}
+        </a>
+    {% endput %}
+{% endpartial %}
