@@ -6,5 +6,8 @@
 @source "../../content/**/*.htm";
 @source "../../../../plugins/**/*.htm";
 
-@layer theme, base, components, utilities;
+@import "./theme.css";
+@import "./base.css";
+@import "./components.css";
+@import "./utilities.css";
 

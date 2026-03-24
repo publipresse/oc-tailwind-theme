@@ -7,8 +7,12 @@ is_hidden = 0
 
 {% partial '_layout/core' body %}
     {% put code = "404" %}
-    {% put titre = "Page non trouvée"|_ %}
-    {% put message = "Oups ! Il semble que la page que vous cherchez à consulter n'existe plus."|_ %}
+    {% put titre %}
+        {{ "Page non trouvée"|_ }}
+    {% endput %}
+    {% put message %}
+        <p>{{ "Oups ! Il semble que la page que vous cherchez à consulter n'existe plus."|_ }}</p>
+    {% endput %}
     {% put boutons %}
         <a href="{{ 'accueil'|page }}" class="btn btn-primary">
             {{ "Retourner à l'accueil"|_ }}

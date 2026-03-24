@@ -1,8 +1,3 @@
 @layer utilities {
-    .h-dvh-h {
-        height: calc(100dvh - var(--spacing-header-height));
-    }
-    .h-full-h {
-        height: calc(100% - var(--spacing-header-height));
-    }
+    
 }

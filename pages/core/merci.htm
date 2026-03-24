@@ -26,33 +26,16 @@ function onStart() {
 ==
 
 {% partial '_layout/core' body %}
-    {% put titre = "Merci"|_ %}
-    {% put message = "Nous vous remercions pour votre message, votre demande sera traitée dans les plus brefs délais."|_ %}
+    {% put titre %}
+        {{ "Merci"|_ }}
+    {% endput %}
+    {% put message %}
+        <p>{{ "Votre demande a bien été envoyé. Nous allons vous recontacter à l\'adresse :<br><strong class='text-gray-900'>{Email}</strong>"|_ }}</p>
+        <p>{{ "Si Vous avez une erreur dans votre adresse, n\'hésitez pas à nous recontacter par téléphone"|_ }}</p>
+    {% endput %}
     {% put boutons %}
         <a href="{{ 'accueil'|page }}" class="btn btn-primary">
             {{ "Retourner à l'accueil"|_ }}
         </a>
     {% endput %}
 {% endpartial %}
-
-<section class="h-dvh-h flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 to-slate-100">
-    <div class="max-w-md w-full text-center space-y-8">
-        <div class="space-y-4">
-            <div class="flex justify-center">
-                <svg class="w-16 h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">{{ "Message envoyé"|_ }}</h1>
-            <div class="space-y-3 text-gray-600 text-base sm:text-lg">
-                <p>{{ "Votre demande a bien été envoyé. Nous allons vous recontacter à l\'adresse :<br><strong class='text-gray-900'>{Email}</strong>"|_ }}</p>
-                <p>{{ "Si Vous avez une erreur dans votre adresse, n\'hésitez pas à nous recontacter par téléphone"|_ }}</p>
-            </div>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="{{ 'accueil'|page }}" class="btn btn-primary">
-                {{ "Retourner à l'accueil"|_ }}
-            </a>
-        </div>
-    </div>
-</section>

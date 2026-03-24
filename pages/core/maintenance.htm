@@ -6,8 +6,12 @@ is_hidden = 0
 
 {% partial '_layout/core' body %}
     {% put code = "503" %}
-    {% put titre = "Site en maintenance"|_ %}
-    {% put message = "Veuillez nous excuser pour le désagrément, nous faisons tout notre possible pour écourter ce délai."|_ %}
+    {% put titre %}
+        {{ "Site en maintenance"|_ }}
+    {% endput %}
+    {% put message %}
+        <p>{{ "Veuillez nous excuser pour le désagrément, nous faisons tout notre possible pour écourter ce délai."|_ }}</p>
+    {% endput %}
     {% put boutons %}
         <button onclick="javascript:location.reload()" class="btn btn-primary">
             {{ "Rafraichir la page"|_ }}
