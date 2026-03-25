@@ -6,11 +6,6 @@
 @source "../../content/**/*.htm";
 @source "../../../../plugins/**/*.htm";
 
-@import "./theme.css";
-@import "./base.css";
-@import "./components.css";
-@import "./utilities.css";
-
 @theme {
     --*: initial;
 
