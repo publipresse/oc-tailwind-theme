@@ -1,9 +1,0 @@
-@layer components {
-    /* Forms */
-    [data-validate-for] {
-        @apply hidden text-field-error;
-    }
-    [data-validate-for].jax-visible {
-        @apply block;
-    }
-}

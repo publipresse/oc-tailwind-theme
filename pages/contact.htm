@@ -39,16 +39,16 @@ fileTypes[image/jpeg] = "jpg"
 <div class="container py-lg">
     {{ form_ajax('contact::onFormSubmit', { validate: true, files: true, class: 'form col' }) }}
         {% set items = {opt1:'Option 1', opt2:'Option 2', opt3:'Option 3'} %}
-        {% partial '_forms/text' name="Nom" suffix='cm' comment="Lorem Ipsum" %}
-        {% partial '_forms/text' name="Email" %}
+        {# {% partial '_forms/text' name="Nom" suffix='cm' comment="Lorem Ipsum" %} #}
+        {# {% partial '_forms/text' name="Email" %} #}
         {% partial '_forms/select' name="Select" items=items comment="Lorem Ipsum" request={'data-request':'onAjax', 'data-request-message': 'Loading Ajax...'} %}
-        {% partial '_forms/text' type="range" name="Number" comment="Lorem Ipsum" %}
-        {% partial '_forms/textarea' name="Message" comment="Lorem Ipsum" %}
-        {% partial '_forms/checkbox' name="Switch" switch=true default=true comment="Lorem Ipsum" %}
-        {% partial '_forms/checkboxes' name="checkbox" items=items flex="row" switch=true comment="Lorem Ipsum" %}
-        {% partial '_forms/radios' name="radio" items=items flex="row" default="opt2" comment="Lorem Ipsum" %}
-        {% partial '_forms/filepond' comment="Lorem Ipsum" %}
-        {% partial '_forms/recaptcha' comment="Lorem Ipsum" %}
+        {# {% partial '_forms/text' type="range" name="Number" comment="Lorem Ipsum" %} #}
+        {# {% partial '_forms/textarea' name="Message" comment="Lorem Ipsum" %} #}
+        {# {% partial '_forms/checkbox' name="Switch" switch=true default=true comment="Lorem Ipsum" %} #}
+        {# {% partial '_forms/checkboxes' name="checkbox" items=items flex="row" switch=true comment="Lorem Ipsum" %} #}
+        {# {% partial '_forms/radios' name="radio" items=items flex="row" default="opt2" comment="Lorem Ipsum" %} #}
+        {# {% partial '_forms/filepond' comment="Lorem Ipsum" %} #}
+        {# {% partial '_forms/recaptcha' comment="Lorem Ipsum" %} #}
         <button type="submit" data-attach-loading>{{ "Envoyez un message"|_ }}</button>
         <div id="{{ contact.alias }}_forms_flash"></div>
     {{ form_close() }}
