@@ -3,6 +3,6 @@ description: 'Starter theme based on Tailwind CSS with some default markup and l
 author: Publipresse
 homepage: 'https://www.publipresse.fr'
 authorCode: Publipresse
-code: oc-tailwind-theme
+code: tailwind
 parent: ''
 database: '0'

@@ -1,4 +1,4 @@
-# oc-tailwind-theme
+# tailwind-theme
 Tailwind Starter theme
 
 ## Tailwind CSS 4.2 avec npm
@@ -10,7 +10,7 @@ Ce theme est configuré pour Tailwind CSS 4.2 via npm avec `@tailwindcss/cli`.
 D'abord, installer Node.js 21+ (voir `.nvmrc`), puis les dépendances :
 
 ```bash
-cd themes/oc-tailwind-theme
+cd themes/publipresse-tailwind
 npm install
 ```
 

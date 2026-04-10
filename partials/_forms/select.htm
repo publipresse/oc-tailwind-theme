@@ -16,7 +16,10 @@
             <option value="" disabled selected>{{ placeholder }}</option>
         {% endif %}
         {% for key, option in options %}
-            <option value="{{ key }}" {% if key == value %}selected{% endif %}>{{ option }}</option>
+            <option 
+                value="{{ key }}" 
+                {% if key == selected %}selected{% endif %}
+            >{{ option }}</option>
         {% endfor %}
     </select>
 

@@ -10,14 +10,14 @@
             <span class="label">{% placeholder prefix %}</span>
         {% endif %}
         <input 
-            type="text" 
+            type="{{ type }}" 
             name="{{ name }}" 
             value="{{ value }}" 
             placeholder="{{ placeholder }}"
             {% if id %}id="{{ id }}"{% endif %}
             {% if required %}required{% endif %}
-            {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
             {% if pattern %}pattern="{{ pattern }}"{% endif %}
+            {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
             {% placeholder attributes %}
         />
         {% if hasPlaceholder('suffix') %}

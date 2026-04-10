@@ -139,18 +139,18 @@ function initForm() {
 
     // Champs invalides après soumission
     addEventListener('ajax:invalid-field', function(e) {
-        const { element } = e.detail;
-        if(!element) return;
-        element.setAttribute('aria-invalid', 'true');
+        const element = e.detail.element;
+        const form = element.closest('form');
+        form.querySelectorAll('[name="' + element.name + '"]').forEach(function(el) {
+            el.setAttribute('aria-invalid', 'true');
+        });
     });
 
     // Nettoyage des champs au moment de la validation
     addEventListener('ajax:promise', function(e) {
-        if(e.target.tagName == 'FORM') {
-            e.target.querySelectorAll('[aria-invalid]').forEach(function(el) {
-                el.removeAttribute('aria-invalid');
-            });
-        }
+        e.target.querySelectorAll('[aria-invalid]').forEach(function(el) {
+            el.removeAttribute('aria-invalid');
+        });
     });
     
     // On réinitialise la fonction en cas de refresh ajax

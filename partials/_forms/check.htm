@@ -1,0 +1,31 @@
+{% set type = type|default('checkbox') %}
+{# {% set name = (type == 'checkbox' ? name ~ '[]' : name) %} #}
+{% set tag = (options|length > 1) ? 'fieldset' : 'div' %}
+
+<{{ tag }} class="fieldset py-0 gap-2">
+    {% if label %}
+        <legend class="fieldset-legend">{{ label }}</legend>
+    {% endif %}
+
+    <div class="{{ class|default('field') }} validator">
+        {% for key, option in options %}
+            <label class="label">
+                <input 
+                    class="{{ type }}"
+                    type="{{ type }}"  
+                    name="{{ (type == 'checkbox' ? name ~ '[]' : name) }}" 
+                    value="{{ key }}" 
+                    {% if key == checked %}checked="checked"{% endif %}
+                />
+                {{ option }}
+            </label>
+        {% endfor %}
+    </div>
+
+    {% if hasPlaceholder('comment') %}
+        <div class="label">{% placeholder comment %}</div>
+    {% endif %}
+
+    <p class="validator-hint" data-validate-for="{{ name }}">{% placeholder validation %}</p>
+</{{ tag }}>
+
