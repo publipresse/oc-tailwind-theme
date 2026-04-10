@@ -12,11 +12,12 @@ cookie = 24
     {# Seo #}
     {% partial '_layout/meta' %}
     {# Css #}
-    <link href="{{ ['assets/vendor/lenis/lenis.min.css', 'assets/vendor/hamburgers/hamburgers.min.css']|theme }}.css" rel="stylesheet">
-    <link href="{{ ['assets/css/tailwind.css', 'assets/css/styles.css']|theme }}.css" rel="stylesheet">
+    <link href="{{ ['assets/fonts/inter/font.css']|theme }}.css" rel="stylesheet">
+    <link href="{{ ['assets/vendor/lenis/lenis.min.css']|theme }}.css" rel="stylesheet">
+    <link href="{{ ['assets/css/tailwind.css']|theme }}.css" rel="stylesheet">
     {% styles %}
     {# Js #}
-    <script defer src="{{ ['@framework.bundle', 'assets/js/init.js']|theme }}.js"></script>
+    <script defer src="{{ ['@framework.bundle']|theme }}.js"></script>
     <script defer src="{{ ['assets/vendor/lenis/lenis.min.js', 'assets/vendor/gsap/gsap.min.js', 'assets/vendor/gsap/ScrollTrigger.min.js']|theme }}.js"></script>
     <script defer src="{{ ['assets/vendor/alpine/collapse.min.js', 'assets/vendor/alpine/mask.min.js', 'assets/vendor/alpine/anchor.min.js', 'assets/vendor/alpine/alpine.min.js']|theme }}.js"></script>
     {% scripts %}
@@ -26,7 +27,7 @@ cookie = 24
 <body id="page-{{ this.page.id }}" x-data="{ menuOpen: false }" x-bind:class="menuOpen == true ? 'menu-open' : ''">
     <div id="page">
         {% partial '_layout/header' %}
-        <main id="main" class="pt-header-h">
+        <main id="main" class="mt-header-h">
             {% page %}
         </main>
         {% partial '_layout/footer' %}

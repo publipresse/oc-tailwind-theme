@@ -5,13 +5,14 @@ is_hidden = 0
 
 [uploadForm contact]
 group = "Formulaire de contact"
-rules[Nom] = "required"
-rules[checkbox] = "required"
+rules[Email] = "required|email"
+rules[Radio] = "required"
 messages_success = "Votre formulaire a été envoyé avec succès"
 messages_errors = "Il y a eu des erreurs dans votre formulaire"
 mail_enabled = 1
 mail_subject = "[{{ record.date }}] - {{ form.Prénom }} {{ form.Nom }} - Formulaire de contact"
 mail_recipients[] = "alexandre@publipresse.fr"
+mail_uploads = 1
 mail_resp_enabled = 1
 mail_resp_field = "Nom"
 reset_form = 1
@@ -25,7 +26,6 @@ recaptcha_type = "image"
 recaptcha_size = "invisible"
 emails_date_format = "d/m/Y"
 save_in_session = 1
-mail_uploads = 1
 uploader_enable = 1
 uploader_label = "Drag & Drop your files or Browse"
 maxFiles = 5
@@ -36,20 +36,29 @@ fileTypes[application/zip] = "zip"
 fileTypes[image/png] = "png"
 fileTypes[image/jpeg] = "jpg"
 ==
-<div class="container py-lg">
-    {{ form_ajax('contact::onFormSubmit', { validate: true, files: true, class: 'form col' }) }}
-        {% set items = {opt1:'Option 1', opt2:'Option 2', opt3:'Option 3'} %}
-        {# {% partial '_forms/text' name="Nom" suffix='cm' comment="Lorem Ipsum" %} #}
-        {# {% partial '_forms/text' name="Email" %} #}
-        {% partial '_forms/select' name="Select" items=items comment="Lorem Ipsum" request={'data-request':'onAjax', 'data-request-message': 'Loading Ajax...'} %}
-        {# {% partial '_forms/text' type="range" name="Number" comment="Lorem Ipsum" %} #}
-        {# {% partial '_forms/textarea' name="Message" comment="Lorem Ipsum" %} #}
-        {# {% partial '_forms/checkbox' name="Switch" switch=true default=true comment="Lorem Ipsum" %} #}
-        {# {% partial '_forms/checkboxes' name="checkbox" items=items flex="row" switch=true comment="Lorem Ipsum" %} #}
-        {# {% partial '_forms/radios' name="radio" items=items flex="row" default="opt2" comment="Lorem Ipsum" %} #}
-        {# {% partial '_forms/filepond' comment="Lorem Ipsum" %} #}
-        {# {% partial '_forms/recaptcha' comment="Lorem Ipsum" %} #}
-        <button type="submit" data-attach-loading>{{ "Envoyez un message"|_ }}</button>
-        <div id="{{ contact.alias }}_forms_flash"></div>
-    {{ form_close() }}
-</div>
+<section class="py-8">
+    <div class="container-md">
+        {{ form_ajax('contact::onFormSubmit', { validate: true, files: true }) }}
+            {% set options = {opt1: 'Option 1', opt2: 'Option 2', opt3: 'Option 3'} %}
+            <fieldset class="fieldset gap-y-6">
+                <legend class="sr-only fieldset-legend">Formulaire de contact</legend>
+                {% partial '_forms/text' name="Email" label="Email" placeholder="" %}
+                {% partial '_forms/select' name="Select" label="Select" options = options placeholder = "Choisissez une option" %}
+                {% partial '_forms/radios' name="Radio" label="Radio" options = options %}
+
+                <button class="btn btn-primary" type="submit" data-attach-loading>{{ "Envoyez un message"|_ }}</button>
+                <div id="{{ contact.alias }}_forms_flash"></div>
+            </fieldset>
+    
+            
+            
+            {# {% partial '_forms/text' type="range" name="Number" comment="Lorem Ipsum" %} #}
+            {# {% partial '_forms/textarea' name="Message" comment="Lorem Ipsum" %} #}
+            {# {% partial '_forms/checkbox' name="Switch" switch=true default=true comment="Lorem Ipsum" %} #}
+            {# {% partial '_forms/checkboxes' name="checkbox" items=items flex="row" switch=true comment="Lorem Ipsum" %} #}
+            {# {% partial '_forms/radios' name="radio" items=items flex="row" default="opt2" comment="Lorem Ipsum" %} #}
+            {# {% partial '_forms/filepond' comment="Lorem Ipsum" %} #}
+            {# {% partial '_forms/recaptcha' comment="Lorem Ipsum" %} #}
+        {{ form_close() }}
+    </div>
+</section>

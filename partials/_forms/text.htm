@@ -1,41 +1,31 @@
-<div class="field field-text {{ class }}">
-    {% if label is not same as false %}
-        <label class="field-label" for="{{ id|default('field-'~name|slug) }}">{{ label|default(name)|_ }}</label>
+{% set id = (id) ? id : (label ? 'field-' ~ name|slug : null) %}
+{% set type = type|default('text') %}
+
+<div class="field">
+    {% if label %}
+        <label class="label" for="{{ id }}">{{ label }}</label>
     {% endif %}
-    {% if prefix or suffix %}
-        <div class="field-group {% if prefix %}field-group-prefix{% endif %}{% if suffix %}field-group-suffix{% endif %} relative">
-    {% endif %}
-    {% if prefix %}
-        <div class="field-prefix">{{ prefix|raw }}</div>
-    {% endif %}
-    <input 
-        type="{{ type|default('text') }}"
-        id="{{ id|default('field-'~name|slug) }}"
-        class="field-input"
-        name="{{ name }}"
-        value="{{ default }}"
-        {% if type in ['number', 'range'] %}
-            min="{{ min }}"
-            max="{{ max }}"
-            step="{{ step }}"
+    <label class="input validator w-full">
+        {% if hasPlaceholder('prefix') %}
+            <span class="label">{% placeholder prefix %}</span>
         {% endif %}
-        autocomplete="{{ autocomplete }}"
-        placeholder="{{ placeholder }}"
-        {% for key, value in request %}
-            {{ key }}="{{ value }}"
-        {% endfor %}
-        {% for key, value in alpine %}
-            {{ key }}="{{ value }}"
-        {% endfor %}
-    >
-    {% if suffix %}
-        <div class="field-suffix">{{ suffix|raw }}</div>
+        <input 
+            type="text" 
+            name="{{ name }}" 
+            value="{{ value }}" 
+            placeholder="{{ placeholder }}"
+            {% if id %}id="{{ id }}"{% endif %}
+            {% if required %}required{% endif %}
+            {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+            {% if pattern %}pattern="{{ pattern }}"{% endif %}
+            {% placeholder attributes %}
+        />
+        {% if hasPlaceholder('suffix') %}
+            <span class="label">{% placeholder suffix %}</span>
+        {% endif %}
+    </label>
+    {% if hasPlaceholder('comment') %}
+        <div class="label">{% placeholder comment %}</div>
     {% endif %}
-    {% if prefix or suffix %}
-        </div>
-    {% endif %}
-    {% if comment %}
-        <div class="field-comment">{{ comment|raw }}</div>
-    {% endif %}
-    <div data-validate-for="{{ name|replace({' ':'_'}) }}"></div>
+    <p class="validator-hint" data-validate-for="{{ name }}">{% placeholder validation %}</p>
 </div>

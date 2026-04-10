@@ -1,5 +1,5 @@
 {
-    "name": "publipresse/oc-tailwind-theme-theme",
+    "name": "publipresse/oc-tailwind-theme",
     "type": "october-theme",
     "description": "Starter theme based on Tailwind CSS with some default markup and libraries",
     "require": {

@@ -1,3 +1,5 @@
+initPageTransitions();
+
 addEventListener('page:loaded', function() {
     initGsap();
     initLenis();
@@ -6,6 +8,23 @@ addEventListener('page:loaded', function() {
     initFancybox();
     initForm();
 });
+
+function initPageTransitions() {
+    if (oc.useTurbo && oc.useTurbo()) {
+        // Transition de sortie : pause le rendu le temps de l'animation
+        addEventListener('page:before-render', async function(e) {
+            if (document.documentElement.hasAttribute('data-turbo-preview')) return;
+            e.preventDefault();
+            //await gsap.to("#header", { x: 100, duration: 1 });
+            e.detail.resume();
+        });
+
+        // Transition d'entrée : animation après rendu de la nouvelle page
+        addEventListener('page:render', function() {
+            //gsap.to("#header", { x: 0, duration: 1 });
+        });
+    }
+}
 
 function initGsap() {
     if(typeof ScrollTrigger !== 'undefined') { gsap.registerPlugin(ScrollTrigger); }
@@ -28,7 +47,7 @@ function initLenis() {
     // Gestion des ancres
     document.querySelectorAll('*[href*="#"]').forEach(function(el) {
         el.addEventListener('click', function(e) {
-            const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'));
+            const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--spacing-header-h'));
             const target = el.getAttribute('href');
             const hash = '#'+target.split('#')[1];
 
@@ -118,42 +137,22 @@ function initFancybox() {
 // Gestion des classes sur un formulaire
 function initForm() {
 
-    // Ajout / suppression d'une classe active lors du focus d'un élément
-    document.querySelectorAll('input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea').forEach(function(el) {
-        el.addEventListener('focus', function(e) {
-            const field = e.target.closest('.field');
-            if(!field) return;
-            field.classList.add('field-focus');
-        });
-        el.addEventListener('focusout', function(e) {
-            const field = e.target.closest('.field');
-            if(!field) return;
-            field.classList.remove('field-focus');
-            if(e.target.value) {
-                field.classList.add('field-filled');
-            } else {
-                field.classList.remove('field-filled');
-            }
-        });
-    });
-    
     // Champs invalides après soumission
     addEventListener('ajax:invalid-field', function(e) {
-        const { element, fieldName, fieldMessages, isFirst } = e.detail;
-        const field = element.closest('.field');
-        if(!field) return;
-        field.classList.add('field-error');
+        const { element } = e.detail;
+        if(!element) return;
+        element.setAttribute('aria-invalid', 'true');
     });
 
     // Nettoyage des champs au moment de la validation
     addEventListener('ajax:promise', function(e) {
         if(e.target.tagName == 'FORM') {
-            e.target.closest('form').querySelectorAll('.field-error').forEach(function(el) {
-                el.classList.remove('field-error');
+            e.target.querySelectorAll('[aria-invalid]').forEach(function(el) {
+                el.removeAttribute('aria-invalid');
             });
         }
     });
-
+    
     // On réinitialise la fonction en cas de refresh ajax
     addEventListener('ajax:update-complete', function(e) {
         // Refresh form
@@ -161,7 +160,6 @@ function initForm() {
         // Refresh scroll trigger
         if(typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh() }
     });
-
 }
 
 // Fonction utilitaire pour calculer une valeur avec Gsap

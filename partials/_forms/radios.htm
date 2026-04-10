@@ -1,14 +1,19 @@
-<fieldset class="field-radios">
-    {% if label is not same as false %}
-        <legend class="field-legend">{{ label|default(name)|_ }}</legend>
+<fieldset class="fieldset gap-2">
+    <legend class="fieldset-legend">{{ label }}</legend>
+    {% for key, option in options %}
+        <label class="label">
+            <input 
+                class="radio validator"
+                type="radio"  
+                name="{{ name }}" 
+                value="{{ key }}" 
+            />
+            {{ option }}
+        </label>
+    {% endfor %}
+    {% if hasPlaceholder('comment') %}
+        <div class="label">{% placeholder comment %}</div>
     {% endif %}
-    <div class="{{ flex }}">
-        {% for key, item in items %}
-            {% partial '_forms/radio' label=item name=name value=(key matches '/^\\d+$/' ? item : key) loop=loop %}
-        {% endfor %}
-    </div>
-    {% if comment %}
-        <div class="field-comment">{{ comment|raw }}</div>
-    {% endif %}
-    <div data-validate-for="{{ name|replace({' ':'_'}) }}"></div>
+
+    <p class="validator-hint" data-validate-for="{{ name }}">{% placeholder validation %}</p>
 </fieldset>
