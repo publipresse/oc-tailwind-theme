@@ -94,7 +94,32 @@
     }
 }
 
-@layer components {}
+@layer components {
+    /* Filepond */
+    file-pond {
+        --default-color: var(--input-color);
+        --default-accent-color: #007aff;
+        --default-background-color: color-mix(in srgb, CanvasText 10%, Canvas 100%);
+        --default-padding: 1rem;
+        --default-border: var(--border) dashed var(--input-color, color-mix(in oklab,currentcolor 60%,transparent));
+        --default-border-radius: var(--radius-field);
+        padding: 0.5rem;
+        color: color-mix(in oklab,currentcolor 60%,transparent);
+    }
+    file-pond::part(drop-area) {
+        --background-color: transparent;
+    }
+    file-pond::part(browse-button) {
+        font-size:var(--font-size);
+        color: var(--input-color);
+    }
+    file-pond::part(entry-list) {
+        --entry-padding: 0.5em;
+        --font-size-m: var(--font-size);
+        --font-size-s: var(--font-size);
+        --font-size-xs: var(--font-size);
+    }
+}
 
 @layer utilities {
 

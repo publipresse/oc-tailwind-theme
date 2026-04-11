@@ -1,5 +1,4 @@
 {% set type = type|default('checkbox') %}
-{# {% set name = (type == 'checkbox' ? name ~ '[]' : name) %} #}
 {% set tag = (options|length > 1) ? 'fieldset' : 'div' %}
 
 <{{ tag }} class="fieldset py-0 gap-2">
@@ -7,25 +6,26 @@
         <legend class="fieldset-legend">{{ label }}</legend>
     {% endif %}
 
-    <div class="{{ class|default('field') }} validator">
+    <div class="{{ parentClass|default('field') }} validator">
         {% for key, option in options %}
             <label class="label">
                 <input 
-                    class="{{ type }}"
+                    class="{{ class|default(type) }}"
                     type="{{ type }}"  
                     name="{{ (type == 'checkbox' ? name ~ '[]' : name) }}" 
                     value="{{ key }}" 
                     {% if key == checked %}checked="checked"{% endif %}
+                    {% placeholder attributes %}
                 />
                 {{ option }}
             </label>
         {% endfor %}
     </div>
 
-    {% if hasPlaceholder('comment') %}
-        <div class="label">{% placeholder comment %}</div>
+    {% if comment %}
+        <div class="label">{{ comment }}</div>
     {% endif %}
 
-    <p class="validator-hint" data-validate-for="{{ name }}">{% placeholder validation %}</p>
+    <p class="validator-hint" data-validate-for="{{ name }}">{{ validation }}</p>
 </{{ tag }}>
 

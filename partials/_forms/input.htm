@@ -6,10 +6,11 @@
         <label class="label" for="{{ id }}">{{ label }}</label>
     {% endif %}
     <label class="input validator w-full">
-        {% if hasPlaceholder('prefix') %}
-            <span class="label">{% placeholder prefix %}</span>
+        {% if prefix %}
+            <span class="label">{{ prefix }}</span>
         {% endif %}
         <input 
+            class="{{ class }} w-full"
             type="{{ type }}" 
             name="{{ name }}" 
             value="{{ value }}" 
@@ -20,12 +21,12 @@
             {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
             {% placeholder attributes %}
         />
-        {% if hasPlaceholder('suffix') %}
-            <span class="label">{% placeholder suffix %}</span>
+        {% if suffix %}
+            <span class="label">{{ suffix }}</span>
         {% endif %}
     </label>
-    {% if hasPlaceholder('comment') %}
-        <div class="label">{% placeholder comment %}</div>
+    {% if comment %}
+        <div class="label" for="{{ id }}">{{ comment }}</div>
     {% endif %}
-    <p class="validator-hint" data-validate-for="{{ name }}">{% placeholder validation %}</p>
+    <p class="validator-hint" data-validate-for="{{ name }}">{{ validation }}</p>
 </div>

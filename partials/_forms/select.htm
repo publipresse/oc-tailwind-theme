@@ -23,8 +23,8 @@
         {% endfor %}
     </select>
 
-    {% if hasPlaceholder('comment') %}
-        <div class="label">{% placeholder comment %}</div>
+    {% if comment %}
+        <div class="label">{{ comment }}</div>
     {% endif %}
-    <p class="validator-hint" data-validate-for="{{ name }}">{% placeholder validation %}</p>
+    <p class="validator-hint" data-validate-for="{{ name }}">{{ validation }}</p>
 </div>
