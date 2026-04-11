@@ -1,10 +1,6 @@
 [sitePicker]
 
 [TinyMCE editor]
-
-[fancybox popup]
-handle = "Popups"
-cookie = 24
 ==
 <!DOCTYPE html>
 <html lang="{{ this.site.hard_locale }}" prefix="og: http://ogp.me/ns#">
@@ -31,7 +27,7 @@ cookie = 24
             {% page %}
         </main>
         {% partial '_layout/footer' %}
-        {% partial '_layout/popup' %}
+        {% ajaxPartial '_layout/popup' %}
     </div>
     {% placeholder frontEditor %}
 </body>

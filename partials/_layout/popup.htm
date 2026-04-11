@@ -1,22 +1,76 @@
-{% for record in popup.records %}
-    <aside id="fancybox-popup-{{ record.id }}" class="max-w-[1000px]" {% if not popup.cookie %}data-fancybox-popup="{{ popup.alias }}"{% endif %} style="display:none;" data-lenis-prevent>
-        {# {{ d(record)}} #}
-        <div class="grid grid-cols-2">
-            {% if record.media %}
-                <div class="media">
-                    {% if record.media.content_type in ['video/mp4'] %}
-                        <video class="h-full object-cover" controls src="{{ record.media.path }}"></video>
-                    {% else %}
-                        {% partial 'image' image = record.media width = 1000 class="h-full object-cover" %}
+[viewBag]
+
+==
+<?php
+function onStart()
+{
+    // Récupérer les entrées
+    $records = \Tailor\Models\EntryRecord::inSection('Popups')->applyVisibleFrontend();
+    $this['records'] = $records->get();
+
+    // S'occuper du cookie
+    $cookie = Cookie::get('popup_closed');
+    $lifetime = 24;
+    if ($cookie) {
+        $now = \Carbon\Carbon::now()->toDateTimeString();
+        $cookie = \Carbon\Carbon::parse($cookie);
+        $lifetime = $cookie->addHours((int) $lifetime)->toDateTimeString();
+        $this['cookie'] = $now < $lifetime;
+    }
+}
+
+function onClosePopup()
+{
+    // On enregistre le cookie
+    Cookie::queue('popup_closed', \Carbon\Carbon::now()->toDateTimeString(), 525600);
+}
+?>
+==
+{% if not cookie %}
+    {% for record in records %}
+        <dialog x-init="$el.showModal()" id="popup_{{ record.id }}" class="modal">
+            <div class="modal-box p-0 max-w-sm relative" data-lenis-prevent>
+                <button
+                    class="btn btn-sm btn-circle absolute top-2 right-2 z-10"
+                    onclick="this.closest('dialog').close()"
+                    data-request="onClosePopup"
+                    data-request-progress-bar="false"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <div class="grid grid-cols-1 sm:grid-cols-2">
+                    {% if record.media %}
+                        <div class="media">
+                            {% if record.media.content_type in ['video/mp4'] %}
+                                <video class="h-full object-cover" controls src="{{ record.media.path }}"></video>
+                            {% else %}
+                                {% partial 'image' image = record.media width = 1000 class="h-full object-cover" %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if record.content %}
+                        <div class="texte p-6 content-center">
+                            <div class="text-h2 mb-[0.5em]">{{ record.title }}</div>
+                            {{ record.content|raw }}
+                        </div>
                     {% endif %}
                 </div>
-            {% endif %}
-            {% if record.content %}
-                <div class="texte p-6 content-center">
-                    <div class="text-h2 mb-[0.5em]">{{ record.title }}</div>
-                    {{ record.content|raw }}
-                </div>
-            {% endif %}
-        </div>
-    </aside>
-{% endfor %}
+            </div>
+            <button
+                class="modal-backdrop"
+                onclick="this.closest('dialog').close()"
+                data-request="onClosePopup"
+                data-request-progress-bar="false"
+            ></button>
+        </dialog>
+    {% endfor %}
+{% endif %}

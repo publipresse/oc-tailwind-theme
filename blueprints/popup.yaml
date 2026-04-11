@@ -28,6 +28,7 @@ fields:
         focuspoint: true
         maxFiles: 1
         fileTypes: jpg,png,mp4,webp,svg
+        validation: required
     date:
         label: Date
         type: datepicker
@@ -41,3 +42,4 @@ fields:
         size: large
         toolbarButtons: paragraphFormat,-,bold,italic,insertPageLink,emoticons,-,formatUL,formatOL,insertFile,-,html
         column: false
+        validation: required
