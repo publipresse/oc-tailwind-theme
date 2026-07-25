@@ -1,0 +1,16 @@
+{# Button — the root is a WRAPPER div (attributes carry rc-button + the
+   generic alignment/spacing classes, which only work on a block element);
+   the actual .btn classes are whitelisted here against the Bootstrap 5
+   palette (incl. outline-*) so raw data never reaches the class attribute. #}
+{% set url = data.url|rc_url|default('#') %}
+{% set palette = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'] %}
+{% set style = data.style|default('primary') %}
+{% if style not in palette and style|replace({'outline-': ''}) not in palette %}{% set style = 'primary' %}{% endif %}
+{% set sizeCls = data.size|default('') in ['sm', 'lg'] ? ' btn-' ~ data.size : '' %}
+{% set target = data.target|default('_self') == '_blank' ? '_blank' : '_self' %}
+{% set btnIcon = rc_icon(data.icon|default(''), 16, 'rc-btn-icon') %}
+{% set iconBack = data.icon_position|default('front') == 'back' %}
+<div {{ attributes|raw }}>
+    <a class="btn btn-{{ style }}{{ sizeCls }}" href="{{ url }}" target="{{ target }}"{% if target == '_blank' %} rel="noopener"{% endif %}>{% if btnIcon and not iconBack %}{{ btnIcon|raw }} {% endif %}{{ data.label|default('') }}{% if btnIcon and iconBack %} {{ btnIcon|raw }}{% endif %}</a>
+</div>
+

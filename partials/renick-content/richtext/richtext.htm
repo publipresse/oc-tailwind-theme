@@ -1,0 +1,12 @@
+{# TRUST BOUNDARY — reads raw, UNSANITIZED HTML/JS verbatim, BY DESIGN.
+   `data.html` is emitted with |raw and is NOT filtered or escaped. Whoever can
+   write this field (a backend editor, or any REST API token with update access
+   to the host's content field) can inject arbitrary executable HTML/JS that
+   runs in every visitor's browser. This is a trusted-editor feature: content
+   here carries the SAME trust level as backend editor access. Only grant that
+   access — and only issue update-capable API tokens — to fully trusted parties.
+   Do NOT "fix" this by adding sanitization; it would break intended use. #}
+{# Variant `boxed` (from the legacy renick-blocs paragraph) adds a
+   WHITELISTED class on the root; any other value renders plain. #}
+{% set boxed = data.variant|default('') == 'boxed' %}
+<div {{ boxed ? attributes|replace({'class="': 'class="rc-richtext--boxed '})|raw : attributes|raw }}>{{ data.html|default('')|raw }}</div>

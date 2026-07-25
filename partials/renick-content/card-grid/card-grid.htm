@@ -1,0 +1,12 @@
+{# Card Grid — a Bootstrap .row of Column blocks, same as grid's column branch.
+   equal_height/centering add WHITELISTED classes on the row (string compare,
+   never raw data in a class). The card styling itself lives in CSS on
+   .rc-card-grid .rc-column, so the Column block stays untouched and columns can
+   move between a grid and a card-grid. The root gets rc-card-grid for free —
+   it is the base rc-<handle> class (handle "card-grid"). #}
+{% set rowClasses = 'rc-grid-inner rc-row row' %}
+{% if data.equal_height|default('') == 'yes' %}{% set rowClasses = rowClasses ~ ' rc-grid--equal align-items-stretch' %}{% endif %}
+{% if data.centering|default('') == 'yes' %}{% set rowClasses = rowClasses ~ ' justify-content-center rc-grid--center' %}{% endif %}
+<div {{ attributes|raw }}>
+    <div class="{{ rowClasses }}">{{ children|default('')|raw }}</div>
+</div>

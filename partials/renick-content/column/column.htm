@@ -1,0 +1,5 @@
+{# Width classes (col-12 col-md-N rc-col-N / auto) come via attributes. The
+   inner wrapper exists so surface styling (the card look in a Card Grid) never
+   sits on the Bootstrap column itself — a column's padding IS the gutter, so a
+   border/background on the column glues neighbouring cells together. #}
+<div {{ attributes|raw }}><div class="rc-column-inner">{{ children|default('')|raw }}</div></div>

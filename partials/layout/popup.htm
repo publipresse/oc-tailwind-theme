@@ -1,0 +1,53 @@
+[viewBag]
+
+==
+<?php
+function onStart()
+{
+    // Récupérer les entrées
+    $records = \Tailor\Models\EntryRecord::inSection('Popups')->applyVisibleFrontend();
+    $this['records'] = $records->get();
+
+    // S'occuper du cookie
+    $cookie = Cookie::get('popup_closed');
+    $lifetime = 24;
+    if ($cookie) {
+        $now = \Carbon\Carbon::now()->toDateTimeString();
+        $cookie = \Carbon\Carbon::parse($cookie);
+        $lifetime = $cookie->addHours((int) $lifetime)->toDateTimeString();
+        $this['cookie'] = $now < $lifetime;
+    }
+
+    
+}
+
+function onClosePopup()
+{
+    // On enregistre le cookie
+    Cookie::queue('popup_closed', \Carbon\Carbon::now()->toDateTimeString(), 525600);
+}
+?>
+==
+{% if not cookie %}
+    {% for record in records %}
+        {% partial 'ui/modal' open = true close="onClosePopup" body %}
+            <div class="grid grid-cols-1 sm:grid-cols-2">
+                {% if record.media %}
+                    <div class="sm:sticky sm:top-0 sm:h-[50vh] overflow-hidden">
+                        {% if record.media.content_type in ['video/mp4'] %}
+                            <video class="w-full h-full object-cover" controls src="{{ record.media.path }}"></video>
+                        {% else %}
+                            {% partial 'ui/image' src = record.media width = 1000 class="w-full h-full object-cover" %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if record.content %}
+                    <div class="p-6 content-center">
+                        <div class="h3 mb-4">{{ record.title }}</div>
+                        {{ record.content|raw }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endpartial %}
+    {% endfor %}
+{% endif %}

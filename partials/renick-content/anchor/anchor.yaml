@@ -1,0 +1,59 @@
+# Anchor — a CONTAINER that wraps its children in a single <a>, so an author
+# can link a whole group of blocks (e.g. an Image) without a per-block link
+# field. href is sanitised by rc_url; target/rel are built from a fixed set of
+# whitelisted tokens only — author data never reaches an attribute unvalidated.
+# Accepts any child block (allowChildren omitted → null → any).
+handle: anchor
+name: 'renick.content::lang.block.anchor.name'
+icon: icon-link
+group: components
+version: 1
+settings: true
+container: true
+fields:
+  href:
+    label: 'renick.content::lang.block.anchor.href'
+    type: text
+    commentAbove: 'renick.content::lang.block.anchor.href_comment'
+  target:
+    label: 'renick.content::lang.block.anchor.target'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.anchor.target_opt_empty'
+      _blank: 'renick.content::lang.block.anchor.target_opt__blank'
+    default: ''
+  rel_nofollow:
+    label: 'renick.content::lang.block.anchor.rel_nofollow'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.anchor.rel_nofollow_opt_empty'
+      'yes': 'renick.content::lang.block.anchor.rel_nofollow_opt_yes'
+    default: ''
+  rel_noopener:
+    label: 'renick.content::lang.block.anchor.rel_noopener'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.anchor.rel_noopener_opt_empty'
+      'yes': 'renick.content::lang.block.anchor.rel_noopener_opt_yes'
+    default: ''
+  rel_noreferrer:
+    label: 'renick.content::lang.block.anchor.rel_noreferrer'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.anchor.rel_noreferrer_opt_empty'
+      'yes': 'renick.content::lang.block.anchor.rel_noreferrer_opt_yes'
+    default: ''
+  rel_sponsored:
+    label: 'renick.content::lang.block.anchor.rel_sponsored'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.anchor.rel_sponsored_opt_empty'
+      'yes': 'renick.content::lang.block.anchor.rel_sponsored_opt_yes'
+    default: ''
+  rel_ugc:
+    label: 'renick.content::lang.block.anchor.rel_ugc'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.anchor.rel_ugc_opt_empty'
+      'yes': 'renick.content::lang.block.anchor.rel_ugc_opt_yes'
+    default: ''

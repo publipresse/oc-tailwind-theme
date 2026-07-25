@@ -1,0 +1,21 @@
+# Timeline — chronological staging of Timeline Item children along a vertical
+# line. Two layouts: everything on one side (line left) or alternating sides
+# on desktop (stacks on phones either way). Items carry optional Lucide icons
+# in their markers.
+handle: timeline
+name: 'renick.content::lang.block.timeline.name'
+icon: icon-history
+group: components
+version: 1
+settings: true
+container: true
+allowChildren:
+  - timeline-item
+fields:
+  layout:
+    label: 'renick.content::lang.block.timeline.layout'
+    type: dropdown
+    options:
+      left: 'renick.content::lang.block.timeline.layout_opt_left'
+      alternate: 'renick.content::lang.block.timeline.layout_opt_alternate'
+    default: left

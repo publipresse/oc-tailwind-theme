@@ -1,0 +1,20 @@
+# Slide — one panel of a Slider. Optional image (rendered as the visual, any
+# children become the caption overlay); without an image the children fill the
+# slide (card-slider case).
+handle: slide
+name: 'renick.content::lang.block.slide.name'
+icon: icon-image
+group: media
+version: 1
+settings: true
+container: true
+childOnly: true
+fields:
+  image:
+    label: 'renick.content::lang.block.slide.image'
+    type: mediafinder
+    mode: image
+    maxItems: 1
+  alt:
+    label: 'renick.content::lang.block.slide.alt'
+    type: text

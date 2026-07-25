@@ -1,30 +1,19 @@
-initPageTransitions();
-
 addEventListener('page:loaded', function() {
+    initCore();
+});
+
+window.document.addEventListener('offline.boxes.editorRefreshed', function (e) {
+    initCore();
+});
+
+function initCore() {
     initGsap();
     initLenis();
     initImages();
-    initHeadroom();
+    initHeadroom(offset = 0);
     initFancybox();
     initForm();
-});
-
-function initPageTransitions() {
-    if (oc.useTurbo && oc.useTurbo()) {
-        // Transition de sortie : pause le rendu le temps de l'animation
-        addEventListener('page:before-render', async function(e) {
-            if (document.documentElement.hasAttribute('data-turbo-preview')) return;
-            e.preventDefault();
-            //await gsap.to("#header", { x: 100, duration: 1 });
-            e.detail.resume();
-        });
-
-        // Transition d'entrée : animation après rendu de la nouvelle page
-        addEventListener('page:render', function() {
-            //gsap.to("#header", { x: 0, duration: 1 });
-        });
-    }
-}
+};
 
 function initGsap() {
     if(typeof ScrollTrigger !== 'undefined') { gsap.registerPlugin(ScrollTrigger); }
@@ -79,8 +68,6 @@ function initImages() {
 
 // Gestion de l'entête sticky.
 function initHeadroom() {
-    let offset = 0;
-
     let el = document.body;
     setClasses(0, 0);
 
@@ -145,6 +132,7 @@ function initForm() {
             el.setAttribute('aria-invalid', 'true');
         });
     });
+
 
     // Nettoyage des champs au moment de la validation
     addEventListener('ajax:promise', function(e) {

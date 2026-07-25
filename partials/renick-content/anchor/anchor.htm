@@ -1,0 +1,15 @@
+{# Anchor — wraps its children in one <a>. Everything that can carry author
+   data is either sanitised (href via rc_url) or rebuilt from a fixed token set
+   (rel/target below), so no raw data reaches an attribute. When the link opens
+   in a new tab we auto-append noopener (tabnabbing defence) even if the author
+   did not tick it. rel tokens are assembled in a stable order from the
+   known yes/no flags only. #}
+{% set href = data.href|rc_url %}
+{% set newTab = data.target|default('') == '_blank' %}
+{% set rel = [] %}
+{% if data.rel_nofollow|default('') == 'yes' %}{% set rel = rel|merge(['nofollow']) %}{% endif %}
+{% if data.rel_noopener|default('') == 'yes' or newTab %}{% set rel = rel|merge(['noopener']) %}{% endif %}
+{% if data.rel_noreferrer|default('') == 'yes' %}{% set rel = rel|merge(['noreferrer']) %}{% endif %}
+{% if data.rel_sponsored|default('') == 'yes' %}{% set rel = rel|merge(['sponsored']) %}{% endif %}
+{% if data.rel_ugc|default('') == 'yes' %}{% set rel = rel|merge(['ugc']) %}{% endif %}
+<a {{ attributes|raw }} href="{{ href|default('#') }}"{% if newTab %} target="_blank"{% endif %}{% if rel is not empty %} rel="{{ rel|join(' ') }}"{% endif %}>{{ children|default('')|raw }}</a>

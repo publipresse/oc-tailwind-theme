@@ -1,0 +1,56 @@
+# Testimonials — a responsive grid of customer quotes. Each item is a
+# blockquote (quote + author + role) with an optional avatar and a 1–5 star
+# rating. Two designs: `cards` (bordered cards) and `plain` (borderless).
+# No heading field — pair it with a Heading block above.
+handle: testimonials
+name: 'renick.content::lang.block.testimonials.name'
+icon: icon-comments
+group: components
+version: 1
+settings: true
+fields:
+  items:
+    label: 'renick.content::lang.block.testimonials.items'
+    type: repeater
+    titleFrom: author
+    fields:
+      quote:
+        label: 'renick.content::lang.block.testimonials.items_quote'
+        type: textarea
+      author:
+        label: 'renick.content::lang.block.testimonials.items_author'
+        type: text
+      role:
+        label: 'renick.content::lang.block.testimonials.items_role'
+        type: text
+      avatar:
+        label: 'renick.content::lang.block.testimonials.items_avatar'
+        type: mediafinder
+        mode: image
+        maxItems: 1
+      rating:
+        label: 'renick.content::lang.block.testimonials.items_rating'
+        type: dropdown
+        options:
+          '': 'renick.content::lang.block.testimonials.items_rating_opt_empty'
+          '1': 'renick.content::lang.block.testimonials.items_rating_opt_1'
+          '2': 'renick.content::lang.block.testimonials.items_rating_opt_2'
+          '3': 'renick.content::lang.block.testimonials.items_rating_opt_3'
+          '4': 'renick.content::lang.block.testimonials.items_rating_opt_4'
+          '5': 'renick.content::lang.block.testimonials.items_rating_opt_5'
+        default: ''
+  columns:
+    label: 'renick.content::lang.block.testimonials.columns'
+    type: dropdown
+    options:
+      '1': 'renick.content::lang.block.testimonials.columns_opt_1'
+      '2': 'renick.content::lang.block.testimonials.columns_opt_2'
+      '3': 'renick.content::lang.block.testimonials.columns_opt_3'
+    default: '2'
+  variant:
+    label: 'renick.content::lang.block.testimonials.variant'
+    type: dropdown
+    options:
+      cards: 'renick.content::lang.block.testimonials.variant_opt_cards'
+      plain: 'renick.content::lang.block.testimonials.variant_opt_plain'
+    default: cards

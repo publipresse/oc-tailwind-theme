@@ -1,0 +1,9 @@
+@layer utilities {
+
+    /* Containers */
+    .container-md {
+        @apply w-full mx-auto max-w-md px-4
+    }
+
+
+}

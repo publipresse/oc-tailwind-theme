@@ -1,0 +1,30 @@
+# Accordion — a container of Accordion Item blocks, ported from the legacy
+# renick-blocs accordion. Renders Bootstrap 5 accordion markup; the actual
+# expand/collapse is driven by Bootstrap's collapse JS (data-bs-toggle), which
+# the THEME must load — the preview iframe has no Bootstrap JS, so preview CSS
+# shows all panels open (see preview-default.css).
+handle: accordion
+name: 'renick.content::lang.block.accordion.name'
+icon: icon-bars
+group: components
+version: 1
+settings: true
+container: true
+allowChildren:
+  - accordion-item
+fields:
+  variant:
+    label: 'renick.content::lang.block.accordion.variant'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.accordion.variant_opt_empty'
+      faq: 'renick.content::lang.block.accordion.variant_opt_faq'
+    default: ''
+    commentAbove: 'renick.content::lang.block.accordion.variant_comment'
+  first_expanded:
+    label: 'renick.content::lang.block.accordion.first_expanded'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.accordion.first_expanded_opt_empty'
+      'yes': 'renick.content::lang.block.accordion.first_expanded_opt_yes'
+    default: ''

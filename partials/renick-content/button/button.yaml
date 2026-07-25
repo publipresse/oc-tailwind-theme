@@ -1,0 +1,61 @@
+handle: button
+name: 'renick.content::lang.block.button.name'
+icon: icon-hand-pointer-o
+group: components
+version: 1
+settings: true
+fields:
+  label:
+    label: 'renick.content::lang.block.button.label'
+    type: text
+  url:
+    label: 'renick.content::lang.block.button.url'
+    type: text
+  style:
+    label: 'renick.content::lang.block.button.style'
+    type: dropdown
+    options:
+      primary: 'renick.content::lang.block.button.style_opt_primary'
+      secondary: 'renick.content::lang.block.button.style_opt_secondary'
+      success: 'renick.content::lang.block.button.style_opt_success'
+      danger: 'renick.content::lang.block.button.style_opt_danger'
+      warning: 'renick.content::lang.block.button.style_opt_warning'
+      info: 'renick.content::lang.block.button.style_opt_info'
+      light: 'renick.content::lang.block.button.style_opt_light'
+      dark: 'renick.content::lang.block.button.style_opt_dark'
+      link: 'renick.content::lang.block.button.style_opt_link'
+      outline-primary: 'renick.content::lang.block.button.style_opt_outline_primary'
+      outline-secondary: 'renick.content::lang.block.button.style_opt_outline_secondary'
+      outline-success: 'renick.content::lang.block.button.style_opt_outline_success'
+      outline-danger: 'renick.content::lang.block.button.style_opt_outline_danger'
+      outline-warning: 'renick.content::lang.block.button.style_opt_outline_warning'
+      outline-info: 'renick.content::lang.block.button.style_opt_outline_info'
+      outline-light: 'renick.content::lang.block.button.style_opt_outline_light'
+      outline-dark: 'renick.content::lang.block.button.style_opt_outline_dark'
+    default: primary
+  size:
+    label: 'renick.content::lang.block.button.size'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.button.size_opt_empty'
+      sm: 'renick.content::lang.block.button.size_opt_sm'
+      lg: 'renick.content::lang.block.button.size_opt_lg'
+    default: ''
+  icon:
+    label: 'renick.content::lang.block.button.icon'
+    type: iconpicker
+    commentAbove: 'renick.content::lang.block.button.icon_comment'
+  icon_position:
+    label: 'renick.content::lang.block.button.icon_position'
+    type: dropdown
+    options:
+      front: 'renick.content::lang.block.button.icon_position_opt_front'
+      back: 'renick.content::lang.block.button.icon_position_opt_back'
+    default: front
+  target:
+    label: 'renick.content::lang.block.button.target'
+    type: dropdown
+    options:
+      _self: 'renick.content::lang.block.button.target_opt__self'
+      _blank: 'renick.content::lang.block.button.target_opt__blank'
+    default: _self

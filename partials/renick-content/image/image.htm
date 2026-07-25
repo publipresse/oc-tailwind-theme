@@ -1,0 +1,29 @@
+{# Image — shared/img pattern from the blocs theme: a <picture> that offers a
+   WebP variant (via rc_resize, no crop — the image keeps its dimensions) with
+   the original as fallback, lazy-loaded. When October's resizer is missing,
+   rc_resize returns the plain media URL, the WebP <source> is skipped and the
+   <picture> degrades to a normal <img>. To LINK an image (or a group of
+   blocks), wrap it in an Anchor block — the old per-image `link` field was
+   removed; a stray data.link on legacy documents is simply ignored here. #}
+{# Framing (P2.9): aspect fixes the frame, fit decides crop vs letterbox,
+   focus picks the surviving image region — every token whitelisted before it
+   becomes a class (raw data never reaches the class attribute). #}
+{% set aspect = data.aspect|default('') in ['1x1', '4x3', '16x9', '21x9'] ? data.aspect : '' %}
+{% set fit = data.fit|default('cover') in ['cover', 'contain'] ? data.fit|default('cover') : 'cover' %}
+{% set focus = data.focus|default('') in ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'] ? data.focus : '' %}
+{% set frameCls = aspect ? ' rc-frame rc-aspect-' ~ aspect ~ ' rc-fit-' ~ fit ~ (focus ? ' rc-focus-' ~ focus : '') : '' %}
+<figure {{ attributes|raw }}>
+    {% if data.image %}
+        {# AI-generated images stored outside the media library arrive as an
+           absolute URL (or /storage path) — use them verbatim; media paths go
+           through |media and get a WebP variant via rc_resize. #}
+        {% set is_absolute = data.image starts with 'http://' or data.image starts with 'https://' or data.image starts with '/storage/' %}
+        {% set src = is_absolute ? data.image : data.image|media %}
+        {% set src_webp = is_absolute ? null : data.image|rc_resize(null, null, {extension: 'webp'}) %}
+        <picture class="d-block{{ frameCls }}">
+            {% if src_webp and src_webp != src %}<source srcset="{{ src_webp }}" type="image/webp">{% endif %}
+            <img src="{{ src }}" alt="{{ data.alt|default('') }}" loading="lazy" class="img-fluid">
+        </picture>
+    {% endif %}
+    {% if data.caption %}<figcaption>{{ data.caption }}</figcaption>{% endif %}
+</figure>

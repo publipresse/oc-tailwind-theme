@@ -6,9 +6,19 @@
     "css:build": "npx @tailwindcss/cli -i ./assets/css/config.css -o ./assets/css/tailwind.css",
     "css:watch": "npx @tailwindcss/cli -i ./assets/css/config.css -o ./assets/css/tailwind.css --watch"
   },
+  "dependencies": {
+    "@alpinejs/anchor": "^3.0.0",
+    "@alpinejs/collapse": "^3.0.0",
+    "@alpinejs/mask": "^3.0.0",
+    "@fancyapps/ui": "^6.0.0",
+    "@idevgames/cursor-js": "^1.0.0",
+    "alpinejs": "^3.0.0",
+    "gsap": "^3.0.0",
+    "lenis": "^1.0.0",
+    "swiper": "^14.0.0"
+  },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.2.2",
-    "daisyui": "^5.5.19",
+    "@tailwindcss/cli": "^4.2.0",
     "tailwindcss": "^4.2.0"
   }
 }

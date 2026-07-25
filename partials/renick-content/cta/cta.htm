@@ -1,0 +1,83 @@
+{# Call to Action — five whitelisted designs. Every value that reaches a class
+   attribute is rebuilt from a fixed token set; URLs go through rc_url and the
+   background image URL is CSS-escaped by |rc_css_url (percent-encodes
+   quotes/parens/newlines) so it cannot break out of the url('…') CSS string. #}
+{% set variant = data.variant|default('hero') %}
+{% if variant not in ['hero', 'hero-split', 'panel', 'minimal', 'bookmark'] %}{% set variant = 'hero' %}{% endif %}
+{% set palette = ['primary', 'secondary', 'light', 'dark', 'outline-primary', 'outline-light'] %}
+{% set btnStyle = data.button_style|default('primary') in palette ? data.button_style|default('primary') : 'primary' %}
+{% set url = data.button_url|rc_url %}
+{% set url2 = data.second_url|rc_url %}
+{% set hasImage = data.image|default('') != '' %}
+
+<div {{ attributes|raw }} data-rc-cta="{{ variant }}">
+{% if variant == 'hero' %}
+    <div class="rc-cta-hero{{ hasImage ? ' rc-cta-hero--bg text-white' : '' }}"{% if hasImage %} style="background-image:url('{{ data.image|media|rc_css_url }}');"{% endif %}>
+        <div class="rc-cta-hero-inner">
+            {% if data.title %}<h2 class="rc-cta-title display-5">{{ data.title }}</h2>{% endif %}
+            {% if data.text %}<p class="rc-cta-text lead">{{ data.text|nl2br }}</p>{% endif %}
+            {% if data.footnote %}<p class="rc-cta-footnote small">{{ data.footnote }}</p>{% endif %}
+            <div class="rc-cta-actions">
+                {% if data.button_label and url %}<a class="btn btn-{{ btnStyle }} btn-lg" href="{{ url }}">{{ data.button_label }}</a>{% endif %}
+                {% if data.second_label and url2 %}<a class="btn btn-{{ hasImage ? 'outline-light' : 'outline-secondary' }} btn-lg" href="{{ url2 }}">{{ data.second_label }}</a>{% endif %}
+            </div>
+        </div>
+    </div>
+{% elseif variant == 'hero-split' %}
+    <div class="rc-cta-split row align-items-center g-4">
+        <div class="{{ hasImage ? 'col-12 col-lg-6' : 'col-12' }}">
+            {% if data.title %}<h2 class="rc-cta-title">{{ data.title }}</h2>{% endif %}
+            {% if data.text %}<p class="rc-cta-text lead">{{ data.text|nl2br }}</p>{% endif %}
+            {% if data.footnote %}<p class="rc-cta-footnote small text-secondary">{{ data.footnote }}</p>{% endif %}
+            <div class="rc-cta-actions">
+                {% if data.button_label and url %}<a class="btn btn-{{ btnStyle }}" href="{{ url }}">{{ data.button_label }}</a>{% endif %}
+                {% if data.second_label and url2 %}<a class="btn btn-outline-secondary" href="{{ url2 }}">{{ data.second_label }}</a>{% endif %}
+            </div>
+        </div>
+        {% if hasImage %}
+        <div class="col-12 col-lg-6">
+            <img src="{{ data.image|media }}" alt="{{ data.title|default('') }}" loading="lazy" class="img-fluid rounded rc-cta-side-img">
+        </div>
+        {% endif %}
+    </div>
+{% elseif variant == 'panel' %}
+    <div class="rc-cta-panel bg-primary text-white rounded-3">
+        <div class="row align-items-center g-3">
+            <div class="col-md">
+                {% if data.title %}<h2 class="rc-cta-title h3 mb-1">{{ data.title }}</h2>{% endif %}
+                {% if data.text %}<p class="rc-cta-text mb-0">{{ data.text|nl2br }}</p>{% endif %}
+            </div>
+            {% if data.button_label and url %}
+            <div class="col-md-auto">
+                <a class="btn btn-light" href="{{ url }}">{{ data.button_label }}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% elseif variant == 'minimal' %}
+    <div class="rc-cta-minimal card">
+        <div class="card-body d-flex flex-wrap align-items-center gap-2">
+            <span class="rc-cta-text me-auto">{% if data.title %}<strong>{{ data.title }}</strong>{% endif %}{% if data.text %} {{ data.text }}{% endif %}</span>
+            {% if data.button_label and url %}<a class="rc-cta-link card-link text-nowrap" href="{{ url }}">{{ data.button_label }} <span aria-hidden="true">&rsaquo;</span></a>{% endif %}
+        </div>
+    </div>
+{% else %}
+    <div class="rc-cta-bookmark card">
+        <div class="card-body">
+            <div class="row g-3 align-items-center">
+                {% if hasImage %}
+                <div class="col-12 col-md-4">
+                    <img src="{{ data.image|rc_resize(560, 400, {mode: 'crop'}) }}" alt="{{ data.title|default('') }}" loading="lazy" class="img-fluid rounded rc-cta-thumb">
+                </div>
+                {% endif %}
+                <div class="col-12 {{ hasImage ? 'col-md-8' : '' }}">
+                    {% if data.title %}<p class="rc-cta-title h5 mb-1">{{ data.title }}</p>{% endif %}
+                    {% if data.text %}<p class="rc-cta-text mb-1">{{ data.text|nl2br }}</p>{% endif %}
+                    {% if data.footnote %}<small class="rc-cta-footnote text-secondary d-block mb-2">{{ data.footnote }}</small>{% endif %}
+                    {% if data.button_label and url %}<a class="btn btn-{{ btnStyle }} mt-2" href="{{ url }}" rel="noopener">{{ data.button_label }} <span aria-hidden="true">&rsaquo;</span></a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+</div>

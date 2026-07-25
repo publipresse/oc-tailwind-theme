@@ -1,0 +1,63 @@
+# Form — flexible form builder (P17.4). A container of form-field children
+# (like grid > column); submits via fetch() to the plugin's public REST
+# endpoint (/renick-content/form — throttled, honeypot + time-trap spam
+# protection), NOT through a CMS component. When a privacy-consent field is
+# present, the submit button stays disabled until it is checked (JS +
+# server-side validation).
+handle: form
+name: 'renick.content::lang.block.form.name'
+icon: icon-envelope
+group: components
+version: 1
+settings: true
+container: true
+allowChildren:
+  - form-field
+defaultChildren:
+  -
+    type: form-field
+    data:
+      field_type: text
+      label: Name
+      name: name
+      required: true
+  -
+    type: form-field
+    data:
+      field_type: email
+      label: Email
+      name: email
+      required: true
+  -
+    type: form-field
+    data:
+      field_type: textarea
+      label: Message
+      name: message
+      required: true
+  -
+    type: form-field
+    data:
+      field_type: checkbox
+      label: 'I have read and accept the privacy policy'
+      name: privacy
+      required: true
+      is_privacy: true
+fields:
+  form_name:
+    label: 'renick.content::lang.block.form.form_name'
+    type: text
+    default: Contact
+    comment: 'renick.content::lang.block.form.form_name_comment'
+  # submit_label / success_message ship NO literal default: an empty value
+  # renders the locale-aware fallback (rc_t block.front.form_submit /
+  # form_success) at render time instead of baking English into every inserted
+  # form. Authors can still type an explicit override.
+  submit_label:
+    label: 'renick.content::lang.block.form.submit_label'
+    type: text
+  success_message:
+    label: 'renick.content::lang.block.form.success_message'
+    type: textarea
+    size: small
+    commentAbove: 'renick.content::lang.block.form.success_message_comment'

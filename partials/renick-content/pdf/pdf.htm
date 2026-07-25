@@ -1,0 +1,22 @@
+{# PDF — server markup is the graceful fallback (download card); the bundled
+   JS upgrades [data-rc-pdf] into the inline pdf.js viewer. Only media-library
+   paths ending in .pdf are accepted; anything else renders nothing. The
+   editor preview keeps the fallback card (no JS there). #}
+{% set path = data.file|default('') %}
+{% if path and path|lower matches '/\\.pdf$/' %}
+    {% set url = path|media %}
+    <div {{ attributes|raw }}>
+        <div class="rc-pdf-viewer"{% if not preview %} data-rc-pdf="{{ url }}"{% endif %}>
+            <div class="rc-pdf-fallback card">
+                <div class="card-body d-flex align-items-center gap-3">
+                    {{ rc_icon('file-text', 32) }}
+                    <div class="me-auto">
+                        <strong>{{ data.title|default(path|split('/')|last) }}</strong>
+                        <div class="small text-secondary">{{ rc_t('block.front.pdf_document', {}, locale) }}</div>
+                    </div>
+                    <a class="btn btn-primary" href="{{ url }}" target="_blank" rel="noopener">{{ rc_t('block.front.pdf_open', {}, locale) }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

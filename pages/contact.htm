@@ -6,7 +6,12 @@ is_hidden = 0
 [uploadForm contact]
 group = "Formulaire de contact"
 rules[Email] = "required|email"
+rules[Checkbox] = "required"
+rules[Radio] = "required"
+rules[Select] = "required"
+rules[Message] = "required"
 rules[files] = "required"
+custom_attributes[files] = "fichiers"
 messages_success = "Votre formulaire a été envoyé avec succès"
 messages_errors = "Il y a eu des erreurs dans votre formulaire"
 mail_enabled = 1
@@ -40,15 +45,39 @@ fileTypes[image/jpeg] = "jpg"
     <div class="container-md">
         {{ form_ajax('contact::onFormSubmit', { validate: true, files: true }) }}
             {% set options = {opt1: 'Option 1', opt2: 'Option 2', opt3: 'Option 3'} %}
-            <div class="fieldset gap-y-6">
-                {% partial '_forms/input' name="Email" type="date" label="Email" placeholder="Email" %}
+            <div class="flex flex-col gap-y-6">
+
+                {% partial 'ui/input' name="Email" type="text" label="Email" placeholder="Votre adresse email" %}
+
+                {% partial 'ui/textarea' name="Message" label="Message" placeholder="Message" %}
+
+                <fieldset class="group flex flex-col gap-y-1">
+                    {% for key, option in options %}
+                        {% partial 'ui/checkbox' name="Checkbox[]" type="checkbox" checked = (key == 'opt3') %}
+                    {% endfor %}
+                    <p data-validate-for="Checkbox"></p>
+                </fieldset>
+
+                <fieldset class="group flex flex-col gap-y-1">
+                    {% for key, option in options %}
+                        {% partial 'ui/checkbox' name="Radio" type="radio" checked = (key == 'opt1') %}
+                    {% endfor %}
+                    <p data-validate-for="Radio"></p>
+                </fieldset>
+
+                {% partial 'ui/select' name="Select" label="Select" options = options placeholder = "Choisissez une option" %}
+
+                {% partial 'ui/filepond' %}
+
+                {# {% partial 'ui/checkbox' name="Checkbox" type="radio" checked = ['opt1'] options = options %} #}
+                {#
                 {% partial '_forms/select' name="Select" label="Select" options = options placeholder = "Choisissez une option" selected = 'opt2' %}
                 {% partial '_forms/check' parentClass="flex flex-row gap-x-4" type="radio"name="Radio" label="Radio" options = options comment = "ok" %}
                 {% partial '_forms/check' class="toggle" type="checkbox" name="Checkboxes" options = options comment = "ok" checked = "opt2" %}
-                {% partial '_forms/textarea' name="Message" label="Message" placeholder="Message" %}
                 {% partial '_forms/filepond' %}
                 {% partial '_forms/recaptcha' %}
-                <button class="btn btn-primary" type="submit" data-attach-loading>{{ "Envoyez un message"|_ }}</button>
+                #}
+                <button class="btn" type="submit" data-attach-loading>{{ "Envoyez un message"|_ }}</button>
                 <div id="{{ contact.alias }}_forms_flash"></div>
             </div>
         {{ form_close() }}

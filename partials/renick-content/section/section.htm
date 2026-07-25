@@ -1,0 +1,13 @@
+{# Background/font styling (from the legacy renick-blocs section). Colors are
+   only emitted when they match a STRICT hex pattern, so data can never break
+   out of the style attribute; the media URL is CSS-escaped by |rc_css_url
+   (percent-encodes quotes/parens/newlines) so it cannot break out of url('…'). #}
+{% set bgImage = data.background_image|default('') %}
+{% set bgColor = data.background_color|default('') matches '/^#[0-9a-fA-F]{3,8}$/' ? data.background_color : '' %}
+{% set fontColor = data.font_color|default('') matches '/^#[0-9a-fA-F]{3,8}$/' ? data.font_color : '' %}
+{% set style = '' %}
+{% if bgImage %}{% set style = style ~ "background-image:url('" ~ (bgImage|media|rc_css_url) ~ "');" %}{% endif %}
+{% if bgColor %}{% set style = style ~ 'background-color:' ~ bgColor ~ ';' %}{% endif %}
+{% if fontColor %}{% set style = style ~ 'color:' ~ fontColor ~ ';' %}{% endif %}
+{% set hasBg = bgImage or bgColor %}
+<section {{ hasBg ? attributes|replace({'class="': 'class="rc-section--bg '})|raw : attributes|raw }}{% if style %} style="{{ style }}"{% endif %}>{{ children|default('')|raw }}</section>

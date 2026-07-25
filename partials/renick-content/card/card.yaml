@@ -1,0 +1,71 @@
+# Card — a single standalone Bootstrap 5 card (ported from the renick-blocs
+# card-grid / card-cover-grid pair). Two designs:
+#   top   — image above a classic card body (children render inside the body)
+#   cover — the image IS the card, content floats on a darkened overlay
+# The image frame reuses the Image block's aspect/fit/focus vocabulary. With
+# a URL the whole card becomes clickable (Bootstrap stretched-link).
+handle: card
+name: 'renick.content::lang.block.card.name'
+icon: icon-id-card
+group: components
+version: 1
+settings: true
+container: true
+fields:
+  variant:
+    label: 'renick.content::lang.block.card.variant'
+    type: dropdown
+    options:
+      top: 'renick.content::lang.block.card.variant_opt_top'
+      cover: 'renick.content::lang.block.card.variant_opt_cover'
+    default: top
+  title:
+    label: 'renick.content::lang.block.card.title'
+    type: text
+  title_icon:
+    label: 'renick.content::lang.block.card.title_icon'
+    type: iconpicker
+    commentAbove: 'renick.content::lang.block.card.title_icon_comment'
+  image:
+    label: 'renick.content::lang.block.card.image'
+    type: mediafinder
+    mode: image
+    maxItems: 1
+  alt:
+    label: 'renick.content::lang.block.card.alt'
+    type: text
+  url:
+    label: 'renick.content::lang.block.card.url'
+    type: text
+    commentAbove: 'renick.content::lang.block.card.url_comment'
+  aspect:
+    label: 'renick.content::lang.block.card.aspect'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.card.aspect_opt_empty'
+      1x1: 'renick.content::lang.block.card.aspect_opt_1x1'
+      4x3: 'renick.content::lang.block.card.aspect_opt_4x3'
+      16x9: 'renick.content::lang.block.card.aspect_opt_16x9'
+      21x9: 'renick.content::lang.block.card.aspect_opt_21x9'
+    default: ''
+  fit:
+    label: 'renick.content::lang.block.card.fit'
+    type: dropdown
+    options:
+      cover: 'renick.content::lang.block.card.fit_opt_cover'
+      contain: 'renick.content::lang.block.card.fit_opt_contain'
+    default: cover
+  focus:
+    label: 'renick.content::lang.block.card.focus'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.card.focus_opt_empty'
+      top: 'renick.content::lang.block.card.focus_opt_top'
+      bottom: 'renick.content::lang.block.card.focus_opt_bottom'
+      left: 'renick.content::lang.block.card.focus_opt_left'
+      right: 'renick.content::lang.block.card.focus_opt_right'
+      top-left: 'renick.content::lang.block.card.focus_opt_top_left'
+      top-right: 'renick.content::lang.block.card.focus_opt_top_right'
+      bottom-left: 'renick.content::lang.block.card.focus_opt_bottom_left'
+      bottom-right: 'renick.content::lang.block.card.focus_opt_bottom_right'
+    default: ''

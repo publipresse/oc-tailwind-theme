@@ -1,0 +1,17 @@
+handle: richtext
+name: 'renick.content::lang.block.richtext.name'
+icon: icon-paragraph
+group: text
+version: 1
+settings: true
+fields:
+  html:
+    label: 'renick.content::lang.block.richtext.html'
+    type: richeditor
+  variant:
+    label: 'renick.content::lang.block.richtext.variant'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.richtext.variant_opt_empty'
+      boxed: 'renick.content::lang.block.richtext.variant_opt_boxed'
+    default: ''

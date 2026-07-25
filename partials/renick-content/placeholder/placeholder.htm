@@ -1,0 +1,15 @@
+{# Placeholder — an addressable slot. `data-rc-placeholder` carries the
+   document-stable block id so event listeners (beforeRenderBlock) and frontend
+   JS (Custom Scripts) can target it: document.querySelector(
+   '[data-rc-placeholder="<id>"]'). The frontend output is intentionally
+   minimal; the editor preview renders a visible dashed stand-in instead. #}
+{% if preview %}
+    <div {{ attributes|raw }} data-rc-placeholder="{{ blockId }}">
+        <div class="rc-placeholder-preview">
+            <span class="rc-placeholder-preview-name">{{ data.label|default(rc_t('block.front.placeholder', {}, locale)) }}</span>
+            <code class="rc-placeholder-preview-id">{{ blockId }}</code>
+        </div>
+    </div>
+{% else %}
+    <div {{ attributes|raw }} data-rc-placeholder="{{ blockId }}">{{ data.fallback|default('') }}</div>
+{% endif %}

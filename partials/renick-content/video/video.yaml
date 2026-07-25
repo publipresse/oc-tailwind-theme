@@ -1,0 +1,59 @@
+handle: video
+name: 'renick.content::lang.block.video.name'
+icon: icon-video-camera
+group: media
+version: 1
+settings: true
+fields:
+  source:
+    label: 'renick.content::lang.block.video.source'
+    type: text
+    commentAbove: 'renick.content::lang.block.video.source_comment'
+  title:
+    label: 'renick.content::lang.block.video.title'
+    type: text
+    commentAbove: 'renick.content::lang.block.video.title_comment'
+  poster:
+    label: 'renick.content::lang.block.video.poster'
+    type: mediafinder
+    mode: image
+    maxItems: 1
+  consent_note:
+    label: 'renick.content::lang.block.video.consent_note'
+    type: text
+    commentAbove: 'renick.content::lang.block.video.consent_note_comment'
+  autoplay:
+    label: 'renick.content::lang.block.video.autoplay'
+    type: dropdown
+    options:
+      'no': 'renick.content::lang.block.video.autoplay_opt_no'
+      'yes': 'renick.content::lang.block.video.autoplay_opt_yes'
+    default: 'no'
+  controls:
+    label: 'renick.content::lang.block.video.controls'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.video.controls_opt_empty'
+      'no': 'renick.content::lang.block.video.controls_opt_no'
+    default: ''
+  muted:
+    label: 'renick.content::lang.block.video.muted'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.video.muted_opt_empty'
+      'yes': 'renick.content::lang.block.video.muted_opt_yes'
+    default: ''
+  loop:
+    label: 'renick.content::lang.block.video.loop'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.video.loop_opt_empty'
+      'yes': 'renick.content::lang.block.video.loop_opt_yes'
+    default: ''
+  preload:
+    label: 'renick.content::lang.block.video.preload'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.video.preload_opt_empty'
+      'yes': 'renick.content::lang.block.video.preload_opt_yes'
+    default: ''

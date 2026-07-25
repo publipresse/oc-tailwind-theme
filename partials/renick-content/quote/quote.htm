@@ -1,0 +1,12 @@
+{# Quote — two designs (P18.8): `bordered` (the classic left-border pull
+   quote) and `centered` (centered text with a large grey decorative
+   quotation mark bottom-left). Variant is whitelisted. #}
+{% set variant = data.variant|default('bordered') %}
+{% if variant not in ['bordered', 'centered'] %}{% set variant = 'bordered' %}{% endif %}
+<figure {{ variant == 'centered' ? attributes|replace({'class="': 'class="rc-quote--centered '})|raw : attributes|raw }}>
+    {% if variant == 'centered' %}<span class="rc-quote-mark" aria-hidden="true">&ldquo;</span>{% endif %}
+    <blockquote>{{ data.text }}</blockquote>
+    {% if data.author %}
+    <figcaption>{{ data.author }}{% if data.role %} <span class="rc-quote-role">{{ data.role }}</span>{% endif %}</figcaption>
+    {% endif %}
+</figure>

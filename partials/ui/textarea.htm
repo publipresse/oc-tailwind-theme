@@ -1,0 +1,24 @@
+{%
+    props {
+        id: str_random(10),
+        type: 'text',
+        label: null,
+        prefix: null,
+        suffix: null,
+        comment: null,
+        validation: null,
+    }
+%}
+
+<div class="group flex flex-col">
+    {% if label %}
+        <label for="{{ id }}">{{ label }}</label>
+    {% endif %}
+    <div class="flex flex-row gap-0 items-stretch justify-between border-1">
+        <textarea {{ attributes.merge({ class: 'w-full p-2 outline-none', id: id }) }}></textarea>
+    </div>
+    {% if comment %}
+        <p>{{ comment }}</p>
+    {% endif %}
+    <p data-validate-for="{{ name }}">{{ validation }}</p>
+</div>

@@ -1,0 +1,21 @@
+{% props {
+        id: null,
+        class: null,
+        src: 'assets/img/dummy.jpg'|theme, 
+        width: null,
+        height: null,
+        mode: 'crop',
+        alt: null, 
+        loading: 'lazy',
+    } 
+%}
+
+<img 
+    {{ attributes.merge({ 
+        id: id, 
+        class: class, 
+        src: src|resize(width, height, mode), 
+        alt: alt, 
+        loading: loading,
+    }) }}
+>

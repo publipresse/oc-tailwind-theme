@@ -1,0 +1,22 @@
+{# Info banner — Bootstrap alert with a level-matched icon and a left accent
+   bar. The OUTER div carries the block attributes (spacing settings pad
+   AROUND the coloured box, not inside it); the box itself is the inner div.
+   The level is re-whitelisted here (it reaches class attributes); the icon
+   map is fixed per level. Danger/warning announce assertively (role=alert),
+   the calm levels as status. Animations are pure CSS except the one-time
+   danger shake, which banner.ts triggers on viewport entry — in the
+   script-less editor preview the banner simply shows statically. #}
+{% set level = data.level|default('secondary') %}
+{% if level not in ['secondary', 'success', 'warning', 'danger'] %}{% set level = 'secondary' %}{% endif %}
+{% set icons = {'secondary': 'info', 'success': 'circle-check', 'warning': 'triangle-alert', 'danger': 'circle-alert'} %}
+{% set animated = data.animated|default('yes') != 'no' %}
+<div {{ attributes|raw }}>
+    <div class="rc-info-banner-box rc-info-banner--{{ level }}{{ animated ? ' rc-info-banner--animated' }} alert alert-{{ level }}"
+         role="{{ level in ['warning', 'danger'] ? 'alert' : 'status' }}">
+        <span class="rc-info-banner-icon" aria-hidden="true">{{ rc_icon(icons[level], 22) }}</span>
+        <div class="rc-info-banner-body">
+            {% if data.title|default('') %}<strong class="rc-info-banner-title">{{ data.title }}</strong>{% endif %}
+            {% if data.text|default('') %}<div class="rc-info-banner-text">{{ data.text|nl2br }}</div>{% endif %}
+        </div>
+    </div>
+</div>

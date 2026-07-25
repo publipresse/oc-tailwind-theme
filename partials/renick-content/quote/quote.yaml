@@ -1,0 +1,23 @@
+handle: quote
+name: 'renick.content::lang.block.quote.name'
+icon: icon-quote-left
+group: text
+version: 1
+settings: true
+fields:
+  variant:
+    label: 'renick.content::lang.block.quote.variant'
+    type: dropdown
+    default: bordered
+    options:
+      bordered: 'renick.content::lang.block.quote.variant_opt_bordered'
+      centered: 'renick.content::lang.block.quote.variant_opt_centered'
+  text:
+    label: 'renick.content::lang.block.quote.text'
+    type: textarea
+  author:
+    label: 'renick.content::lang.block.quote.author'
+    type: text
+  role:
+    label: 'renick.content::lang.block.quote.role'
+    type: text

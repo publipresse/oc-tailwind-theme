@@ -1,0 +1,50 @@
+{# Testimonials — a Bootstrap row of blockquote cards. Each item renders as a
+   <figure><blockquote>…</blockquote><figcaption>…</figcaption></figure> so the
+   quote/attribution semantics are correct. Two designs, whitelisted here
+   because the template branches on them:
+     cards — a bordered .card per item
+     plain — borderless
+   The rating is a whitelisted 1..5 count of ★ (a bogus value renders none);
+   the avatar is an optional rounded 96×96 crop. Everything is autoescaped. #}
+{% set variant = (data.variant in ['plain']) ? data.variant : 'cards' %}
+
+{# Columns → a 12-col share. 1/2/3 map to col-md-12/6/4; anything else → 2. #}
+{% set columns = (data.columns|default('2')) ~ '' %}
+{% set columns = (columns in ['1', '2', '3']) ? columns : '2' %}
+{% set colClass = {'1': '12', '2': '6', '3': '4'}[columns] %}
+
+{% set items = data.items is iterable ? data.items : [] %}
+<div {{ attributes|raw }}>
+    <div class="row g-4 rc-row">
+        {% for item in items %}
+            {% set quote = (item.quote|default(''))|trim %}
+            {% set author = (item.author|default(''))|trim %}
+            {% set role = (item.role|default(''))|trim %}
+            {% set avatar = (item.avatar|default(''))|trim %}
+            {# Rating: only a plain 1..5 becomes stars; empty/garbage → none. #}
+            {% set rating = (item.rating|default('')) ~ '' %}
+            {% set rating = (rating matches '/^[1-5]$/') ? (rating + 0) : 0 %}
+            <div class="col-12 col-md-{{ colClass }} rc-testimonial-col">
+                <figure class="rc-testimonial{% if variant == 'cards' %} card h-100 rc-testimonial--card{% endif %}">
+                    <div class="{% if variant == 'cards' %}card-body {% endif %}rc-testimonial-body">
+                        {% if rating > 0 %}
+                            <div class="rc-testimonial-rating" aria-label="{{ rc_t('block.front.testimonials_rating', {'rating': rating}, locale) }}">
+                                {% for i in 1..5 %}<span class="rc-star{% if i > rating %} rc-star--empty{% endif %}" aria-hidden="true">★</span>{% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if quote %}<blockquote class="rc-testimonial-quote"><p>{{ quote }}</p></blockquote>{% endif %}
+                        {% if author or role or avatar %}
+                            <figcaption class="rc-testimonial-cite">
+                                {% if avatar %}<img src="{{ avatar|rc_resize(96, 96, {mode: 'crop'}) }}" alt="{{ author }}" width="96" height="96" loading="lazy" class="rc-testimonial-avatar">{% endif %}
+                                <span class="rc-testimonial-meta">
+                                    {% if author %}<span class="rc-testimonial-author">{{ author }}</span>{% endif %}
+                                    {% if role %}<cite class="rc-testimonial-role">{{ role }}</cite>{% endif %}
+                                </span>
+                            </figcaption>
+                        {% endif %}
+                    </div>
+                </figure>
+            </div>
+        {% endfor %}
+    </div>
+</div>

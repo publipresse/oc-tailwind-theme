@@ -1,0 +1,17 @@
+handle: spacer
+name: 'renick.content::lang.block.spacer.name'
+icon: icon-arrows-v
+group: utility
+version: 1
+settings: true
+fields:
+  height:
+    label: 'renick.content::lang.block.spacer.height'
+    type: dropdown
+    options:
+      xs: 'renick.content::lang.block.spacer.height_opt_xs'
+      sm: 'renick.content::lang.block.spacer.height_opt_sm'
+      md: 'renick.content::lang.block.spacer.height_opt_md'
+      lg: 'renick.content::lang.block.spacer.height_opt_lg'
+      xl: 'renick.content::lang.block.spacer.height_opt_xl'
+    default: md

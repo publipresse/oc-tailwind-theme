@@ -1,0 +1,13 @@
+{% props {
+    type: 'checkbox',
+} %}
+
+<label class="flex items-center gap-x-2">
+    <input
+        {{ attributes.merge({
+            class: 'size-4 accent-current ' ~ class,
+            type: type,
+        }) }}
+    />
+    {{ option }}
+</label>

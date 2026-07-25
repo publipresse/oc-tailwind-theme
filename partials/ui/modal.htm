@@ -1,0 +1,42 @@
+{% set id = 'modal-' ~ str_random(10) %}
+<dialog
+    id="{{ id }}"
+    class="group fixed top-0 left-0 w-full h-full max-w-none max-h-none p-8 z-500 open:flex items-center justify-center transition-discrete duration-300"
+    {% if open %}
+        x-init="$el.showModal()"
+    {% endif %}
+>
+    <div
+        class="relative z-2 max-w-[1000px] max-h-[50vh] overflow-y-auto bg-white outline-none transition-discrete duration-300 opacity-0 scale-95 group-open:opacity-100 group-open:scale-100 starting:group-open:opacity-0 starting:group-open:scale-95"
+        data-lenis-prevent
+    >
+        <div class="sticky top-0 overflow-visible flex justify-end">
+            <button
+                class="absolute right-0 top-0 btn mt-2 mr-2 size-10 p-2 rounded-full"
+                @click="$el.closest('dialog').close()"
+                {% if close %}
+                    data-request="{{ close }}" data-request-progress-bar="false"
+                {% endif %}
+            >
+                <svg
+                    xmlns="http://www.w3.org/,2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-5"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        {{ body|raw }}
+    </div>
+    <button
+        class="fixed top-0 left-0 w-full h-full z-1 bg-black/50 transition-discrete duration-300 opacity-0 group-open:opacity-100 starting:group-open:opacity-0"
+        onclick="this.closest('dialog').close()"
+        {% if close %}
+            data-request="{{ close }}" data-request-progress-bar="false"
+        {% endif %}
+    ></button>
+</dialog>

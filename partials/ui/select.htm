@@ -1,0 +1,35 @@
+{%
+    props {
+        id: str_random(10),
+        label: null,
+        comment: null,
+        validation: null,
+        placeholder: null,
+        options: {},
+        selected: null,
+    }
+%}
+
+<div class="group flex flex-col">
+    {% if label %}
+        <label for="{{ id }}">{{ label }}</label>
+    {% endif %}
+    <select {{ attributes.merge({ class: 'w-full p-2 outline-none border-1', id: id }) }}>
+        <button type="button" class="w-full flex items-center justify-between gap-x-2">
+            <selectedcontent></selectedcontent>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-4 shrink-0">
+                <path d="m6 9 6 6 6-6"></path>
+            </svg>
+        </button>
+        {% if placeholder %}
+            <option value="" {% if not selected %}selected{% endif %}>{{ placeholder }}</option>
+        {% endif %}
+        {% for key, option in options %}
+            <option value="{{ key }}" {% if key == selected %}selected{% endif %}>{{ option }}</option>
+        {% endfor %}
+    </select>
+    {% if comment %}
+        <p>{{ comment }}</p>
+    {% endif %}
+    <p data-validate-for="{{ name }}">{{ validation }}</p>
+</div>

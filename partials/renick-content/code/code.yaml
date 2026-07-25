@@ -1,0 +1,38 @@
+# Code — show a snippet of code in a highlighted-looking box (display mode) or
+# inject trusted HTML/embed markup 1:1 into the page (execute mode). Execute is
+# meant for trusted backend editors only; display always autoescapes.
+handle: code
+name: 'renick.content::lang.block.code.name'
+icon: icon-code
+group: utility
+version: 1
+settings: true
+fields:
+  code:
+    label: 'renick.content::lang.block.code.code'
+    type: textarea
+    commentAbove: 'renick.content::lang.block.code.code_comment'
+  mode:
+    label: 'renick.content::lang.block.code.mode'
+    commentAbove: 'renick.content::lang.block.code.mode_comment'
+    type: dropdown
+    options:
+      display: 'renick.content::lang.block.code.mode_opt_display'
+      execute: 'renick.content::lang.block.code.mode_opt_execute'
+    default: display
+  language:
+    label: 'renick.content::lang.block.code.language'
+    type: dropdown
+    options:
+      html: 'renick.content::lang.block.code.language_opt_html'
+      css: 'renick.content::lang.block.code.language_opt_css'
+      js: 'renick.content::lang.block.code.language_opt_js'
+      php: 'renick.content::lang.block.code.language_opt_php'
+      twig: 'renick.content::lang.block.code.language_opt_twig'
+      plain: 'renick.content::lang.block.code.language_opt_plain'
+    default: html
+    commentAbove: 'renick.content::lang.block.code.language_comment'
+  caption:
+    label: 'renick.content::lang.block.code.caption'
+    type: text
+    commentAbove: 'renick.content::lang.block.code.caption_comment'

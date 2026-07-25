@@ -1,0 +1,32 @@
+# Accordion Item — one collapsible panel inside an Accordion. childOnly, so it
+# only appears in the Accordion's add-inside picker (never at the document
+# root), exactly like Column inside Grid. Holds any children.
+handle: accordion-item
+name: 'renick.content::lang.block.accordion-item.name'
+icon: icon-minus-square-o
+group: components
+version: 1
+settings: true
+container: true
+childOnly: true
+fields:
+  title:
+    label: 'renick.content::lang.block.accordion-item.title'
+    type: text
+  title_icon:
+    label: 'renick.content::lang.block.accordion-item.title_icon'
+    type: iconpicker
+    commentAbove: 'renick.content::lang.block.accordion-item.title_icon_comment'
+  # Heading level for the panel header, so an accordion under an <h2> section
+  # can use <h3> and not trip heading-hierarchy checks. Reuses the heading
+  # block's already-localized level labels (default h2 keeps prior markup).
+  heading_level:
+    label: 'renick.content::lang.block.heading.level'
+    type: dropdown
+    options:
+      h2: 'renick.content::lang.block.heading.level_opt_h2'
+      h3: 'renick.content::lang.block.heading.level_opt_h3'
+      h4: 'renick.content::lang.block.heading.level_opt_h4'
+      h5: 'renick.content::lang.block.heading.level_opt_h5'
+      h6: 'renick.content::lang.block.heading.level_opt_h6'
+    default: h2

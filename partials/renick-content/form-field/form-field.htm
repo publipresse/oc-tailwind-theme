@@ -1,0 +1,57 @@
+{# One form input (P17.4). The type is rebuilt from a whitelist; the field
+   name is the authored `name` or a slug of the label; everything visible is
+   autoescaped. Checkbox/switch render as a single toggle row; is_privacy adds
+   data-rc-privacy, which the form script uses to gate the submit button. #}
+{% set type = data.field_type|default('text') %}
+{% if type not in ['text', 'email', 'tel', 'number', 'url', 'date', 'time', 'password', 'hidden', 'textarea', 'select', 'checkbox', 'switch'] %}{% set type = 'text' %}{% endif %}
+{% set label = data.label|default('') %}
+{% set fname = data.name|default('')|trim %}
+{% if fname == '' %}{% set fname = label|lower|replace({' ': '_', 'ä': 'ae', 'ö': 'oe', 'ü': 'ue', 'ß': 'ss'})|replace({'-': '_'}) %}{% endif %}
+{% set fname = fname|replace({'[': '', ']': '', '"': '', "'": ''}) %}
+{% set required = data.required|default(false) in [true, 1, '1', 'true', 'yes'] %}
+{% set isPrivacy = data.is_privacy|default(false) in [true, 1, '1', 'true', 'yes'] %}
+{% set half = data.half_width|default(false) in [true, 1, '1', 'true', 'yes'] %}
+
+{% if type == 'hidden' %}
+<input type="hidden" name="{{ fname }}" value="{{ data.placeholder|default('') }}">
+{% else %}
+<div {{ attributes|replace({'class="': 'class="rc-form-row ' ~ (half ? 'rc-form-row--half ' : '') })|raw }}>
+    {% if type in ['checkbox', 'switch'] %}
+        <label class="rc-form-check">
+            <input type="checkbox" name="{{ fname }}" value="1"
+                   {{ required ? 'required' }}
+                   {% if isPrivacy %}data-rc-privacy{% endif %}>
+            <span>{{ label }}{{ required ? ' *' }}</span>
+        </label>
+    {% elseif type == 'textarea' %}
+        <label class="rc-form-label">
+            <span>{{ label }}{{ required ? ' *' }}</span>
+            <textarea class="rc-form-input" name="{{ fname }}" rows="5" maxlength="5000"
+                      {{ required ? 'required' }}
+                      {% if data.placeholder|default('') %}placeholder="{{ data.placeholder }}"{% endif %}></textarea>
+        </label>
+    {% elseif type == 'select' %}
+        <label class="rc-form-label">
+            <span>{{ label }}{{ required ? ' *' }}</span>
+            <select class="rc-form-input" name="{{ fname }}" {{ required ? 'required' }}>
+                {% if not required %}<option value=""></option>{% endif %}
+                {% for line in data.options|default('')|split("\n") %}
+                    {% set parts = (line ~ '')|split('|', 2) %}
+                    {% set optValue = parts[0]|trim %}
+                    {% if optValue != '' %}
+                        <option value="{{ optValue }}">{{ parts[1] is defined ? parts[1]|trim : optValue }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </label>
+    {% else %}
+        <label class="rc-form-label">
+            <span>{{ label }}{{ required ? ' *' }}</span>
+            <input class="rc-form-input" type="{{ type }}" name="{{ fname }}" maxlength="500"
+                   {{ required ? 'required' }}
+                   {% if data.placeholder|default('') %}placeholder="{{ data.placeholder }}"{% endif %}
+                   {% if type == 'email' %}autocomplete="email"{% elseif fname == 'name' %}autocomplete="name"{% elseif type == 'tel' %}autocomplete="tel"{% endif %}>
+        </label>
+    {% endif %}
+</div>
+{% endif %}

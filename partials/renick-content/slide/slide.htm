@@ -1,0 +1,19 @@
+{# Slide — a Splide list item. With an image the children float as a caption
+   overlay (classic carousel); without one the children ARE the slide (card
+   slider). The block's own attributes ride on an inner div so the <li> keeps
+   the exact classes Splide requires. #}
+<li class="splide__slide rc-slide-item">
+    <div {{ attributes|raw }}>
+        {% if data.image|default('') %}
+            {% set src = data.image|media %}
+            {% set src_webp = data.image|rc_resize(null, null, {extension: 'webp'}) %}
+            <picture>
+                {% if src_webp and src_webp != src %}<source srcset="{{ src_webp }}" type="image/webp">{% endif %}
+                <img src="{{ src }}" alt="{{ data.alt|default('') }}" loading="lazy" class="rc-slide-img">
+            </picture>
+            {% if children|default('') %}<div class="rc-slide-caption">{{ children|raw }}</div>{% endif %}
+        {% else %}
+            <div class="rc-slide-content">{{ children|default('')|raw }}</div>
+        {% endif %}
+    </div>
+</li>

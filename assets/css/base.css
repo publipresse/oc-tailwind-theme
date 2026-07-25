@@ -1,0 +1,84 @@
+@layer base {
+
+    html {
+        scroll-padding-top:var(--spacing-header-h);
+    }
+
+    body {
+        @apply font-md text-md;
+    }
+    
+
+    /* Texts */
+    h1,
+    .h1 {
+        @apply font-h1 text-h1 font-bold;
+    }
+
+    h2,
+    .h2 {
+        @apply font-h2 text-h2 font-bold;
+    }
+
+    h3,
+    .h3 {
+        @apply font-h3 text-h3 font-bold;
+    }
+
+    h4,
+    .h4 {
+        @apply font-h4 text-h4 font-bold;
+    }
+
+    /* Medias */
+    svg,
+    img,
+    video {
+        @apply block max-w-full h-auto
+    }
+    
+    /* Forms */
+    ::placeholder { 
+        @apply text-placeholder;
+    }
+
+    [data-validate-for] {
+        @apply hidden mt-0 text-error text-sm;
+    }
+
+    [data-validate-for].jax-visible {
+        @apply block
+    }
+
+    /* Forms */
+    file-pond {
+        --default-color: #000;
+        --default-border: 1px dashed #000;
+        --default-border-radius: 0;
+        --default-background-color: #f2f2f2;
+        --default-padding: 1rem;
+        padding: 0.5rem;
+    }
+
+    select {
+        appearance: base-select;
+    }
+
+    select::picker(select) {
+        appearance: base-select;
+    }
+
+    select::picker-icon {
+        display: none;
+    }
+
+    select option {
+        @apply p-2;
+    }
+
+    select option[value=""],
+    select:has(option[value=""]:checked) selectedcontent {
+        @apply text-placeholder;
+    }
+
+}

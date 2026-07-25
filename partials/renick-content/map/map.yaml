@@ -1,0 +1,58 @@
+# Map — Leaflet + OpenStreetMap with multiple markers. Tiles are served
+# through the plugin's caching proxy (/renick-content/tiles/…), so the
+# visitor's browser never contacts openstreetmap.org directly (privacy).
+# Leaflet itself ships in the plugin and loads lazily.
+handle: map
+name: 'renick.content::lang.block.map.name'
+icon: icon-map-marker
+group: media
+version: 1
+settings: true
+fields:
+  center:
+    label: 'renick.content::lang.block.map.center'
+    type: text
+    commentAbove: 'renick.content::lang.block.map.center_comment'
+  zoom:
+    label: 'renick.content::lang.block.map.zoom'
+    type: dropdown
+    options:
+      '5': 'renick.content::lang.block.map.zoom_opt_5'
+      '9': 'renick.content::lang.block.map.zoom_opt_9'
+      '11': 'renick.content::lang.block.map.zoom_opt_11'
+      '13': 'renick.content::lang.block.map.zoom_opt_13'
+      '15': 'renick.content::lang.block.map.zoom_opt_15'
+      '17': 'renick.content::lang.block.map.zoom_opt_17'
+    default: '13'
+  markers:
+    label: 'renick.content::lang.block.map.markers'
+    type: repeater
+    titleFrom: label
+    commentAbove: 'renick.content::lang.block.map.markers_comment'
+    fields:
+      lat:
+        label: 'renick.content::lang.block.map.markers_lat'
+        type: text
+      lng:
+        label: 'renick.content::lang.block.map.markers_lng'
+        type: text
+      label:
+        label: 'renick.content::lang.block.map.markers_label'
+        type: text
+  markers_csv:
+    label: 'renick.content::lang.block.map.markers_csv'
+    type: mediafinder
+    maxItems: 1
+    comment: 'renick.content::lang.block.map.markers_csv_comment'
+  fixed_view:
+    label: 'renick.content::lang.block.map.fixed_view'
+    type: switch
+    default: false
+  height:
+    label: 'renick.content::lang.block.map.height'
+    type: dropdown
+    options:
+      sm: 'renick.content::lang.block.map.height_opt_sm'
+      md: 'renick.content::lang.block.map.height_opt_md'
+      lg: 'renick.content::lang.block.map.height_opt_lg'
+    default: md

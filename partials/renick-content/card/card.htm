@@ -1,0 +1,38 @@
+{# Card — every class token is rebuilt from whitelists; the link goes through
+   rc_url. Children render into the body (top) / the overlay (cover). #}
+{% set variant = data.variant|default('top') in ['top', 'cover'] ? data.variant|default('top') : 'top' %}
+{% set aspect = data.aspect|default('') in ['1x1', '4x3', '16x9', '21x9'] ? data.aspect : (variant == 'cover' ? '4x3' : '') %}
+{% set fit = data.fit|default('cover') in ['cover', 'contain'] ? data.fit|default('cover') : 'cover' %}
+{% set focus = data.focus|default('') in ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'] ? data.focus : '' %}
+{% set frameCls = aspect ? ' rc-frame rc-aspect-' ~ aspect ~ ' rc-fit-' ~ fit ~ (focus ? ' rc-focus-' ~ focus : '') : '' %}
+{% set url = data.url|rc_url %}
+{% set titleIcon = rc_icon(data.title_icon|default(''), 18, 'rc-card-icon') %}
+<div {{ attributes|raw }}>
+    {% if variant == 'cover' and data.image %}
+    <div class="card rc-card-inner rc-card--cover text-white h-100">
+        <picture class="card-img d-block{{ frameCls }}">
+            <img src="{{ data.image|media }}" alt="{{ data.alt|default(data.title|default('')) }}" loading="lazy">
+        </picture>
+        <div class="card-img-overlay d-flex flex-column justify-content-end">
+            {% if data.title %}
+                <h3 class="card-title h5">{{ titleIcon|raw }}{% if url %}<a href="{{ url }}" class="stretched-link text-reset text-decoration-none">{{ data.title }}</a>{% else %}{{ data.title }}{% endif %}</h3>
+            {% endif %}
+            {{ children|default('')|raw }}
+        </div>
+    </div>
+    {% else %}
+    <div class="card rc-card-inner h-100">
+        {% if data.image %}
+        <picture class="card-img-top d-block{{ frameCls }}">
+            <img src="{{ data.image|media }}" alt="{{ data.alt|default(data.title|default('')) }}" loading="lazy">
+        </picture>
+        {% endif %}
+        <div class="card-body">
+            {% if data.title %}
+                <h3 class="card-title h5">{{ titleIcon|raw }}{% if url %}<a href="{{ url }}" class="stretched-link text-reset text-decoration-none">{{ data.title }}</a>{% else %}{{ data.title }}{% endif %}</h3>
+            {% endif %}
+            {{ children|default('')|raw }}
+        </div>
+    </div>
+    {% endif %}
+</div>

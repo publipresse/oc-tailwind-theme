@@ -1,0 +1,28 @@
+# Grid — a Bootstrap-style row of Column blocks (plan/05 rev 2026-07-10).
+# Columns carry their own 1-12 width; unset widths share the remaining
+# space automatically. (Legacy grids that still hold non-column children
+# with a data.columns count keep rendering via the fallback in grid.htm.)
+handle: grid
+name: 'renick.content::lang.block.grid.name'
+icon: icon-th
+group: layout
+version: 2
+settings: true
+container: true
+allowChildren:
+  - column
+fields:
+  equal_height:
+    label: 'renick.content::lang.block.grid.equal_height'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.grid.equal_height_opt_empty'
+      'yes': 'renick.content::lang.block.grid.equal_height_opt_yes'
+    default: ''
+  centering:
+    label: 'renick.content::lang.block.grid.centering'
+    type: dropdown
+    options:
+      '': 'renick.content::lang.block.grid.centering_opt_empty'
+      'yes': 'renick.content::lang.block.grid.centering_opt_yes'
+    default: ''

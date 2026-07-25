@@ -1,0 +1,3 @@
+{% set height = data.height|default('md') %}
+{% if height not in ['xs', 'sm', 'md', 'lg', 'xl'] %}{% set height = 'md' %}{% endif %}
+<div {{ attributes|raw }} data-height="{{ height }}" aria-hidden="true"></div>

@@ -1,0 +1,29 @@
+{# Accordion Item — a self-contained Bootstrap 5 .accordion-item. It is
+   rendered INDEPENDENTLY of its parent Accordion (BlockRenderer renders
+   children first, then the container), so it cannot know the parent's id or
+   its own position. It therefore:
+     • generates its OWN unique collapse/header ids from its stable block id
+       (a per-render random for id-less legacy docs), and
+     • emits two placeholder tokens the Accordion partial rewrites afterwards:
+         __RC_ACC_PARENT__ → the parent accordion's id (for data-bs-parent)
+         __RC_ACC_FIRST__  → '' on the first item (kept expanded when the
+                             accordion has first_expanded), ' collapsed' / ''
+                             everywhere else.
+   The title is auto-escaped (no |raw). Real toggling needs Bootstrap's
+   collapse JS, loaded by the theme. #}
+{% set uid = 'rc-acc-' ~ (blockId ?: random(100000000)) %}
+{% set hl = data.heading_level|default('h2') %}
+{% set hl = hl in ['h2', 'h3', 'h4', 'h5', 'h6'] ? hl : 'h2' %}
+<div class="accordion-item rc-accordion-item">
+    <{{ hl }} class="accordion-header" id="{{ uid }}-h">
+        <button class="accordion-button__RC_ACC_FIRST__" type="button"
+                data-bs-toggle="collapse" data-bs-target="#{{ uid }}"
+                aria-expanded="__RC_ACC_EXPANDED__" aria-controls="{{ uid }}">
+            {{ rc_icon(data.title_icon|default(''), 18, 'rc-acc-icon') }}{{ data.title|default('') }}
+        </button>
+    </{{ hl }}>
+    <div id="{{ uid }}" class="accordion-collapse collapse__RC_ACC_SHOW__"
+         aria-labelledby="{{ uid }}-h" data-bs-parent="#__RC_ACC_PARENT__">
+        <div class="accordion-body">{{ children|default('')|raw }}</div>
+    </div>
+</div>

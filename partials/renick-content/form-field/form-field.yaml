@@ -1,0 +1,58 @@
+# Form field — one input inside a form block (childOnly, like column in a
+# grid). The type is whitelisted in the partial; select options come from a
+# textarea (one per line). is_privacy marks the consent checkbox that gates
+# the submit button.
+handle: form-field
+name: 'renick.content::lang.block.form-field.name'
+icon: icon-pencil-square-o
+group: components
+version: 1
+settings: true
+childOnly: true
+fields:
+  field_type:
+    label: 'renick.content::lang.block.form-field.field_type'
+    type: dropdown
+    default: text
+    options:
+      text: 'renick.content::lang.block.form-field.field_type_opt_text'
+      email: 'renick.content::lang.block.form-field.field_type_opt_email'
+      tel: 'renick.content::lang.block.form-field.field_type_opt_tel'
+      number: 'renick.content::lang.block.form-field.field_type_opt_number'
+      url: 'renick.content::lang.block.form-field.field_type_opt_url'
+      date: 'renick.content::lang.block.form-field.field_type_opt_date'
+      time: 'renick.content::lang.block.form-field.field_type_opt_time'
+      password: 'renick.content::lang.block.form-field.field_type_opt_password'
+      hidden: 'renick.content::lang.block.form-field.field_type_opt_hidden'
+      textarea: 'renick.content::lang.block.form-field.field_type_opt_textarea'
+      select: 'renick.content::lang.block.form-field.field_type_opt_select'
+      checkbox: 'renick.content::lang.block.form-field.field_type_opt_checkbox'
+      switch: 'renick.content::lang.block.form-field.field_type_opt_switch'
+  label:
+    label: 'renick.content::lang.block.form-field.label'
+    type: text
+  name:
+    label: 'renick.content::lang.block.form-field.name'
+    type: text
+    comment: 'renick.content::lang.block.form-field.name_comment'
+  placeholder:
+    label: 'renick.content::lang.block.form-field.placeholder'
+    type: text
+  required:
+    label: 'renick.content::lang.block.form-field.required'
+    type: switch
+    default: false
+  options:
+    label: 'renick.content::lang.block.form-field.options'
+    type: textarea
+    size: small
+    commentAbove: 'renick.content::lang.block.form-field.options_comment'
+  is_privacy:
+    label: 'renick.content::lang.block.form-field.is_privacy'
+    type: switch
+    default: false
+    comment: 'renick.content::lang.block.form-field.is_privacy_comment'
+  half_width:
+    label: 'renick.content::lang.block.form-field.half_width'
+    type: switch
+    default: false

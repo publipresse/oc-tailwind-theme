@@ -20,12 +20,11 @@ function onStart() {
 }
 ?>
 ==
-<section id="legal" class="py-md">
-    <div class="container">
-        {% component 'editor' file="mentions-legales/mentions-legales.html" %}
+<section id="legal" class="py-8">
+    <div class="container-md">
+        {% component 'editor' file="mentions-legales/mentions-legales.html" class = 'flex flex-col gap-y-6' %}
         <div id="matomo-opt-out" class="mt-md">
             <script src="https://matomo.publipresse.fr/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=auto&showIntro=1"></script>
         </div>
-    </script>
     </div>
 </section>

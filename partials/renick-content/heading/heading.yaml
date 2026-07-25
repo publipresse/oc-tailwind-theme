@@ -1,0 +1,28 @@
+handle: heading
+name: 'renick.content::lang.block.heading.name'
+icon: icon-header
+group: text
+version: 1
+settings: true
+# Vertical rhythm preset (P19.6): large gap above (closes the previous
+# passage), small gap below (the heading belongs to what follows). Matches
+# HEADING_SPACING_PRESETS for the default level (h2); the editor re-seeds
+# these on level change and the author can override both at any time.
+defaultSettings:
+  spacing_top: lg
+  spacing_bottom: xs
+fields:
+  text:
+    label: 'renick.content::lang.block.heading.text'
+    type: text
+  level:
+    label: 'renick.content::lang.block.heading.level'
+    type: dropdown
+    options:
+      h1: 'renick.content::lang.block.heading.level_opt_h1'
+      h2: 'renick.content::lang.block.heading.level_opt_h2'
+      h3: 'renick.content::lang.block.heading.level_opt_h3'
+      h4: 'renick.content::lang.block.heading.level_opt_h4'
+      h5: 'renick.content::lang.block.heading.level_opt_h5'
+      h6: 'renick.content::lang.block.heading.level_opt_h6'
+    default: h2

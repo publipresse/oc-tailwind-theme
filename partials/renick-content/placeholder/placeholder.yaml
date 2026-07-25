@@ -1,0 +1,24 @@
+# Placeholder — an addressable empty slot in the document. Every placeholder
+# carries the document-stable block id (data-rc-placeholder attribute), so it
+# can be targeted from the outside:
+#   • by another plugin via the renick.content.beforeRenderBlock event
+#     (return a string to replace the rendering), or
+#   • from the frontend via JavaScript / the Custom Scripts extension.
+# In the frontend it renders as an empty <div> (plus optional fallback text);
+# the editor preview shows a visible dashed stand-in with the id instead.
+handle: placeholder
+name: 'renick.content::lang.block.placeholder.name'
+icon: icon-square-o
+group: utility
+version: 1
+settings: true
+fields:
+  label:
+    label: 'renick.content::lang.block.placeholder.label'
+    type: text
+    commentAbove: 'renick.content::lang.block.placeholder.label_comment'
+  fallback:
+    label: 'renick.content::lang.block.placeholder.fallback'
+    type: textarea
+    size: small
+    commentAbove: 'renick.content::lang.block.placeholder.fallback_comment'
