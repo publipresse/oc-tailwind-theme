@@ -1,10 +1,15 @@
-{% set id = 'modal-' ~ str_random(10) %}
+{% set id = id ?? 'modal-' ~ str_random(10) %}
+{% set open = open ?? post('open') ?? null %}
+
 <dialog
     id="{{ id }}"
-    class="group fixed top-0 left-0 w-full h-full max-w-none max-h-none p-8 z-500 open:flex items-center justify-center transition-discrete duration-300"
-    {% if open %}
-        x-init="$el.showModal()"
-    {% endif %}
+    class="group fixed top-0 left-0 w-full h-full max-w-none max-h-none p-8 z-500 open:flex items-center justify-center bg-transparent transition-discrete duration-300"
+    x-init="
+        {% if open %}$el.showModal();{% endif %}
+        $el.addEventListener('close', () => {
+            if ($el.nextElementSibling?.tagName == 'DIALOG') $el.nextElementSibling.showModal();
+        });
+    "
 >
     <div
         class="relative z-2 max-w-[1000px] max-h-[50vh] overflow-y-auto bg-white outline-none transition-discrete duration-300 opacity-0 scale-95 group-open:opacity-100 group-open:scale-100 starting:group-open:opacity-0 starting:group-open:scale-95"
@@ -18,22 +23,16 @@
                     data-request="{{ close }}" data-request-progress-bar="false"
                 {% endif %}
             >
-                <svg
-                    xmlns="http://www.w3.org/,2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
+
             </button>
         </div>
         {{ body|raw }}
     </div>
     <button
-        class="fixed top-0 left-0 w-full h-full z-1 bg-black/50 transition-discrete duration-300 opacity-0 group-open:opacity-100 starting:group-open:opacity-0"
+        class="fixed top-0 left-0 w-full h-full z-1 bg-black/50 backdrop-blur-[2px] transition-discrete duration-300 opacity-0 group-open:opacity-100 starting:group-open:opacity-0"
         onclick="this.closest('dialog').close()"
         {% if close %}
             data-request="{{ close }}" data-request-progress-bar="false"
