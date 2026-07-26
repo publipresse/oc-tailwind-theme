@@ -81,4 +81,8 @@
         @apply text-placeholder;
     }
 
+    button {
+        @apply cursor-pointer block;
+    }
+
 }
