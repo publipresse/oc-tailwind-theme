@@ -1,5 +1,6 @@
 @layer base {
 
+    /* Base */
     html {
         scroll-padding-top:var(--spacing-header-h);
     }
@@ -8,7 +9,6 @@
         @apply font-md text-md;
     }
     
-
     /* Texts */
     h1,
     .h1 {
@@ -50,7 +50,6 @@
         @apply block
     }
 
-    /* Forms */
     file-pond {
         --default-color: #000;
         --default-border: 1px dashed #000;
@@ -82,7 +81,7 @@
     }
 
     button {
-        @apply cursor-pointer block;
+        @apply cursor-pointer inline-flex items-center justify-center;
     }
 
 }
