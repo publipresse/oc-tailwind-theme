@@ -69,15 +69,7 @@ fileTypes[image/jpeg] = "jpg"
 
                 {% partial 'ui/filepond' %}
 
-                {# {% partial 'ui/checkbox' name="Checkbox" type="radio" checked = ['opt1'] options = options %} #}
-                {#
-                {% partial '_forms/select' name="Select" label="Select" options = options placeholder = "Choisissez une option" selected = 'opt2' %}
-                {% partial '_forms/check' parentClass="flex flex-row gap-x-4" type="radio"name="Radio" label="Radio" options = options comment = "ok" %}
-                {% partial '_forms/check' class="toggle" type="checkbox" name="Checkboxes" options = options comment = "ok" checked = "opt2" %}
-                {% partial '_forms/filepond' %}
-                {% partial '_forms/recaptcha' %}
-                #}
-                <button class="btn" type="submit" data-attach-loading>{{ "Envoyez un message"|_ }}</button>
+                <button class="btn btn-primary" type="submit" data-attach-loading>{{ "Envoyez un message"|_ }}</button>
                 <div id="{{ contact.alias }}_forms_flash"></div>
             </div>
         {{ form_close() }}
