@@ -27,6 +27,9 @@
     --spacing: 0.25rem;
     --spacing-header-h: 5rem;
     
+    /* Height */
+    --height-body-h: calc(100dvh - var(--spacing-header-h));
+    
     /* Radius */
     --radius-*: initial;
     --radius-md: 0.375rem;
