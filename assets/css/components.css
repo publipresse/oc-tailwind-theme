@@ -4,7 +4,13 @@
         @apply inline-flex items-center justify-center text-center gap-x-2 px-4 py-2 rounded-md border-1 border-black cursor-pointer;
     }
 
+    .btn-primary {
+        @apply bg-primary border-primary text-white hover:bg-primary/80;
+    }
 
+    .btn-outline-primary {
+        @apply bg-transparent border-primary text-primary hover:border-primary/60 hover:text-primary/60;
+    }
 
 
 }

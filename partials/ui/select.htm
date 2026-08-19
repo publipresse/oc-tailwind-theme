@@ -18,6 +18,8 @@
         w-full p-2 border-none mt-2 text-sm rounded-md
         outline-1 -outline-offset-1 outline-gray-300
         open:outline-2 open:-outline-offset-2 open:outline-primary
+        invalid:outline-error
+        [&[aria-invalid="true"]]:outline-error
     ', id: id }) }}>
         <button type="button" class="pointer-events-none w-full flex items-center justify-between gap-x-2">
                 <selectedcontent></selectedcontent>
@@ -35,5 +37,5 @@
     {% if comment %}
         <p>{{ comment }}</p>
     {% endif %}
-    <p data-validate-for="{{ name }}">{{ validation }}</p>
+    <p class="mt-2 text-sm text-error" data-validate-for="{{ name }}">{{ validation }}</p>
 </div>
