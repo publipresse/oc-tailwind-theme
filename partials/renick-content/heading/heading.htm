@@ -1,3 +1,0 @@
-{% set level = data.level|default('h2')|replace({'h': '', 'H': ''}) %}
-{% if level not in ['1', '2', '3', '4', '5', '6'] %}{% set level = '2' %}{% endif %}
-<h{{ level }} {{ attributes|raw }}>{{ data.text }}</h{{ level }}>

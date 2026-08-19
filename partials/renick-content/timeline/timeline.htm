@@ -1,6 +1,0 @@
-{# Timeline — the layout token is whitelisted; items are already rendered
-   into `children` (each one a .rc-timeline-item). #}
-{% set layout = data.layout|default('left') in ['left', 'alternate'] ? data.layout|default('left') : 'left' %}
-<div {{ layout == 'alternate' ? attributes|replace({'class="': 'class="rc-timeline--alternate '})|raw : attributes|raw }}>
-    <div class="rc-timeline-inner">{{ children|default('')|raw }}</div>
-</div>

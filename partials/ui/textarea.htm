@@ -12,13 +12,19 @@
 
 <div class="group flex flex-col">
     {% if label %}
-        <label for="{{ id }}">{{ label }}</label>
+        <label class="block text-sm font-medium" for="{{ id }}">{{ label }}</label>
     {% endif %}
-    <div class="flex flex-row gap-0 items-stretch justify-between border-1">
+    <div class="
+        flex flex-row gap-0 w-full rounded-md bg-white mt-2 text-sm 
+        outline-1 -outline-offset-1 outline-gray-300 
+        placeholder:text-gray-400 
+        focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary
+        has-[[aria-invalid='true']]:outline-error
+    ">
         <textarea {{ attributes.merge({ class: 'w-full p-2 outline-none', id: id }) }}></textarea>
     </div>
     {% if comment %}
-        <p>{{ comment }}</p>
+        <p class="mt-2 text-sm text-gray-500">{{ comment }}</p>
     {% endif %}
-    <p data-validate-for="{{ name }}">{{ validation }}</p>
+    <p class="mt-2 text-sm text-error" data-validate-for="{{ name }}">{{ validation }}</p>
 </div>

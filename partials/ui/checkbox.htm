@@ -1,13 +1,39 @@
 {% props {
+    id: str_random(10),
     type: 'checkbox',
+    class: type == 'checkbox' ? '' : 'rounded-full',
 } %}
 
-<label class="flex items-center gap-x-2">
-    <input
-        {{ attributes.merge({
-            class: 'size-4 accent-current ' ~ class,
-            type: type,
-        }) }}
-    />
-    {{ option }}
-</label>
+<div class="group flex gap-x-2">
+    <div class="grid self-start mt-1 items-center">
+        <input
+            id="{{ id }}"
+            type="{{ type }}"
+            {{ attributes.merge({
+                class: '
+                    appearance-none rounded-sm size-4 col-start-1 row-start-1
+                    border border-gray-300 bg-white 
+                    checked:border-primary checked:bg-primary 
+                ' ~ class,
+                type: type,
+            }) }}
+        />
+        <div class="pointer-events-none col-start-1 row-start-1 self-center justify-self-center stroke-white fill-white">
+            {% if type == 'radio' %}
+                <svg class="size-3" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-checked:opacity-100"></path>
+                </svg>
+            {% else %}
+                <svg class="size-3" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-checked:opacity-100"></path>
+                </svg>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <label for="{{ id }}" class="font-medium text-sm text-gray-900">{{ option|raw }}</label>
+        {% if comment %}
+            <p class="text-sm text-gray-500">{{ comment }}</p>
+        {% endif %}
+    </div>
+</div>

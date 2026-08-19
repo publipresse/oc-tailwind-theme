@@ -1,5 +1,0 @@
-{# Shared Content — fallback partial only. The actual rendering is wired in
-   Plugin::boot via the beforeRenderBlock event: it resolves the shared piece
-   and renders its document inline (with a recursion guard). This partial
-   renders when that wiring is unavailable (pure unit contexts). #}
-<!-- renick-content: shared content piece {{ data.shared_id|default('?') }} -->
