@@ -52,14 +52,14 @@ fileTypes[image/jpeg] = "jpg"
                 {% partial 'ui/textarea' name="Message" label="Message" placeholder="Message" %}
 
                 <fieldset class="group flex flex-col gap-y-2">
-                    {% for key, option in options %}
+                    {% for key, label in options %}
                         {% partial 'ui/checkbox' name="Checkbox[]" type="checkbox" checked = (key == 'opt3') %}
                     {% endfor %}
                     <p class="mt-2 text-sm text-error" data-validate-for="Checkbox"></p>
                 </fieldset>
 
                 <fieldset class="group flex flex-col gap-y-1">
-                    {% for key, option in options %}
+                    {% for key, label in options %}
                         {% partial 'ui/checkbox' name="Radio" type="radio" checked = (key == 'opt1') %}
                     {% endfor %}
                     <p class="mt-2 text-sm text-error" data-validate-for="Radio"></p>
