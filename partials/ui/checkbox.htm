@@ -1,17 +1,17 @@
 {% props {
     id: str_random(10),
     type: 'checkbox',
-    class: type == 'checkbox' ? '' : 'rounded-full',
+    class: type == 'checkbox' ? 'rounded-sm' : 'rounded-full',
 } %}
 
-<div class="group flex gap-x-2">
-    <div class="grid self-start mt-1 items-center">
+<div class="group flex items-start gap-x-2">
+    <div class="grid shrink-0 items-center mt-0.5">
         <input
             id="{{ id }}"
             type="{{ type }}"
             {{ attributes.merge({
                 class: '
-                    appearance-none rounded-sm size-4 col-start-1 row-start-1
+                    appearance-none  size-4 col-start-1 row-start-1
                     border border-gray-300 bg-white 
                     checked:border-primary checked:bg-primary 
                 ' ~ class,
@@ -30,10 +30,10 @@
             {% endif %}
         </div>
     </div>
-    <div>
-        <label for="{{ id }}" class="font-medium text-sm text-gray-900">{{ label|raw }}</label>
+    <div class="min-w-0">
+        <label for="{{ id }}" class="block font-medium text-sm/5 text-gray-900">{{ label|raw }}</label>
         {% if comment %}
-            <p class="text-sm text-gray-500">{{ comment }}</p>
+            <p class="text-sm/5 text-gray-500">{{ comment }}</p>
         {% endif %}
     </div>
 </div>
