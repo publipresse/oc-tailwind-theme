@@ -131,6 +131,11 @@ function initForm() {
         form.querySelectorAll('[name="' + element.name + '"]').forEach(function(el) {
             el.setAttribute('aria-invalid', 'true');
         });
+
+        const message = form.querySelector('[data-validate-for="' + element.name + '"]');
+        if (message && message.dataset.validateName) {
+            message.textContent = e.detail.errorMsg.join(', ').replace(new RegExp(element.name.replace(/_/g, ' '), 'i'), message.dataset.validateName);
+        }
     });
 
 

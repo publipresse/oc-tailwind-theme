@@ -7,6 +7,7 @@
         placeholder: null,
         options: {},
         selected: null,
+        fieldname: label|default(name),
     }
 %}
 
@@ -37,5 +38,5 @@
     {% if comment %}
         <p>{{ comment }}</p>
     {% endif %}
-    <p class="mt-2 text-sm text-error" data-validate-for="{{ name }}">{{ validation }}</p>
+    <p class="mt-2 text-sm text-error" data-validate-for="{{ name }}" data-validate-name="{{ fieldname }}">{{ validation }}</p>
 </div>

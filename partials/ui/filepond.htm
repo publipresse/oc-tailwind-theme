@@ -1,4 +1,11 @@
+{%
+    props {
+        validation: null,
+        fieldname: label|default(name),
+    }
+%}
+
 <div class="field">
     {% partial '@filepond' %}
-    <p class="validator-hint" data-validate-for="files">{{ validation }}</p>
+    <p data-validate-for="files" data-validate-name="{{ fieldname }}">{{ validation }}</p>
 </div>
