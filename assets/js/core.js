@@ -138,7 +138,6 @@ function initForm() {
         }
     });
 
-
     // Nettoyage des champs au moment de la validation
     addEventListener('ajax:promise', function(e) {
         e.target.querySelectorAll('[aria-invalid]').forEach(function(el) {
@@ -153,9 +152,4 @@ function initForm() {
         // Refresh scroll trigger
         if(typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh() }
     });
-}
-
-// Fonction utilitaire pour calculer une valeur avec Gsap
-function calculateVar(progress, x, y, start, end) {
-    return progress < start ? x : x + (y - x) * (Math.min(progress, 1) - start) / (end - start);
 }

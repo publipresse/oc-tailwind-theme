@@ -12,5 +12,13 @@
         @apply bg-transparent border-primary text-primary hover:border-primary/60 hover:text-primary/60;
     }
 
+    .btn-error {
+        @apply bg-error border-error text-white hover:bg-error/80;
+    }
+
+    .btn-outline-error {
+        @apply bg-transparent border-error text-error hover:border-error/60 hover:text-error/60;
+    }
+
 
 }

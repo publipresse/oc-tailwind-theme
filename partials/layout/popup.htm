@@ -17,8 +17,6 @@ function onStart()
         $lifetime = $cookie->addHours((int) $lifetime)->toDateTimeString();
         $this['cookie'] = $now < $lifetime;
     }
-
-    
 }
 
 function onClosePopup()

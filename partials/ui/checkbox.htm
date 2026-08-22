@@ -1,23 +1,26 @@
-{% props {
-    id: str_random(10),
-    type: 'checkbox',
-    class: type == 'checkbox' ? 'rounded-sm' : 'rounded-full',
-} %}
+{%
+    props {
+        id: str_random(10),
+        type: 'checkbox',
+        class: type == 'checkbox' ? 'rounded-sm' : 'rounded-full',
+    }
+%}
 
 <div class="group flex items-start gap-x-2">
     <div class="grid shrink-0 items-center mt-0.5">
         <input
             id="{{ id }}"
             type="{{ type }}"
-            {{ attributes.merge({
-                class: '
-                    appearance-none  size-4 col-start-1 row-start-1
-                    border border-gray-300 bg-white 
-                    checked:border-primary checked:bg-primary 
-                ' ~ class,
-                type: type,
-            }) }}
-        />
+            {{
+                attributes.merge({
+                    class: '
+                        appearance-none  size-4 col-start-1 row-start-1
+                        border border-gray-300 bg-white
+                        checked:border-primary checked:bg-primary
+                    ' ~ class,
+                    type: type,
+                })
+            }} />
         <div class="pointer-events-none col-start-1 row-start-1 self-center justify-self-center stroke-white fill-white">
             {% if type == 'radio' %}
                 <svg class="size-3" viewBox="0 0 14 14" fill="none">
