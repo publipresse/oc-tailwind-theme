@@ -2,7 +2,7 @@
     props {
         id: null,
         class: null,
-        src: 'assets/img/dummy.jpg'|theme,
+        src: null,
         width: null,
         height: null,
         mode: 'crop',
@@ -10,6 +10,8 @@
         loading: 'lazy',
     }
 %}
+
+{% set src = src|default('assets/img/dummy.jpg'|theme) %}
 
 <img
     {{
