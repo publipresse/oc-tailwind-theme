@@ -35,7 +35,7 @@
             <option value="" {% if not selected %}selected{% endif %}>{{ placeholder }}</option>
         {% endif %}
         {% for key, option in options %}
-            <option value="{{ key }}" {% if key == selected %}selected{% endif %}>{{ option }}</option>
+            <option value="{{ key }}" {% if key == selected %}selected{% endif %}>{{ option|raw }}</option>
         {% endfor %}
     </select>
     {% if comment %}

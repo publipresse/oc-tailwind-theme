@@ -3,6 +3,8 @@
         id: str_random(10),
         type: 'checkbox',
         class: type == 'checkbox' ? 'rounded-sm' : 'rounded-full',
+        label: null,
+        comment: null,
     }
 %}
 
@@ -33,10 +35,10 @@
             {% endif %}
         </div>
     </div>
-    <div class="min-w-0">
-        <label for="{{ id }}" class="block font-medium text-sm/5 text-gray-900">{{ label|raw }}</label>
-        {% if comment %}
-            <p class="text-sm/5 text-gray-500">{{ comment }}</p>
-        {% endif %}
-    </div>
+    
+    <label for="{{ id }}" class="block font-medium text-sm/5 text-gray-900">{{ label|raw }}</label>
+    {% if comment %}
+        <p class="text-sm/5 text-gray-500">{{ comment }}</p>
+    {% endif %}
+
 </div>
