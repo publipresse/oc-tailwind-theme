@@ -13,12 +13,12 @@
 
 <div class="group flex flex-col text-gray-900">
     {% if label %}
-        <label class="block text-sm font-medium text-gray-900" for="{{ id }}">{{ label }}</label>
+        <label class="mb-2 block text-sm font-medium text-gray-900" for="{{ id }}">{{ label }}</label>
     {% endif %}
     <select
         {{
             attributes.merge({ class: '
-                w-full p-2 border-none mt-2 text-sm rounded-md
+                w-full p-2 border-none text-sm rounded-md
                 outline-1 -outline-offset-1 outline-gray-300
                 open:outline-2 open:-outline-offset-2 open:outline-primary
                 invalid:outline-error
