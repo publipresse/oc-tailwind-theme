@@ -12,6 +12,14 @@
         @apply bg-transparent border-primary text-primary hover:border-primary/60 hover:text-primary/60;
     }
 
+    .btn-gray {
+        @apply bg-gray-100 border-gray-100 text-gray-900 hover:bg-gray-200;
+    }
+
+    .btn-outline-gray {
+        @apply bg-transparent border-gray-200 text-gray-900 hover:bg-gray-100 hover:border-gray-100;
+    }
+
     .btn-error {
         @apply bg-error border-error text-white hover:bg-error/80;
     }

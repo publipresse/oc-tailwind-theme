@@ -1,9 +1,13 @@
-{% set id = id ?? 'modal-' ~ str_random(10) %}
-{% set open = open ?? post('open') ?? null %}
+{%
+    props {
+        id: id ?? 'modal-' ~ str_random(10),
+        open: open ?? post('open') ?? null,
+    }
+%}
 
 <dialog
     id="{{ id }}"
-    class="group fixed top-0 left-0 w-full h-full max-w-none max-h-none p-8 z-500 open:flex items-center justify-center bg-transparent transition-discrete duration-300"
+    {{ attributes.merge({ class: 'group fixed top-0 left-0 w-full h-full max-w-none max-h-none p-8 z-500 open:flex items-center justify-center bg-transparent transition-discrete duration-300' }) }}
     x-init="
         {% if open %}$el.showModal();{% endif %}
         $el.addEventListener('close', () => {
