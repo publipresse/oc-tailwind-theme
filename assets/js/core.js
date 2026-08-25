@@ -123,6 +123,7 @@ function initFancybox() {
 
 // Gestion des classes sur un formulaire
 function initForm() {
+    if (initForm.done) { return; } initForm.done = true;
 
     // Champs invalides après soumission
     addEventListener('ajax:invalid-field', function(e) {
@@ -144,12 +145,9 @@ function initForm() {
             el.removeAttribute('aria-invalid');
         });
     });
-    
-    // On réinitialise la fonction en cas de refresh ajax
+
+    // Refresh scroll trigger après chaque mise à jour ajax
     addEventListener('ajax:update-complete', function(e) {
-        // Refresh form
-        initForm();
-        // Refresh scroll trigger
         if(typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh() }
     });
 }
