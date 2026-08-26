@@ -17,7 +17,7 @@
     <div class="relative z-2 max-w-[1000px] max-h-[80vh] overflow-y-auto bg-white outline-none transition-discrete duration-300 opacity-0 scale-95 group-open:opacity-100 group-open:scale-100 starting:group-open:opacity-0 starting:group-open:scale-95" data-lenis-prevent>
         <div class="sticky top-0 overflow-visible flex justify-end">
             <button
-                class="absolute right-0 top-0 btn mt-2 mr-2 size-10 p-2 rounded-full"
+                class="absolute right-0 top-0 btn btn-gray mt-2 mr-2 size-10 p-2 rounded-full"
                 @click="$el.closest('dialog').close()"
                 {% if close %}
                     data-request="{{ close }}" data-request-progress-bar="false"

@@ -15,10 +15,10 @@
     {% if label %}
         <label class="mb-2 block text-sm font-medium text-gray-900" for="{{ id }}">{{ label }}</label>
     {% endif %}
-    <select
+    <select data-lenis-prevent
         {{
             attributes.merge({ class: '
-                w-full p-2 border-none text-sm rounded-md
+                w-full bg-white p-2 border-none text-sm rounded-md
                 outline-1 -outline-offset-1 outline-gray-300
                 open:outline-2 open:-outline-offset-2 open:outline-primary
                 invalid:outline-error
