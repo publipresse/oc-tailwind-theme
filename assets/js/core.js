@@ -10,7 +10,7 @@ function initCore() {
     initGsap();
     initLenis();
     initImages();
-    initHeadroom(offset = 0);
+    initHeadroom();
     initFancybox();
     initForm();
 };
@@ -25,12 +25,21 @@ function initGsap() {
 
 function initLenis() {
 
+    // Detruit l'instance precedente pour eviter d'empiler plusieurs moteurs de scroll
+    if (window.scroll && typeof window.scroll.destroy === 'function') {
+        window.scroll.destroy();
+    }
+
     // Init lenis
     window.scroll = new Lenis();
     window.scroll.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-        window.scroll.raf(time * 1000); // Convert time from seconds to milliseconds
-    });
+
+    if (!initLenis.tickerBound) {
+        initLenis.tickerBound = true;
+        gsap.ticker.add((time) => {
+            window.scroll.raf(time * 1000); // Convert time from seconds to milliseconds
+        });
+    }
     gsap.ticker.lagSmoothing(0);
 
     // Gestion des ancres
@@ -57,9 +66,10 @@ function initLenis() {
 
 // Initialisation du lazyload
 function initImages() {
-    const imagesToResize = document.querySelectorAll('img[sizes]');
+    if (initImages.done) { return; } initImages.done = true;
+
     addEventListener('resize', function(e) {
-        imagesToResize.forEach(function(el) {
+        document.querySelectorAll('img[sizes]').forEach(function(el) {
             const width = el.clientWidth;
             el.sizes = width+'px';
         })
@@ -67,11 +77,16 @@ function initImages() {
 }
 
 // Gestion de l'entête sticky.
-function initHeadroom() {
+function initHeadroom(offset = 0) {
+    // Detruit l'instance precedente (accrochee a l'ancien body remplace par le turbo router)
+    if (initHeadroom.instance) {
+        initHeadroom.instance.kill();
+    }
+
     let el = document.body;
     setClasses(0, 0);
 
-    ScrollTrigger.create({
+    initHeadroom.instance = ScrollTrigger.create({
         trigger: el,
         start: 'top+='+offset+' top',
         end: 'bottom bottom',
