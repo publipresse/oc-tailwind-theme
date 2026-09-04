@@ -1,0 +1,88 @@
+{%
+    props {
+        id: str_random(10),
+        label: null,
+        placeholder: 'Choisir un fichier ou le déposer ici',
+        comment: null,
+        validation: null,
+        multiple: false,
+        fieldname: label|default(name)
+    }
+%}
+
+<div class="group flex flex-col text-gray-900">
+    {% if label %}
+        <label class="mb-2 block text-sm font-medium" for="{{ id }}">{{ label }}</label>
+    {% endif %}
+    <label
+        class="relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-gray-300 bg-white p-6 text-center text-sm transition hover:border-primary hover:bg-gray-50 focus-within:border-primary focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary has-[[aria-invalid='true']]:border-error has-[[aria-invalid='true']]:outline-error"
+        for="{{ id }}"
+        data-file-upload>
+        <span class="font-medium text-gray-900">{{ placeholder }}</span>
+        <span id="{{ id }}-status" class="text-xs text-gray-500" data-file-upload-status>Aucun fichier sélectionné</span>
+        <input {{ attributes.merge({ class: 'absolute inset-0 cursor-pointer opacity-0', type: 'file', id: id, 'aria-describedby': id ~ '-status ' ~ id ~ '-comment ' ~ id ~ '-error' }) }} {% if multiple %}multiple{% endif %} />
+    </label>
+    {% if comment %}
+        <p id="{{ id }}-comment" class="mt-2 text-sm text-gray-500">{{ comment }}</p>
+    {% endif %}
+    <p id="{{ id }}-error" class="mt-2 text-sm text-error" data-validate-for="{{ name|replace({'[]': ''}) }}" data-validate-name="{{ fieldname }}">{{ validation }}</p>
+</div>
+
+{% put scripts once %}
+    <script>
+        (function () {
+            if (window.__fileUploadListenersBound) {
+                return;
+            }
+            window.__fileUploadListenersBound = true;
+
+            function updateStatus(input) {
+                var upload = input.closest('[data-file-upload]');
+                var status = upload.querySelector('[data-file-upload-status]');
+                var files = Array.from(input.files || []);
+
+                if (!files.length) {
+                    status.textContent = 'Aucun fichier sélectionné';
+                    return;
+                }
+
+                if (files.length === 1) {
+                    status.textContent = files[0].name;
+                    return;
+                }
+
+                status.textContent = files.length + ' fichiers sélectionnés';
+            }
+
+            document.addEventListener('change', function (event) {
+                if (event.target.matches('[data-file-upload] input[type="file"]')) {
+                    updateStatus(event.target);
+                }
+            });
+
+            document.addEventListener('dragenter', function (event) {
+                var upload = event.target.closest('[data-file-upload]');
+
+                if (upload) {
+                    upload.classList.add('border-primary', 'bg-gray-50');
+                }
+            });
+
+            document.addEventListener('dragleave', function (event) {
+                var upload = event.target.closest('[data-file-upload]');
+
+                if (upload && !upload.contains(event.relatedTarget)) {
+                    upload.classList.remove('border-primary', 'bg-gray-50');
+                }
+            });
+
+            document.addEventListener('drop', function (event) {
+                var upload = event.target.closest('[data-file-upload]');
+
+                if (upload) {
+                    upload.classList.remove('border-primary', 'bg-gray-50');
+                }
+            });
+        })();
+    </script>
+{% endput %}

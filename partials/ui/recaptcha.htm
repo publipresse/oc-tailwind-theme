@@ -1,4 +1,152 @@
-<div class="group">
-    <div class="validator">{% partial '@recaptcha' %}</div>
-    <p class="validator-hint" data-validate-for="g-recaptcha-response">{{ validation }}</p>
-</div>
+[global recaptcha]
+handle = "Config\Recaptcha"
+
+==
+
+function onStart()
+{
+	static $isRegistered = false;
+
+	if ($isRegistered) {
+		return;
+	}
+
+	$isRegistered = true;
+
+	Event::listen('cms.component.beforeRunAjaxHandler', function ($component, $handler) {
+		if (!post('_recaptcha_enabled')) {
+			return;
+		}
+
+		if (!post('g-recaptcha-response')) {
+			throw \Illuminate\Validation\ValidationException::withMessages([
+				'g-recaptcha-response' => __('Merci de valider le reCAPTCHA.'),
+			]);
+		}
+
+		$recaptcha = \Tailor\Models\GlobalRecord::findForGlobal('Config\Recaptcha');
+		$siteKey = $recaptcha->site_key;
+		$projectId = $recaptcha->project_id;
+		$apiKey = $recaptcha->api_key;
+		$expectedAction = post('_recaptcha_action');
+		$threshold = (float) ($recaptcha->score_threshold ?: 0.5);
+
+		if (!$siteKey || !$projectId || !$apiKey || !$expectedAction) {
+			throw \Illuminate\Validation\ValidationException::withMessages([
+				'g-recaptcha-response' => __('Le reCAPTCHA n’est pas configuré.'),
+			]);
+		}
+
+		$genericError = __('Échec de la vérification anti-spam, merci de réessayer.');
+
+		try {
+			$response = \Illuminate\Support\Facades\Http::timeout(5)->post('https://recaptchaenterprise.googleapis.com/v1/projects/' . rawurlencode($projectId) . '/assessments?key=' . urlencode($apiKey), [
+				'event' => [
+					'siteKey' => $siteKey,
+					'token' => post('g-recaptcha-response'),
+					'expectedAction' => $expectedAction,
+					'userAgent' => request()->userAgent(),
+					'userIpAddress' => request()->ip(),
+				],
+			]);
+		}
+		catch (Throwable $exception) {
+			throw \Illuminate\Validation\ValidationException::withMessages([
+				'g-recaptcha-response' => $genericError,
+			]);
+		}
+
+		if (!$response->successful()) {
+			throw \Illuminate\Validation\ValidationException::withMessages([
+				'g-recaptcha-response' => $genericError,
+			]);
+		}
+
+		$responseData = $response->json();
+		$tokenProperties = $responseData['tokenProperties'] ?? [];
+		$riskAnalysis = $responseData['riskAnalysis'] ?? [];
+
+		if (empty($tokenProperties['valid'])) {
+			throw \Illuminate\Validation\ValidationException::withMessages([
+				'g-recaptcha-response' => __('Le jeton reCAPTCHA est invalide, merci de réessayer.'),
+			]);
+		}
+
+		if (($tokenProperties['action'] ?? null) !== $expectedAction) {
+			throw \Illuminate\Validation\ValidationException::withMessages([
+				'g-recaptcha-response' => __('L’action reCAPTCHA ne correspond pas au formulaire soumis.'),
+			]);
+		}
+
+		if (($riskAnalysis['score'] ?? 0) < $threshold) {
+			throw \Illuminate\Validation\ValidationException::withMessages([
+				'g-recaptcha-response' => $genericError,
+			]);
+		}
+	});
+}
+
+==
+
+{%
+	props {
+		action: 'contact',
+		validation: null,
+		fieldname: 'reCAPTCHA',
+	}
+%}
+
+{% if recaptcha.site_key and recaptcha.project_id and recaptcha.api_key %}
+	<input type="hidden" name="_recaptcha_enabled" value="1">
+	<input type="hidden" name="_recaptcha_action" value="{{ action }}">
+	<input type="hidden" name="g-recaptcha-response" value="">
+	{% put scripts once %}
+		<script src="https://www.google.com/recaptcha/enterprise.js?render={{ recaptcha.site_key|url_encode }}"></script>
+	{% endput %}
+	<script>
+		(function () {
+			var script = document.currentScript;
+			var form = script.closest('form');
+			var partial = script.closest('[data-ajax-partial]');
+
+			if (form.dataset.recaptchaBound) {
+				return;
+			}
+			form.dataset.recaptchaBound = '1';
+
+			var siteKey = '{{ recaptcha.site_key|e('js') }}';
+			var action = '{{ action|e('js') }}';
+			var field = form.querySelector('[data-validate-for="g-recaptcha-response"]');
+
+			function showError(message) {
+				if (field) {
+					field.textContent = message;
+					field.classList.add('jax-visible');
+				}
+			}
+
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+
+				grecaptcha.enterprise.ready(async function () {
+					try {
+						var token = await grecaptcha.enterprise.execute(siteKey, { action: action });
+
+						form.querySelector('[name="g-recaptcha-response"]').value = token;
+						jax.request(partial || form, form.dataset.request, {
+							form: form,
+							partial: (partial && partial.dataset.ajaxPartial) || 'ui/recaptcha',
+						});
+					}
+					catch (error) {
+						showError('{{ 'Échec de la vérification anti-spam, merci de réessayer.'|_|e('js') }}');
+					}
+				});
+			});
+		})();
+	</script>
+	<p class="mt-2 text-sm text-error" data-validate-for="g-recaptcha-response" data-validate-name="{{ fieldname }}">{{ validation }}</p>
+{% else %}
+    {% partial 'ui/alert' type = 'warning' message = "Le reCAPTCHA n’est pas configuré." close = false %}
+{% endif %}

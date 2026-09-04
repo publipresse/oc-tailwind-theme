@@ -1,0 +1,34 @@
+uuid: config_recaptcha
+handle: Config\Recaptcha
+type: global
+name: reCAPTCHA
+multisite: false
+
+navigation:
+    parent: settings
+    category: Général
+    description: Configuration Google reCAPTCHA v3 Premium
+    icon: icon-shield
+    order: 30
+
+fields:
+    site_key:
+        label: Clé de site (Site Key)
+        span: auto
+        tab: Configuration
+    project_id:
+        label: ID du projet Google Cloud
+        span: auto
+        tab: Configuration
+    api_key:
+        label: Clé API Google Cloud
+        span: auto
+        tab: Configuration
+    score_threshold:
+        label: Seuil de score minimum
+        type: number
+        step: 0.1
+        span: auto
+        default: 0.5
+        comment: 'Score reCAPTCHA minimum accepté, entre 0 (probablement un bot) et 1 (probablement humain).'
+        tab: Configuration

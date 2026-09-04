@@ -1,0 +1,52 @@
+uuid: forms_contact
+handle: Forms\Contact
+type: submission
+name: Contact
+showImport: false
+showExport: false
+
+customMessages:
+    buttonCreate: Ajouter un nouveau formulaire
+
+primaryNavigation:
+    label: Formulaires
+    icon: ph ph-check-square
+    order: 900
+
+navigation:
+    label: Contact
+    parent: Forms\Contact
+    icon: ph ph-identification-card
+
+submission:
+    titleTemplate: '[{{ firstname }} {{ lastname }}] - Formulaire de contact'
+    notifyGroup: owners
+    notifyTemplate: tailor:submission
+    notifyReplyTo: email
+    spamSweepDays: 30
+    purgeRejectedDays: 30
+
+fields:
+    firstname:
+        type: text
+        validation: required
+
+    lastname:
+        type: text
+        validation: required
+
+    email:
+        type: email
+        validation: required|email
+
+    phone:
+        type: text
+        validation: required
+
+    message:
+        type: textarea
+        validation: required
+
+    files:
+        type: fileupload
+        maxFiles: 2

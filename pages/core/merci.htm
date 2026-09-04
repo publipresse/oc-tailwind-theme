@@ -1,12 +1,15 @@
+##
 url = "/merci"
 layout = "default"
 title = "Merci"
 meta_title = "Merci pour votre message"
 meta_description = "Nous vous remercions pour votre message, votre demande sera traitée dans les plus brefs délais."
-
+meta_robots = "noindex,nofollow"
 ==
 <?php
 function onStart() {
+    
+    /*
     if(empty(Session::get('contact-form'))) { 
         return Cms::redirect('contact');
     }
@@ -21,17 +24,17 @@ function onStart() {
     }
 
     Session::forget('contact-form');
+    */
 }
 ?>
 ==
-
 {% partial 'layout/core' body %}
     {% put titre %}
         {{ "Merci"|_ }}
     {% endput %}
     {% put message %}
-        <p>{{ "Votre demande a bien été envoyé. Nous allons vous recontacter à l\'adresse :<br><strong class='text-gray-900'>{Email}</strong>"|_ }}</p>
-        <p>{{ "Si Vous avez une erreur dans votre adresse, n\'hésitez pas à nous recontacter par téléphone"|_ }}</p>
+        <p>{{ "Votre demande a bien été envoyé. Nous allons vous recontacter dans les plus brefs délais"|_ }}</p>
+        <p>{{ "Si Vous avez une erreur dans votre adresse, n'hésitez pas à nous recontacter par téléphone"|_ }}</p>
     {% endput %}
     {% put boutons %}
         <a href="{{ 'accueil'|page }}" class="btn btn-primary">
