@@ -1,7 +1,11 @@
-{% props {} %}
+{% props {
+    icon: null,
+    timeout: null,
+    close: null,
+} %}
 {% if type == 'warning' %}
     {% set class = 'border-yellow-200 bg-yellow-50 text-yellow-700' %}
-    {% if not icon is same as(false) %}
+    {% if not icon and not icon is same as(false) %}
         {%
             set icon = '
                 <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-yellow-400">
@@ -12,7 +16,7 @@
     {% endif %}
     {% elseif type == 'error' %}
     {% set class = 'border-red-200 bg-red-50 text-red-700' %}
-    {% if not icon is same as(false) %}
+    {% if not icon and not icon is same as(false) %}
         {%
             set icon = '
                 <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-red-400">
@@ -23,7 +27,7 @@
     {% endif %}
     {% elseif type == 'info' %}
     {% set class = 'border-blue-200 bg-blue-50 text-blue-700' %}
-    {% if not icon is same as(false) %}
+    {% if not icon and not icon is same as(false) %}
         {%
             set icon = '
                 <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-blue-400">
@@ -34,7 +38,7 @@
     {% endif %}
 {% else %}
     {% set class = 'border-green-200 bg-green-50 text-green-700' %}
-    {% if not icon is same as(false) %}
+    {% if not icon and not icon is same as(false) %}
         {%
             set icon = '
                 <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-green-400">
