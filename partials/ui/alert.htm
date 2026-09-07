@@ -55,7 +55,7 @@
     <div class="flex">
         <div class="shrink-0">{{ icon|raw }}</div>
         <div class="ml-3">
-            <p class="text-sm font-medium">{{ message }}</p>
+            <div class="text-sm font-medium">{{ message|raw }}</div>
         </div>
         {% if not close is same as(false) %}
             <div class="ml-auto pl-3 leading-none">
