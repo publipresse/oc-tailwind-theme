@@ -23,12 +23,18 @@
         focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary
         has-[[aria-invalid='true']]:outline-error
     ">
+        {% if hasPlaceholder('prefix') %}
+            {% placeholder prefix %}
+        {% endif %}
         {% if prefix %}
             <span class="border-r-1 border-gray-300 p-2">{{ prefix|raw }}</span>
         {% endif %}
         <input {{ attributes.merge({ class: 'w-full p-2 outline-none', type: type, id: id }) }} />
         {% if suffix %}
             <span class="border-l-1 border-gray-300 p-2">{{ suffix|raw }}</span>
+        {% endif %}
+        {% if hasPlaceholder('suffix') %}
+            {% placeholder suffix %}
         {% endif %}
     </div>
     {% if comment %}
