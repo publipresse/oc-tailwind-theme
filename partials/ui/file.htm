@@ -10,12 +10,12 @@
     }
 %}
 
-<div class="group flex flex-col text-gray-900">
+<div class="group flex flex-col items-start text-gray-900">
     {% if label %}
-        <label class="mb-2 block text-sm font-medium" for="{{ id }}">{{ label }}</label>
+        <label class="mb-2 inline-block text-sm font-medium" for="{{ id }}">{{ label }}</label>
     {% endif %}
     <label
-        class="relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-gray-300 bg-white p-6 text-center text-sm transition hover:border-primary hover:bg-gray-50 focus-within:border-primary focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary has-[[aria-invalid='true']]:border-error has-[[aria-invalid='true']]:outline-error"
+        class="relative flex w-full h-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-gray-300 bg-white p-6 text-center text-sm transition hover:border-primary hover:bg-gray-50 focus-within:border-primary focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary has-[[aria-invalid='true']]:border-error has-[[aria-invalid='true']]:outline-error"
         for="{{ id }}"
         data-file-upload>
         <span class="font-medium text-gray-900">{{ placeholder }}</span>

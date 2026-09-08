@@ -11,13 +11,13 @@
     }
 %}
 
-<div class="group flex flex-col text-gray-900">
+<div class="group flex flex-col items-start text-gray-900 w-full">
     {% if label %}
-        <label class="mb-2 block text-sm font-medium" for="{{ id }}">{{ label }}</label>
+        <label class="mb-2 inline-block text-sm font-medium" for="{{ id }}">{{ label }}</label>
     {% endif %}
     <div
         class="
-        flex flex-row gap-0 w-full rounded-md bg-white text-sm 
+        flex flex-row gap-0 w-full h-full rounded-md bg-white text-sm 
         outline-1 -outline-offset-1 outline-gray-300 
         placeholder:text-gray-400 
         focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary
