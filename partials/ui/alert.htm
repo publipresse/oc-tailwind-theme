@@ -56,9 +56,11 @@
         x-init="setTimeout(() => open = false, {{ timeout }})"
     {% endif %}
     x-show="open">
-    <div class="flex">
-        <div class="shrink-0">{{ icon|raw }}</div>
-        <div class="ml-3">
+    <div class="flex gap-x-4">
+        {% if icon != false %}
+            <div class="shrink-0">{{ icon|raw }}</div>
+        {% endif %}
+        <div>
             <div class="text-sm font-medium space-y-2">{{ message|raw }}</div>
         </div>
         {% if not close is same as(false) %}
