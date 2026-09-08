@@ -60,9 +60,11 @@
         {% if icon != false %}
             <div class="shrink-0">{{ icon|raw }}</div>
         {% endif %}
+        {% placeholder icon %}
         <div>
             <div class="text-sm font-medium space-y-2">{{ message|raw }}</div>
         </div>
+        {% placeholder close %}
         {% if not close is same as(false) %}
             <div class="ml-auto pl-3 leading-none">
                 <button type="button" class="inline-flex rounded-md {{ class }}" @click="open = false">
