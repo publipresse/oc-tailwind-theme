@@ -46,7 +46,14 @@ function initLenis() {
     }
     gsap.ticker.lagSmoothing(0);
 
-    // Gestion des ancres
+    initAnchors();
+}
+
+// Lie le smooth-scroll Lenis aux liens d'ancre. Séparé de initLenis() pour pouvoir
+// re-binder les nouveaux liens après un rafraîchissement ajax (ex. un partial produit
+// qui se remplace entièrement) sans recréer le moteur de scroll à chaque fois — ce qui
+// réinitialiserait la position de scroll en cours.
+function initAnchors() {
     document.querySelectorAll('*[href*="#"]').forEach(function(el) {
         if (el.dataset.anchorScrollBound) { return; }
         el.dataset.anchorScrollBound = 'true';
@@ -157,22 +164,59 @@ function initForm() {
             el.setAttribute('aria-invalid', 'true');
         });
 
+        // [data-validate-for] est masqué par défaut (voir base.css) et n'est révélé
+        // que via la classe .jax-visible — le framework ne l'ajoute pas lui-même ici,
+        // c'est à nous de le faire.
         const message = form.querySelector('[data-validate-for="' + element.name + '"]');
-        if (message && message.dataset.validateName) {
-            message.textContent = e.detail.errorMsg.join(', ').replace(new RegExp(element.name.replace(/_/g, ' '), 'i'), message.dataset.validateName);
+        if (message) {
+            const rawMessage = e.detail.errorMsg.join(', ');
+            // data-validate-name prettifies a generic Laravel message ("the bundle
+            // items.1.product id field is required") by swapping the raw field name
+            // for a human label. Our own custom messages (required bundle slot, out
+            // of stock, ...) are already human-readable, so just show them as-is.
+            message.textContent = message.dataset.validateName
+                ? rawMessage.replace(new RegExp(element.name.replace(/_/g, ' '), 'i'), message.dataset.validateName)
+                : rawMessage;
+            message.classList.add('jax-visible');
         }
     });
+    
+    // Suppression des alertes natives redondantes lorsque des messages inline existent
+    let hasInlineValidationTarget = false;
+    addEventListener('ajax:before-validate', function(e) {
+        const fields = e.detail.fields || {};
+        hasInlineValidationTarget = Object.keys(fields).some(function(fieldName) {
+            const bracketName = fieldName.replace(/\.(\w+)/g, '[$1]');
+            return !!document.querySelector('[data-validate-for="' + bracketName + '"]');
+        });
+    });
 
-    // Nettoyage des champs au moment de la validation
-    addEventListener('ajax:promise', function(e) {
-        e.target.querySelectorAll('[aria-invalid]').forEach(function(el) {
+    addEventListener('ajax:error-message', function(e) {
+        if (hasInlineValidationTarget) {
+            e.preventDefault();
+        }
+        hasInlineValidationTarget = false;
+    });
+
+    // Nettoyage des champs au moment de la validation.
+    addEventListener('ajax:promise', function() {
+        document.querySelectorAll('[aria-invalid]').forEach(function(el) {
             el.removeAttribute('aria-invalid');
+        });
+        document.querySelectorAll('[data-validate-for].jax-visible').forEach(function(el) {
+            el.classList.remove('jax-visible');
         });
     });
 
     // Refresh scroll trigger après chaque mise à jour ajax
     addEventListener('ajax:update-complete', function(e) {
         if(typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh() }
+
+        // Certains blocs (ex. la page produit) se rafraîchissent entièrement à
+        // chaque interaction, remplaçant la galerie et les liens d'ancre à chaque
+        // fois — sans ça, Fancybox resterait lié aux anciennes images retirées du
+        // DOM, et les nouveaux liens d'ancre n'auraient aucun smooth-scroll Lenis.
+        initFancybox();
+        initAnchors();
     });
-}
 }
