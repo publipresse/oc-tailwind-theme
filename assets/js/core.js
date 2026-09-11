@@ -2,6 +2,10 @@ addEventListener('page:loaded', function() {
     initCore();
 });
 
+addEventListener('page:render', function() {
+    initCore();
+});
+
 window.document.addEventListener('offline.boxes.editorRefreshed', function (e) {
     initCore();
 });
@@ -44,6 +48,9 @@ function initLenis() {
 
     // Gestion des ancres
     document.querySelectorAll('*[href*="#"]').forEach(function(el) {
+        if (el.dataset.anchorScrollBound) { return; }
+        el.dataset.anchorScrollBound = 'true';
+
         el.addEventListener('click', function(e) {
             const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--spacing-header-h'));
             const target = el.getAttribute('href');
@@ -127,13 +134,15 @@ function initHeadroom(offset = 0) {
     }
 }
 
-// Initialisation du fancybox
 function initFancybox() {
-    if (typeof Fancybox !== "undefined") {
-        Fancybox.bind("[data-fancybox]", {
-
-        });
+    if (!window.Fancybox) {
+        return;
     }
+
+    Fancybox.unbind('[data-fancybox]');
+    Fancybox.bind('[data-fancybox]', {
+        Hash: false,
+    });
 }
 
 // Gestion des classes sur un formulaire
@@ -165,4 +174,5 @@ function initForm() {
     addEventListener('ajax:update-complete', function(e) {
         if(typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh() }
     });
+}
 }
