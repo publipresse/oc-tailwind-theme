@@ -1,0 +1,43 @@
+handle: pp-cta
+name: Call To Action
+icon: icon-bullhorn
+group: components
+version: 1
+settings: true
+fullBleed: true
+fields:
+    title:
+        label: Titre
+        type: text
+    text:
+        label: Texte
+        type: textarea
+        size: small
+    image:
+        label: Image
+        type: mediafinder
+        mode: image
+        maxItems: 1
+    boutons:
+        label: Boutons
+        type: repeater
+        prompt: Ajouter un bouton
+        fields:
+            label:
+                label: Label
+                type: text
+            url:
+                label: Url
+                type: pagefinder
+                singleMode: true
+                allowCustomUrl: true
+                translatable: false
+            style:
+                label: Style
+                type: dropdown
+                options:
+                    primary: Primaire
+                    secondary: Secondaire
+                    outline-primary: Primaire (outline)
+                    outline-secondary: Secondaire (outline)
+                default: primary

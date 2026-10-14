@@ -1,0 +1,41 @@
+handle: pp-card
+name: Vignette
+icon: icon-id-card
+group: components
+version: 1
+settings: true
+container: true
+fields:
+    variant:
+        label: Variante
+        type: dropdown
+        options:
+            top: Image au dessus
+            cover: Image derrière
+        default: top
+    title:
+        label: Titre
+        type: text
+    image:
+        label: Image
+        type: mediafinder
+        mode: image
+        maxItems: 1
+    alt:
+        label: Alt
+        type: text
+    ratio:
+        label: Ratio de l'image
+        type: dropdown
+        options:
+            1x1: Carré
+            4x3: 4/3
+            16x9: 16/9
+            21x9: Panoramique
+        default: '4x3'
+    url:
+        label: Url
+        type: pagefinder
+        singleMode: true
+        allowCustomUrl: true
+        translatable: false

@@ -1,0 +1,11 @@
+{# Alpine (+ plugin collapse) au lieu du JS Bootstrap : un seul panneau ouvert à la fois, l'état actif vit sur ce conteneur.
+   Les éléments (pp-accordion-item) sont rendus avant leur parent et lui déclarent leur identifiant via data-rc-acc. #}
+{% set firstOpen = data.first_expanded|default('') == 'yes' %}
+{% set faq = data.variant|default('') == 'faq' %}
+<div {{ attributes|raw }}>
+    <div class="group/acc divide-y divide-gray-200 border-y border-gray-200{{ faq ? ' pp-accordion--faq' : '' }}"
+         x-data="{ active: null }"{% if firstOpen %}
+         x-init="active = $el.querySelector('[data-rc-acc]')?.dataset.rcAcc ?? null"{% endif %}>
+        {{ children|default('')|raw }}
+    </div>
+</div>

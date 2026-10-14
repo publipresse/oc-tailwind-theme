@@ -1,0 +1,45 @@
+handle: pp-testimonials
+name: Témoignages
+icon: icon-comments
+group: components
+version: 1
+settings: true
+fields:
+    items:
+        label: Témoignages
+        type: repeater
+        titleFrom: author
+        fields:
+            quote:
+                label: Témoignage
+                type: textarea
+            author:
+                label: Auteur
+                type: text
+            role:
+                label: Rôle
+                type: text
+            avatar:
+                label: Avatar
+                type: mediafinder
+                mode: image
+                maxItems: 1
+            rating:
+                label: Note
+                type: dropdown
+                options:
+                    0: Aucune note
+                    1: 1
+                    2: 2
+                    3: 3
+                    4: 4
+                    5: 5
+                default: 0
+    columns:
+        label: Colonnes
+        type: dropdown
+        options:
+            1: 1
+            2: 2
+            3: 3
+        default: 2

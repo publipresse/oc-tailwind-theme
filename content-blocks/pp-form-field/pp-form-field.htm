@@ -1,0 +1,64 @@
+{% set type = data.field_type|default('text') %}
+{% if type not in ['text', 'email', 'tel', 'number', 'url', 'date', 'time', 'password', 'hidden', 'textarea', 'select', 'checkbox', 'switch'] %}{% set type = 'text' %}{% endif %}
+{% set label = data.label|default('') %}
+{% set fname = data.name|default('')|trim %}
+{% if fname == '' %}{% set fname = label|lower|replace({' ': '_', 'ä': 'ae', 'ö': 'oe', 'ü': 'ue', 'ß': 'ss'})|replace({'-': '_'}) %}{% endif %}
+{% set fname = fname|replace({'[': '', ']': '', '"': '', "'": ''}) %}
+{% set required = data.required|default(false) is same as(true) or data.required|default(false) in [1, '1', 'true', 'yes'] %}
+{% set isPrivacy = data.is_privacy|default(false) is same as(true) or data.is_privacy|default(false) in [1, '1', 'true', 'yes'] %}
+{% set half = data.half_width|default(false) is same as(true) or data.half_width|default(false) in [1, '1', 'true', 'yes'] %}
+{# Mêmes habillages que ui/input, ui/select et ui/checkbox ; aria-invalid est posé par le JS du plugin à l'échec de validation #}
+{% set labelCls = 'mb-2 inline-block text-sm font-medium' %}
+{% set inputCls = 'w-full rounded-md bg-white p-2 text-sm outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary aria-invalid:outline-error' %}
+{% set selectCls = 'w-full rounded-md border-none bg-white p-2 text-sm outline-1 -outline-offset-1 outline-gray-300 open:outline-2 open:-outline-offset-2 open:outline-primary aria-invalid:outline-error' %}
+
+{% if type == 'hidden' %}
+<input type="hidden" name="{{ fname }}" value="{{ data.placeholder|default('') }}">
+{% else %}
+<div {{ attributes|replace({'class="': 'class="mb-4 w-full ' ~ (half ? 'sm:w-[calc(50%-0.5rem)] ' : '')})|raw }}>
+    {% if type in ['checkbox', 'switch'] %}
+        <label class="group flex cursor-pointer items-start gap-x-2">
+            <span class="mt-0.5 grid shrink-0 items-center">
+                <input class="col-start-1 row-start-1 size-4 appearance-none rounded-sm border border-gray-300 bg-white checked:border-primary checked:bg-primary" type="checkbox" name="{{ fname }}" value="1"
+                       {{ required ? 'required' }}
+                       {% if isPrivacy %}data-rc-privacy{% endif %}>
+                <svg class="pointer-events-none col-start-1 row-start-1 size-3 self-center justify-self-center stroke-white opacity-0 group-has-checked:opacity-100" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+            <span class="text-sm/5 font-medium text-gray-900">{{ label }}{{ required ? ' *' }}</span>
+        </label>
+    {% elseif type == 'textarea' %}
+        <label class="block">
+            <span class="{{ labelCls }}">{{ label }}{{ required ? ' *' }}</span>
+            <textarea class="{{ inputCls }} min-h-28" name="{{ fname }}" rows="5" maxlength="5000"
+                      {{ required ? 'required' }}
+                      {% if data.placeholder|default('') %}placeholder="{{ data.placeholder }}"{% endif %}></textarea>
+        </label>
+    {% elseif type == 'select' %}
+        <label class="block">
+            <span class="{{ labelCls }}">{{ label }}{{ required ? ' *' }}</span>
+            <select class="{{ selectCls }}" name="{{ fname }}" {{ required ? 'required' }} data-lenis-prevent>
+                <button type="button" class="pointer-events-none flex w-full items-center justify-between gap-x-2">
+                    <selectedcontent></selectedcontent>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-4 shrink-0"><path d="m6 9 6 6 6-6"></path></svg>
+                </button>
+                {% if not required %}<option value=""></option>{% endif %}
+                {% for line in data.options|default('')|split("\n") %}
+                    {% set parts = (line ~ '')|split('|', 2) %}
+                    {% set optValue = parts[0]|trim %}
+                    {% if optValue != '' %}
+                        <option value="{{ optValue }}">{{ parts[1] is defined ? parts[1]|trim : optValue }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </label>
+    {% else %}
+        <label class="block">
+            <span class="{{ labelCls }}">{{ label }}{{ required ? ' *' }}</span>
+            <input class="{{ inputCls }}" type="{{ type }}" name="{{ fname }}" maxlength="500"
+                   {{ required ? 'required' }}
+                   {% if data.placeholder|default('') %}placeholder="{{ data.placeholder }}"{% endif %}
+                   {% if type == 'email' %}autocomplete="email"{% elseif fname == 'name' %}autocomplete="name"{% elseif type == 'tel' %}autocomplete="tel"{% endif %}>
+        </label>
+    {% endif %}
+</div>
+{% endif %}

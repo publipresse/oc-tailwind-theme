@@ -2,13 +2,14 @@ addEventListener('page:loaded', function() {
     initCore();
 });
 
-addEventListener('page:render', function() {
+addEventListener('ajax:update-complete', function(e) {
     initCore();
 });
 
 window.document.addEventListener('offline.boxes.editorRefreshed', function (e) {
     initCore();
 });
+
 
 function initCore() {
     initGsap();
@@ -29,12 +30,10 @@ function initGsap() {
 
 function initLenis() {
 
-    // Detruit l'instance precedente pour eviter d'empiler plusieurs moteurs de scroll
     if (window.scroll && typeof window.scroll.destroy === 'function') {
         window.scroll.destroy();
     }
 
-    // Init lenis
     window.scroll = new Lenis();
     window.scroll.on('scroll', ScrollTrigger.update);
 
@@ -49,10 +48,7 @@ function initLenis() {
     initAnchors();
 }
 
-// Lie le smooth-scroll Lenis aux liens d'ancre. Séparé de initLenis() pour pouvoir
-// re-binder les nouveaux liens après un rafraîchissement ajax (ex. un partial produit
-// qui se remplace entièrement) sans recréer le moteur de scroll à chaque fois — ce qui
-// réinitialiserait la position de scroll en cours.
+// Gestion des ancres avec Lenis
 function initAnchors() {
     document.querySelectorAll('*[href*="#"]').forEach(function(el) {
         if (el.dataset.anchorScrollBound) { return; }
@@ -92,7 +88,7 @@ function initImages() {
 
 // Gestion de l'entête sticky.
 function initHeadroom(offset = 0) {
-    // Detruit l'instance precedente (accrochee a l'ancien body remplace par le turbo router)
+    
     if (initHeadroom.instance) {
         initHeadroom.instance.kill();
     }
@@ -156,67 +152,56 @@ function initFancybox() {
 function initForm() {
     if (initForm.done) { return; } initForm.done = true;
 
-    // Champs invalides après soumission
-    addEventListener('ajax:invalid-field', function(e) {
-        const element = e.detail.element;
-        const form = element.closest('form');
-        form.querySelectorAll('[name="' + element.name + '"]').forEach(function(el) {
-            el.setAttribute('aria-invalid', 'true');
-        });
-
-        // [data-validate-for] est masqué par défaut (voir base.css) et n'est révélé
-        // que via la classe .jax-visible — le framework ne l'ajoute pas lui-même ici,
-        // c'est à nous de le faire.
-        const message = form.querySelector('[data-validate-for="' + element.name + '"]');
-        if (message) {
-            const rawMessage = e.detail.errorMsg.join(', ');
-            // data-validate-name prettifies a generic Laravel message ("the bundle
-            // items.1.product id field is required") by swapping the raw field name
-            // for a human label. Our own custom messages (required bundle slot, out
-            // of stock, ...) are already human-readable, so just show them as-is.
-            message.textContent = message.dataset.validateName
-                ? rawMessage.replace(new RegExp(element.name.replace(/_/g, ' '), 'i'), message.dataset.validateName)
-                : rawMessage;
-            message.classList.add('jax-visible');
-        }
-    });
-    
-    // Suppression des alertes natives redondantes lorsque des messages inline existent
-    let hasInlineValidationTarget = false;
-    addEventListener('ajax:before-validate', function(e) {
-        const fields = e.detail.fields || {};
-        hasInlineValidationTarget = Object.keys(fields).some(function(fieldName) {
-            const bracketName = fieldName.replace(/\.(\w+)/g, '[$1]');
-            return !!document.querySelector('[data-validate-for="' + bracketName + '"]');
-        });
-    });
-
-    addEventListener('ajax:error-message', function(e) {
-        if (hasInlineValidationTarget) {
-            e.preventDefault();
-        }
-        hasInlineValidationTarget = false;
-    });
-
     // Nettoyage des champs au moment de la validation.
+    let hasInlineMessage = false;
     addEventListener('ajax:promise', function() {
+        hasInlineMessage = false;
         document.querySelectorAll('[aria-invalid]').forEach(function(el) {
             el.removeAttribute('aria-invalid');
         });
-        document.querySelectorAll('[data-validate-for].jax-visible').forEach(function(el) {
-            el.classList.remove('jax-visible');
+        document.querySelectorAll('[data-validate-for]:not([hidden])').forEach(function(el) {
+            el.hidden = true;
         });
     });
 
-    // Refresh scroll trigger après chaque mise à jour ajax
-    addEventListener('ajax:update-complete', function(e) {
-        if(typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh() }
+    // Affichage des messages d'erreur inline après soumission
+    addEventListener('ajax:before-validate', function(e) {
+        const scope = e.target.closest?.('form') || document;
+        const orphanErrors = [];
+        Object.entries(e.detail.fields || {}).forEach(function([fieldName, errors]) {
+            // Nom serveur (items.1.id) vers nom de champ (items[1][id]) ; une erreur
+            // sur un élément de liste (files.0) retombe sur le message de la liste (files)
+            const selector = [fieldName, fieldName.replace(/\.\d+$/, '')].map(function(name) {
+                return '[data-validate-for="' + name.replace(/\.(\w+)/g, '[$1]') + '"]';
+            }).join(', ');
+            const message = scope.querySelector(selector);
+            const text = errors.join(', ');
+            if (!message) { orphanErrors.push(text); return; }
 
-        // Certains blocs (ex. la page produit) se rafraîchissent entièrement à
-        // chaque interaction, remplaçant la galerie et les liens d'ancre à chaque
-        // fois — sans ça, Fancybox resterait lié aux anciennes images retirées du
-        // DOM, et les nouveaux liens d'ancre n'auraient aucun smooth-scroll Lenis.
-        initFancybox();
-        initAnchors();
+            message.textContent = message.dataset.validateName
+                ? text.replace(new RegExp(fieldName.replace(/_/g, ' '), 'i'), message.dataset.validateName)
+                : text;
+            message.hidden = false;
+            hasInlineMessage = true;
+        });
+
+        // Une erreur sans message inline ne doit jamais passer inaperçue : les formulaires
+        // data-request-validate n'affichent aucune alerte native de leur côté
+        if (orphanErrors.length && scope.matches?.('[data-request-validate]')) {
+            alert(orphanErrors.join('\n'));
+        }
+    });
+
+    // Champs invalides après soumission
+    addEventListener('ajax:invalid-field', function(e) {
+        const element = e.detail.element;
+        element.closest('form').querySelectorAll('[name="' + element.name + '"]').forEach(function(el) {
+            el.setAttribute('aria-invalid', 'true');
+        });
+    });
+
+    // Suppression de l'alerte native, redondante lorsqu'un message inline est affiché
+    addEventListener('ajax:error-message', function(e) {
+        if (hasInlineMessage) { e.preventDefault(); }
     });
 }

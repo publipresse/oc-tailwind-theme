@@ -32,16 +32,16 @@ handle = "Forms\Contact"
                 <!--
                 <fieldset class="group flex flex-col gap-y-2">
                     {% for key, label in options %}
-                        {% partial 'ui/checkbox' name="Checkbox[]" type="checkbox" label = label checked = (key == 'opt3') %}
+                        {% partial 'ui/checkbox' name="checkbox[]" type="checkbox" label = label checked = (key == 'opt3') %}
                     {% endfor %}
-                    <p class="mt-2 text-sm text-error" data-validate-for="Checkbox"></p>
+                    <p class="mt-2 text-sm text-error" data-validate-for="checkbox" hidden></p>
                 </fieldset>
 
                 <fieldset class="group flex flex-col gap-y-2">
                     {% for key, label in options %}
-                        {% partial 'ui/checkbox' name="Radio" type="radio" label = label checked = (key == 'opt1') %}
+                        {% partial 'ui/checkbox' name="radio" type="radio" label = label checked = (key == 'opt1') %}
                     {% endfor %}
-                    <p class="mt-2 text-sm text-error" data-validate-for="Radio"></p>
+                    <p class="mt-2 text-sm text-error" data-validate-for="radio" hidden></p>
                 </fieldset>
 
                 {% partial 'ui/select' name="Select" label="Select" options = options placeholder = "Choisissez une option" %}

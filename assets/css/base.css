@@ -1,6 +1,5 @@
 @layer base {
 
-    /* Base */
     html {
         scroll-padding-top:var(--spacing-header-h);
     }
@@ -40,51 +39,15 @@
     }
     
     /* Forms */
-    [data-validate-for] {
-        @apply hidden;
-    }
-
-    [data-validate-for].jax-visible {
-        @apply block
-    }
-
-    file-pond {
-        --default-color: var(--color-gray-900);
-        --default-border: 1px dashed var(--color-gray-300);
-        --default-border-radius: var(--radius-md);
-        --default-background-color: var(--color-gray-100);
-        --default-padding: 1rem;
-        padding: 0.5rem;
-    }
-
     select {
-        appearance: base-select;
-    }
-
-    select::picker(select) {
-        appearance: base-select;
-        @apply border-1 border-gray-300
-    }
-
-    select::picker-icon {
-        display: none;
-    }
-
-    select option {
-        @apply p-2;
-    }
-
-    select option:hover {
-        @apply bg-gray-100;
-    }
-
-    select option:checked {
-        @apply text-primary;
-    }
-
-    select option[value=""],
-    select:has(option[value=""]:checked) selectedcontent {
-        @apply text-gray-400;
+        @apply [appearance:base-select];
+        @apply [&::picker(select)]:[appearance:base-select] [&::picker(select)]:border-1 [&::picker(select)]:border-gray-300;
+        @apply [&::picker-icon]:hidden;
+        @apply [&_option]:p-2;
+        @apply [&_option:hover]:bg-gray-100;
+        @apply [&_option:checked]:text-primary;
+        @apply [&_option[value='']]:text-gray-400;
+        @apply [&:has(option[value='']:checked)_selectedcontent]:text-gray-400;
     }
 
     button {

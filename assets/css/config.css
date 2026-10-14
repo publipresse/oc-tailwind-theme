@@ -8,6 +8,7 @@
 @source "../../pages/**/*.htm";
 @source "../../partials/**/*.htm";
 @source "../../content/**/*.htm";
+@source "../../content-blocks/**/*.htm";
 @source "../../../../plugins/**/*.htm";
 
 @theme {
@@ -22,7 +23,7 @@
     /* Containers */
     --container-*: initial;
     --container-md: 75rem;
-    
+
     /* Spacing */
     --spacing: 0.25rem;
     --spacing-header-h: 5rem;
@@ -84,7 +85,5 @@
     --text-md--line-height: calc(1.5 / 1);
     --text-lg: 1.125rem;
     --text-lg--line-height: calc(1.75 / 1.125);
-
-    /* Fancybox */
-    --f-html-padding: 0;
+    
 }

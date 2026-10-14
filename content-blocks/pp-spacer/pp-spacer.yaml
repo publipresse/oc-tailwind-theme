@@ -1,0 +1,17 @@
+handle: pp-spacer
+name: Espacement
+icon: icon-arrows-v
+group: utility
+version: 1
+settings: true
+fields:
+    height:
+        label: Hauteur
+        type: dropdown
+        options:
+            xs: Très petit
+            sm: Petit
+            md: Moyen
+            lg: Large
+            xl: Extra large
+        default: md

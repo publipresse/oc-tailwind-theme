@@ -1,0 +1,20 @@
+uuid: blog_categories
+handle: Blog\Categories
+type: stream
+name: Catégories
+drafts: false
+showExport: false
+showImport: false
+
+customMessages:
+    buttonCreate: Ajouter une catégorie
+
+navigation:
+    label: Catégories
+    icon: ph ph-folder
+    parent: Blog\Posts
+    order: 20
+
+fields:
+    title:
+        placeholder: Titre de la catégorie

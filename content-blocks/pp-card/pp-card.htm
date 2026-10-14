@@ -1,0 +1,40 @@
+{% set variant = data.variant|default('top') in ['top', 'cover'] ? data.variant|default('top') : 'top' %}
+{% set aspect = data.aspect|default('') in ['1x1', '4x3', '16x9', '21x9'] ? data.aspect : (variant == 'cover' ? '4x3' : '') %}
+{% set fit = data.fit|default('cover') in ['cover', 'contain'] ? data.fit|default('cover') : 'cover' %}
+{% set focus = data.focus|default('') in ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'] ? data.focus : '' %}
+{% set aspects = {'1x1': 'aspect-square', '4x3': 'aspect-4/3', '16x9': 'aspect-video', '21x9': 'aspect-21/9'} %}
+{% set fits = {'cover': 'object-cover', 'contain': 'object-contain'} %}
+{% set focuses = {'top': 'object-top', 'bottom': 'object-bottom', 'left': 'object-left', 'right': 'object-right', 'top-left': 'object-left-top', 'top-right': 'object-right-top', 'bottom-left': 'object-left-bottom', 'bottom-right': 'object-right-bottom'} %}
+{% set frameCls = aspect ? 'block overflow-hidden ' ~ aspects[aspect] : 'block' %}
+{% set imgCls = aspect ? 'size-full ' ~ fits[fit] ~ (focus ? ' ' ~ focuses[focus] : '') : 'h-auto w-full' %}
+{% set url = data.url|rc_url %}
+{% set titleIcon = rc_icon(data.title_icon|default(''), 18, 'mr-1.5 inline-block align-[-0.15em] text-primary') %}
+<div {{ attributes|replace({'class="': 'class="h-full '})|raw }}>
+    {% if variant == 'cover' and data.image %}
+    <div class="relative h-full overflow-hidden rounded-lg text-white shadow-xs">
+        <picture class="{{ frameCls }}">
+            <img src="{{ data.image|media }}" alt="{{ data.alt|default(data.title|default('')) }}" loading="lazy" class="{{ imgCls }}">
+        </picture>
+        <div class="absolute inset-0 flex flex-col justify-end bg-linear-to-b from-transparent from-30% to-gray-900/80 p-6">
+            {% if data.title %}
+                <h3 class="text-lg font-semibold">{{ titleIcon|raw }}{% if url %}<a href="{{ url }}" class="text-inherit no-underline after:absolute after:inset-0">{{ data.title }}</a>{% else %}{{ data.title }}{% endif %}</h3>
+            {% endif %}
+            <div class="text-sm text-white/85">{{ children|default('')|raw }}</div>
+        </div>
+    </div>
+    {% else %}
+    <div class="relative flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs{{ url ? ' transition-shadow hover:shadow-md' : '' }}">
+        {% if data.image %}
+        <picture class="{{ frameCls }}">
+            <img src="{{ data.image|media }}" alt="{{ data.alt|default(data.title|default('')) }}" loading="lazy" class="{{ imgCls }}">
+        </picture>
+        {% endif %}
+        <div class="flex-1 p-6">
+            {% if data.title %}
+                <h3 class="text-lg font-semibold text-gray-900">{{ titleIcon|raw }}{% if url %}<a href="{{ url }}" class="text-inherit no-underline after:absolute after:inset-0">{{ data.title }}</a>{% else %}{{ data.title }}{% endif %}</h3>
+            {% endif %}
+            <div class="text-sm text-gray-600 {{ data.title ? 'mt-2' : '' }}">{{ children|default('')|raw }}</div>
+        </div>
+    </div>
+    {% endif %}
+</div>

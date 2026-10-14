@@ -1,0 +1,66 @@
+{# Lightbox : Fancybox du thème (data-fancybox, branché dans core.js). Ne pas poser .gallery-lightbox, qui déclencherait GLightbox côté plugin #}
+{% set variant = (data.variant in ['labels', 'cards']) ? data.variant : 'simple' %}
+
+{% set cols_m = (data.cols_mobile|default('12')) ~ '' %}
+{% set cols_m = (cols_m matches '/^([1-9]|1[0-2])$/') ? cols_m : '12' %}
+{% set cols_t = (data.cols_tablet|default('6')) ~ '' %}
+{% set cols_t = (cols_t matches '/^([1-9]|1[0-2])$/') ? cols_t : '6' %}
+{% set cols_d = (data.cols_desktop|default('4')) ~ '' %}
+{% set cols_d = (cols_d matches '/^([1-9]|1[0-2])$/') ? cols_d : '4' %}
+
+{# Largeurs sur 12 colonnes (mobile, tablette md, bureau lg) ; les classes sont écrites en toutes lettres pour que Tailwind les détecte #}
+{% set spans = {
+    'base': {'1': 'col-span-1', '2': 'col-span-2', '3': 'col-span-3', '4': 'col-span-4', '5': 'col-span-5', '6': 'col-span-6', '7': 'col-span-7', '8': 'col-span-8', '9': 'col-span-9', '10': 'col-span-10', '11': 'col-span-11', '12': 'col-span-12'},
+    'md': {'1': 'md:col-span-1', '2': 'md:col-span-2', '3': 'md:col-span-3', '4': 'md:col-span-4', '5': 'md:col-span-5', '6': 'md:col-span-6', '7': 'md:col-span-7', '8': 'md:col-span-8', '9': 'md:col-span-9', '10': 'md:col-span-10', '11': 'md:col-span-11', '12': 'md:col-span-12'},
+    'lg': {'1': 'lg:col-span-1', '2': 'lg:col-span-2', '3': 'lg:col-span-3', '4': 'lg:col-span-4', '5': 'lg:col-span-5', '6': 'lg:col-span-6', '7': 'lg:col-span-7', '8': 'lg:col-span-8', '9': 'lg:col-span-9', '10': 'lg:col-span-10', '11': 'lg:col-span-11', '12': 'lg:col-span-12'}
+} %}
+{% set itemCls = spans.base[cols_m] ~ ' ' ~ spans.md[cols_t] ~ ' ' ~ spans.lg[cols_d] %}
+
+{% set thumb_w = (data.thumb_width|default('420')) ~ '' %}
+{% set thumb_w = (thumb_w matches '/^[1-9]\\d{0,3}$/') ? thumb_w : '420' %}
+{% set thumb_h = (data.thumb_height|default('220')) ~ '' %}
+{% set thumb_h = (thumb_h matches '/^[1-9]\\d{0,3}$/') ? thumb_h : '220' %}
+
+{% set group = 'rc-gallery-' ~ (blockId ?: random(100000000)) %}
+{% set items = data.images is iterable ? data.images : (data.images|default('')|replace({',': "\n"})|split("\n")) %}
+<div {{ attributes|raw }}>
+    <div class="grid grid-cols-12 gap-4">
+        {% for item in items %}
+            {% if item is iterable %}
+                {% set path = (item.image|default(''))|trim %}
+                {% set alt = (item.alt|default(''))|trim %}
+                {% set caption = (item.caption|default(''))|trim %}
+            {% else %}
+                {% set parts = (item ~ '')|split('|', 2) %}
+                {% set path = parts[0]|trim %}
+                {% set alt = parts[1] is defined ? parts[1]|trim : '' %}
+                {% set caption = '' %}
+            {% endif %}
+            {% if alt == '' and data.captions|default('hide') == 'show' %}
+                {% set alt = path|split('/')|last %}
+            {% endif %}
+            {% if path %}
+                {% set full = path|media %}
+                {# Quand rc_resize retombe sur l'URL simple, les deux variantes sont identiques et la <source> WebP est ignorée #}
+                {% set thumb = path|rc_resize(thumb_w, thumb_h, {mode: 'crop', extension: 'jpg'}) %}
+                {% set thumb_webp = path|rc_resize(thumb_w, thumb_h, {mode: 'crop', extension: 'webp'}) %}
+                {% set lightbox_title = caption != '' ? caption : alt %}
+                <figure class="{{ itemCls }}">
+                    {# Une image sans titre reçoit un libellé positionnel pour que chaque lien de lightbox ait un nom accessible #}
+                    <a href="{{ full }}"
+                       class="group relative block overflow-hidden rounded-lg bg-gray-100 text-inherit no-underline {{ variant == 'cards' ? 'h-full border border-gray-200 bg-white shadow-xs' : '' }}"
+                       data-fancybox="{{ group }}"{% if lightbox_title %} data-caption="{{ lightbox_title }}"{% else %} aria-label="{{ rc_t('block.front.gallery_view_image', {'index': loop.index, 'total': items|length}, locale) }}"{% endif %}>
+                        {% if variant == 'cards' %}<div class="flex h-full flex-col">{% endif %}
+                        <picture class="block overflow-hidden">
+                            {% if thumb_webp and thumb_webp != thumb %}<source srcset="{{ thumb_webp }}" type="image/webp">{% endif %}
+                            <img src="{{ thumb }}" alt="{{ alt }}" width="{{ thumb_w }}" height="{{ thumb_h }}" loading="lazy" class="h-auto w-full transition duration-300 group-hover:scale-105 group-hover:opacity-90">
+                        </picture>
+                        {% if variant == 'labels' and alt %}<div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-gray-900/75 to-transparent px-4 pt-10 pb-3 text-sm font-medium text-white">{{ alt }}</div>{% endif %}
+                        {% if variant == 'cards' %}{% if alt or caption %}<div class="p-4">{% if alt %}<div class="text-sm font-semibold text-gray-900">{{ alt }}</div>{% endif %}{% if caption %}<div class="mt-1 text-sm text-gray-500">{{ caption }}</div>{% endif %}</div>{% endif %}</div>{% endif %}
+                    </a>
+                    {% if variant == 'simple' and (caption or alt) %}<figcaption class="mt-2 text-sm text-gray-500">{{ caption != '' ? caption : alt }}</figcaption>{% endif %}
+                </figure>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

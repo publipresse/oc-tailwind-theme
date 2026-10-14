@@ -1,0 +1,36 @@
+{% set variant = (data.variant in ['plain']) ? data.variant : 'cards' %}
+
+{% set columns = (data.columns|default('2')) ~ '' %}
+{% set columns = (columns in ['1', '2', '3']) ? columns : '2' %}
+{% set colsClasses = {'1': '', '2': 'md:grid-cols-2', '3': 'md:grid-cols-3'} %}
+
+{% set items = data.items is iterable ? data.items : [] %}
+<div {{ attributes|raw }}>
+    <div class="grid grid-cols-1 gap-6 {{ colsClasses[columns] }}">
+        {% for item in items %}
+            {% set quote = (item.quote|default(''))|trim %}
+            {% set author = (item.author|default(''))|trim %}
+            {% set role = (item.role|default(''))|trim %}
+            {% set avatar = (item.avatar|default(''))|trim %}
+            {% set rating = (item.rating|default('')) ~ '' %}
+            {% set rating = (rating matches '/^[1-5]$/') ? (rating + 0) : 0 %}
+            <figure class="flex h-full flex-col gap-y-4{{ variant == 'cards' ? ' rounded-lg border border-gray-200 bg-white p-6 shadow-xs' : '' }}">
+                {% if rating > 0 %}
+                    <div class="flex gap-x-0.5 leading-none text-yellow-400" role="img" aria-label="{{ rc_t('block.front.testimonials_rating', {'rating': rating}, locale) }}">
+                        {% for i in 1..5 %}<span class="{{ i > rating ? 'text-gray-200' : '' }}" aria-hidden="true">★</span>{% endfor %}
+                    </div>
+                {% endif %}
+                {% if quote %}<blockquote class="text-pretty {{ variant == 'cards' ? 'text-gray-700' : 'text-lg' }}"><p>{{ quote }}</p></blockquote>{% endif %}
+                {% if author or role or avatar %}
+                    <figcaption class="mt-auto flex items-center gap-x-3">
+                        {% if avatar %}<img src="{{ avatar|rc_resize(96, 96, {mode: 'crop'}) }}" alt="{{ author }}" width="96" height="96" loading="lazy" class="size-10 shrink-0 rounded-full bg-gray-100 object-cover">{% endif %}
+                        <span class="flex flex-col text-sm">
+                            {% if author %}<span class="font-semibold">{{ author }}</span>{% endif %}
+                            {% if role %}<cite class="text-gray-500 not-italic">{{ role }}</cite>{% endif %}
+                        </span>
+                    </figcaption>
+                {% endif %}
+            </figure>
+        {% endfor %}
+    </div>
+</div>

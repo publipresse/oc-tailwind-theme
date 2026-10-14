@@ -1,0 +1,27 @@
+url = "/blog/:slug"
+layout = "default"
+title = "Article"
+is_hidden = 1
+
+[section post]
+handle = "Blog\Posts"
+identifier = "slug"
+value = "{{ :slug }}"
+isDefault = 1
+==
+<section class="py-8">
+    <div class="container-md space-y-6">
+
+        <header class="space-y-4">
+            <h1 class="text-3xl font-bold">{{ post.title }}</h1>
+            {% if post.image %}
+                <img src="{{ post.image | media }}" alt="{{ post.title }}" class="w-full rounded-lg object-cover">
+            {% endif %}
+        </header>
+
+        <div class="space-y-6">
+            {{ content_render(post.content)|raw }}
+        </div>
+
+    </div>
+</section>

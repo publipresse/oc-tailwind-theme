@@ -1,0 +1,20 @@
+{% set type = data.type|default('info') %}
+{% set styles = {
+    grey: { wrap: 'border-gray-200 bg-gray-50 text-gray-700', icon: 'text-gray-400', name: 'info' },
+    info: { wrap: 'border-blue-200 bg-blue-50 text-blue-700', icon: 'text-blue-400', name: 'info' },
+    success: { wrap: 'border-green-200 bg-green-50 text-green-700', icon: 'text-green-400', name: 'circle-check' },
+    warning: { wrap: 'border-yellow-200 bg-yellow-50 text-yellow-700', icon: 'text-yellow-400', name: 'triangle-alert' },
+    danger: { wrap: 'border-red-200 bg-red-50 text-red-700', icon: 'text-red-400', name: 'octagon-alert' },
+} %}
+{% set style = styles[type] %}
+{% set iconName = data.icon|default('') != '' ? data.icon : style.name %}
+
+<div {{ attributes|raw }}>
+    <div class="flex gap-x-4 rounded-md border-1 p-4 {{ style.wrap }}">
+        <div class="shrink-0">{{ rc_icon(iconName, 20, 'size-5 ' ~ style.icon) }}</div>
+        <div class="space-y-2 text-sm font-regular">
+            {% if data.title %}<p class="font-semibold">{{ data.title }}</p>{% endif %}
+            {% if data.text %}<p>{{ data.text|nl2br }}</p>{% endif %}
+        </div>
+    </div>
+</div>

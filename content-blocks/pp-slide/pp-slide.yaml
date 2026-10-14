@@ -1,0 +1,8 @@
+handle: pp-slide
+name: 'renick.content::lang.block.slide.name'
+icon: icon-image
+group: media
+version: 1
+settings: true
+container: true
+childOnly: true

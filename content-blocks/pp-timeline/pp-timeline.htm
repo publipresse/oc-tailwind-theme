@@ -1,0 +1,5 @@
+{# La variante alternée est mise en page par components.css (.pp-timeline--alternate) : les lignes sont rendues avant leur parent et ne la connaissent pas #}
+{% set layout = data.layout|default('left') in ['left', 'alternate'] ? data.layout|default('left') : 'left' %}
+<div {{ layout == 'alternate' ? attributes|replace({'class="': 'class="pp-timeline--alternate '})|raw : attributes|raw }}>
+    <div class="pp-timeline-inner">{{ children|default('')|raw }}</div>
+</div>

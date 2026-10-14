@@ -1,0 +1,55 @@
+handle: pp-form
+name: 'renick.content::lang.block.form.name'
+icon: icon-envelope
+group: components
+version: 1
+settings: true
+container: true
+allowChildren:
+    - pp-form-field
+defaultChildren:
+    -
+        type: pp-form-field
+        data:
+            field_type: text
+            label: 'renick.content::lang.block.form.default_field_name'
+            name: name
+            required: true
+    -
+        type: pp-form-field
+        data:
+            field_type: email
+            label: 'renick.content::lang.block.form.default_field_email'
+            name: email
+            required: true
+    -
+        type: pp-form-field
+        data:
+            field_type: textarea
+            label: 'renick.content::lang.block.form.default_field_message'
+            name: message
+            required: true
+    -
+        type: pp-form-field
+        data:
+            field_type: checkbox
+            label: 'renick.content::lang.block.form.default_field_privacy'
+            name: privacy
+            required: true
+            is_privacy: true
+fields:
+    form_name:
+        translatable: false
+        label: 'renick.content::lang.block.form.form_name'
+        type: text
+        default: Contact
+        comment: 'renick.content::lang.block.form.form_name_comment'
+    # No default on purpose: an empty value renders the locale-aware rc_t fallback at render time
+    submit_label:
+        label: 'renick.content::lang.block.form.submit_label'
+        type: text
+    success_message:
+        label: 'renick.content::lang.block.form.success_message'
+        type: textarea
+        size: small
+        commentAbove: 'renick.content::lang.block.form.success_message_comment'

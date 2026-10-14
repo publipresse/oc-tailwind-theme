@@ -1,0 +1,22 @@
+{% set variant = data.variant|default('bordered') %}
+{% if variant not in ['bordered', 'centered'] %}{% set variant = 'bordered' %}{% endif %}
+{% if variant == 'centered' %}
+<figure {{ attributes|replace({'class="': 'class="mx-auto max-w-[45rem] text-center '})|raw }}>
+    {{ rc_icon('quote', 32, 'mx-auto mb-4 text-primary/40') }}
+    <blockquote class="text-h4 font-semibold tracking-tight text-balance">{{ data.text }}</blockquote>
+    {% if data.author %}
+    <figcaption class="mt-6 text-sm">
+        <span class="font-semibold">{{ data.author }}</span>{% if data.role %}<span class="text-gray-500"> · {{ data.role }}</span>{% endif %}
+    </figcaption>
+    {% endif %}
+</figure>
+{% else %}
+<figure {{ attributes|raw }}>
+    <blockquote class="border-l-4 border-primary pl-6 text-lg font-medium text-pretty">{{ data.text }}</blockquote>
+    {% if data.author %}
+    <figcaption class="mt-3 pl-7 text-sm">
+        <span class="font-semibold">{{ data.author }}</span>{% if data.role %}<span class="text-gray-500"> · {{ data.role }}</span>{% endif %}
+    </figcaption>
+    {% endif %}
+</figure>
+{% endif %}

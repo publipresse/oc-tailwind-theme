@@ -1,0 +1,5 @@
+{% set level = data.level|default('h2')|replace({'h': '', 'H': ''}) %}
+{% if level not in ['1', '2', '3', '4', '5', '6'] %}{% set level = '2' %}{% endif %}
+{# h1 à h4 prennent leur taille dans base.css ; h5 et h6 n'y ont pas de style #}
+{% set sizes = {'1': '', '2': '', '3': '', '4': '', '5': 'text-lg font-bold', '6': 'text-md font-bold'} %}
+<h{{ level }} {{ attributes|replace({'class="': 'class="tracking-tight text-balance ' ~ sizes[level] ~ ' '})|raw }}>{{ data.text }}</h{{ level }}>

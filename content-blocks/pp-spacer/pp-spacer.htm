@@ -1,0 +1,3 @@
+{% set height = data.height|default('md') %}
+{% set heights = {'xs': 'h-2', 'sm': 'h-4', 'md': 'h-8', 'lg': 'h-14', 'xl': 'h-20'} %}
+<div {{ attributes|replace({'class="': 'class="' ~ heights[height] ~ ' '})|raw }} data-height="{{ height }}" aria-hidden="true"></div>

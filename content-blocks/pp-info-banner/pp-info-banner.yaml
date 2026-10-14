@@ -1,0 +1,26 @@
+handle: pp-info-banner
+name: Alerte
+icon: icon-warning
+group: components
+version: 1
+settings: true
+fields:
+    type:
+        label: Style
+        type: dropdown
+        options:
+            grey: Neutre
+            info: Info
+            success: Succès
+            warning: Warning
+            danger: Danger
+        default: info
+    icon:
+        label: Picto
+        type: iconpicker
+    title:
+        label: Titre
+        type: text
+    text:
+        label: Texte
+        type: textarea

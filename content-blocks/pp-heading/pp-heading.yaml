@@ -1,0 +1,21 @@
+handle: pp-heading
+name: Titre
+icon: icon-header
+group: text
+version: 1
+settings: true
+fields:
+    title:
+        label: Titre
+        type: text
+    tag:
+        label: Tag
+        type: dropdown
+        options:
+            h1: h1
+            h2: h2
+            h3: h3
+            h4: h4
+            h5: h5
+            h6: h6
+        default: h2

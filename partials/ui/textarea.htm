@@ -28,5 +28,5 @@
     {% if comment %}
         <p class="mt-2 text-sm text-gray-500">{{ comment }}</p>
     {% endif %}
-    <p class="mt-2 text-sm text-error" data-validate-for="{{ name }}" data-validate-name="{{ fieldname }}">{{ validation }}</p>
+    <p class="mt-2 text-sm text-error" data-validate-for="{{ name }}" data-validate-name="{{ fieldname }}"{% if not validation %} hidden{% endif %}>{{ validation }}</p>
 </div>

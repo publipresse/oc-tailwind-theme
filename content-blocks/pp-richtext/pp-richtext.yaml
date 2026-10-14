@@ -1,0 +1,10 @@
+handle: pp-richtext
+name: Texte riche
+icon: icon-paragraph
+group: text
+version: 1
+settings: false
+fields:
+    text:
+        label: Texte
+        type: richeditor

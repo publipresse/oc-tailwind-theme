@@ -1,0 +1,32 @@
+{# Slider : Swiper du thème, initialisé par initSwiper() dans assets/js/core.js à partir de data-swiper.
+   Ne pas poser data-rc-splide : le JS du plugin y brancherait Splide. #}
+{% set perPage = data.per_page|default('1') %}
+{% if perPage not in ['1', '2', '3', '4'] %}{% set perPage = '1' %}{% endif %}
+{% set type = data.type|default('loop') %}
+{% if type not in ['slide', 'loop', 'fade'] %}{% set type = 'loop' %}{% endif %}
+{% set autoplay = data.autoplay|default('') == 'yes' %}
+{% set arrows = data.arrows|default('') != 'no' %}
+{% set pagination = data.pagination|default('') != 'no' %}
+{% set cards = data.card_style|default('') == 'yes' %}
+{% set options = {'type': type, 'perPage': perPage + 0, 'autoplay': autoplay} %}
+{# Slides en cartes : les contrôles passent sous les slides ; sinon les flèches se superposent aux images #}
+{% set ctrlCls = 'flex size-10 items-center justify-center rounded-full bg-white text-gray-700 shadow-md ring-1 ring-gray-950/5 transition hover:text-gray-900 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-40 [&.swiper-button-lock]:hidden' %}
+{% set prevPos = cards ? '' : 'absolute top-1/2 left-3 z-10 -translate-y-1/2' %}
+{% set nextPos = cards ? '' : 'absolute top-1/2 right-3 z-10 -translate-y-1/2' %}
+<div {{ cards ? attributes|replace({'class="': 'class="pp-slider--cards '})|raw : attributes|raw }}>
+    <div class="swiper" data-swiper="{{ options|json_encode }}" aria-label="{{ rc_t('block.front.slider', {}, locale) }}">
+        <div class="swiper-wrapper">{{ children|default('')|raw }}</div>
+        <div class="{{ cards ? 'mt-4 flex items-center justify-center gap-x-4' : 'contents' }}">
+            {% if arrows %}<button type="button" class="rc-swiper-prev {{ prevPos }} {{ ctrlCls }}" aria-label="{{ rc_t('block.front.tailor_list_prev', {}, locale) }}">{{ rc_icon('chevron-left', 20) }}</button>{% endif %}
+            {% if pagination %}<div class="rc-swiper-pagination flex justify-center gap-x-2{{ cards ? '' : ' mt-4' }}"></div>{% endif %}
+            {% if arrows %}<button type="button" class="rc-swiper-next {{ nextPos }} {{ ctrlCls }}" aria-label="{{ rc_t('block.front.tailor_list_next', {}, locale) }}">{{ rc_icon('chevron-right', 20) }}</button>{% endif %}
+        </div>
+        {% if autoplay %}
+            {# initSwiper() échange libellés et icônes au clic ; un défilement automatique doit rester arrêtable (WCAG 2.2.2) #}
+            <button type="button" class="rc-swiper-toggle absolute top-3 right-3 z-10 flex size-8 items-center justify-center rounded-full bg-white text-gray-700 shadow-md ring-1 ring-gray-950/5 transition hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" aria-label="{{ rc_t('block.front.slider_pause', {}, locale) }}" data-play-label="{{ rc_t('block.front.slider_play', {}, locale) }}" data-pause-label="{{ rc_t('block.front.slider_pause', {}, locale) }}">
+                <span class="rc-swiper-toggle-pause">{{ rc_icon('pause', 16) }}</span>
+                <span class="rc-swiper-toggle-play" hidden>{{ rc_icon('play', 16) }}</span>
+            </button>
+        {% endif %}
+    </div>
+</div>

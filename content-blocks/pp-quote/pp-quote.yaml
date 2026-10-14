@@ -1,0 +1,21 @@
+handle: pp-quote
+name: Citation
+icon: icon-quote-left
+group: text
+version: 1
+settings: true
+fields:
+    quote:
+        label: Citation
+        type: textarea
+    author:
+        label: Auteur
+        type: text
+    role:
+        label: Rôle
+        type: text
+    image:
+        label: Avatar
+        type: mediafinder
+        mode: image
+        maxItems: 1

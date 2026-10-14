@@ -1,0 +1,39 @@
+handle: pp-button
+name: Bouton
+icon: icon-hand-pointer-o
+group: components
+version: 1
+settings: true
+fields:
+    label:
+        label: Label
+        type: text
+    url:
+        label: Url
+        type: pagefinder
+        singleMode: true
+        allowCustomUrl: true
+        translatable: false
+    style:
+        label: Style
+        type: dropdown
+        options:
+            primary: Primaire
+            secondary: Secondaire
+            outline-primary: Primaire (outline)
+            outline-secondary: Secondare (outline)
+        default: primary
+    icon:
+        label: Picto
+        type: iconpicker
+    icon_position:
+        label: Position du picto
+        type: dropdown
+        options:
+            left: Gauche
+            right: Droite
+        default: left
+    target:
+        label: Ouvrir dans un nouvel onglet
+        type: switch
+        default: false

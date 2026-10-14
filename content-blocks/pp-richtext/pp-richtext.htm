@@ -1,0 +1,3 @@
+{# data.html est émis avec |raw volontairement (éditeurs de confiance uniquement) : ne pas ajouter de sanitisation #}
+{# La typographie du contenu (listes, liens, tableaux...) est dans components.css, sous .pp-prose #}
+<div {{ attributes|replace({'class="': 'class="pp-prose '})|raw }}>{{ data.html|default('')|raw }}</div>

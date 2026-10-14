@@ -1,0 +1,15 @@
+handle: pp-timeline-item
+name: Élément de timeline
+icon: icon-circle-o
+group: components
+version: 1
+settings: true
+container: true
+childOnly: true
+fields:
+    title:
+        label: Titre
+        type: text
+    text:
+        label: Texte
+        type: textarea

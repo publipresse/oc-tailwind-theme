@@ -1,0 +1,72 @@
+uuid: blog_posts
+handle: Blog\Posts
+type: stream
+name: Blog
+drafts: false
+showExport: false
+showImport: false
+
+customMessages:
+    buttonCreate: Ajouter un article
+
+primaryNavigation:
+    label: Blog
+    icon: ph ph-newspaper-clipping
+    order: 530
+
+navigation:
+    label: Articles
+    icon: ph ph-newspaper
+    parent: Blog\Posts
+    order: 10
+
+fields:
+    title:
+        placeholder: Titre de l'article
+    image:
+        label: Image
+        type: mediafinder
+        mode: image
+    date:
+        label: Date
+        type: datepicker
+        mode: date
+        default: now
+    categories:
+        label: Catégories
+        type: entries
+        displayMode: taglist
+        source: Blog\Categories
+        maxItems: 1
+        
+    content:
+        label: Content
+        type: contenteditor
+        allowBlocks:
+            - pp-heading
+            - pp-quote
+            - pp-richtext
+            - pp-download
+            - pp-gallery
+            - pp-image
+            - pp-map
+            - pp-slide
+            - pp-slider
+            - pp-video
+            - pp-code
+            - pp-spacer
+            - pp-column
+            - pp-grid
+            - pp-section
+            - pp-accordion
+            - pp-accordion-item
+            - pp-anchor
+            - pp-button
+            - pp-card
+            - pp-cta
+            - pp-form
+            - pp-form-field
+            - pp-info-banner
+            - pp-testimonials
+            - pp-timeline
+            - pp-timeline-item

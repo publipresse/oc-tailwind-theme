@@ -1,0 +1,5 @@
+{# Colonne d'une grille 12 colonnes avec gouttière : largeur = (100% + gouttière) × n/12 − gouttière.
+   Sans largeur, la colonne prend sa part égale de la ligne. La gouttière (--rc-gap) vient de pp-grid / pp-card-grid. #}
+{% set span = (data.width|default('')) ~ '' %}
+{% set fixed = span matches '/^([1-9]|1[0-2])$/' %}
+<div {{ attributes|replace({'class="': 'class="w-full min-w-0 ' ~ (fixed ? 'md:w-(--rc-col-w) md:flex-none ' : 'md:flex-1 ')})|raw }}{% if fixed %} style="--rc-col-w:calc((100% + var(--rc-gap, 1.5rem)) * {{ span }} / 12 - var(--rc-gap, 1.5rem))"{% endif %}><div class="pp-column-inner h-full">{{ children|default('')|raw }}</div></div>

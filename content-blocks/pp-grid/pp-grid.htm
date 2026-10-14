@@ -1,0 +1,17 @@
+{% if data.columns is defined and data.columns %}
+{# Ancienne grille : répartition égale pilotée par data.columns #}
+{% set cols = data.columns|default('3') %}
+{% if cols not in ['2', '3', '4'] %}{% set cols = '3' %}{% endif %}
+{% set colsClasses = {'2': 'sm:grid-cols-2', '3': 'sm:grid-cols-3', '4': 'sm:grid-cols-4'} %}
+<div {{ attributes|raw }} data-columns="{{ cols }}">
+    <div class="grid grid-cols-1 gap-6 {{ colsClasses[cols] }}">{{ children|default('')|raw }}</div>
+</div>
+{% else %}
+{# --rc-gap est lue par les colonnes pour calculer leur largeur (voir pp-column) #}
+{% set rowClasses = 'flex flex-wrap gap-(--rc-gap) [--rc-gap:1.5rem]' %}
+{% set rowClasses = rowClasses ~ (data.equal_height|default('') == 'yes' ? ' items-stretch' : ' items-start') %}
+{% if data.centering|default('') == 'yes' %}{% set rowClasses = rowClasses ~ ' justify-center' %}{% endif %}
+<div {{ attributes|raw }}>
+    <div class="{{ rowClasses }}">{{ children|default('')|raw }}</div>
+</div>
+{% endif %}

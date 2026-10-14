@@ -1,0 +1,35 @@
+handle: pp-slider
+name: Slider
+icon: icon-exchange
+group: media
+version: 1
+settings: true
+container: true
+allowChildren:
+    - pp-slide
+fields:
+    slides_per_view:
+        label: Nombre de colonnes
+        type: dropdown
+        options:
+            1: 1
+            2: 2
+            3: 3
+            4: 4
+        default: 1
+    transition:
+        label: Transition
+        type: dropdown
+        options:
+            slide: Slide
+            fade: Fondu
+            loop: Défilement continu
+        default: slide
+    arrows:
+        label: Afficher les flèches
+        type: switch
+        default: true
+    pagination:
+        label: Pagination
+        type: switch
+        default: true

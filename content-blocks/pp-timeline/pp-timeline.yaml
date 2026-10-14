@@ -1,0 +1,9 @@
+handle: pp-timeline
+name: Timeline
+icon: icon-history
+group: components
+version: 1
+settings: true
+container: true
+allowChildren:
+    - pp-timeline-item

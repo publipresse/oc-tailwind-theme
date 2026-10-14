@@ -50,3 +50,4 @@ fields:
     files:
         type: fileupload
         maxFiles: 2
+        validation: required

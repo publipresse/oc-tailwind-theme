@@ -1,0 +1,17 @@
+handle: pp-accordion
+name: Accordéon
+icon: icon-bars
+group: components
+version: 1
+settings: true
+container: true
+allowChildren:
+    - pp-accordion-item
+fields:
+    first_expanded:
+        label: Ouvrir le premier élément par défaut
+        type: dropdown
+        options:
+            - Non
+            - Oui
+        default: 1

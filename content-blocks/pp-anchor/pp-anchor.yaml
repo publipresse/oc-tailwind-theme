@@ -1,0 +1,22 @@
+handle: pp-anchor
+name: Lien
+icon: icon-link
+group: components
+version: 1
+settings: true
+container: true
+fields:
+    href:
+        label: URL
+        type: pagefinder
+        singleMode: true
+        allowCustomUrl: true
+        translatable: false
+    target:
+        label: Ouvrir dans une nouvelle fenêtre
+        type: switch
+        default: false
+    rel:
+        label: Rel
+        type: text
+        comment: Mettre les options comme "nofollow, noopener, etc..."

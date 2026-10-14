@@ -12,6 +12,14 @@
         @apply bg-transparent border-primary text-primary hover:border-primary/60 hover:text-primary/60;
     }
 
+    .btn-secondary {
+        @apply bg-gray-500 border-gray-500 text-white hover:bg-gray-500/80;
+    }
+
+    .btn-outline-secondary {
+        @apply bg-transparent border-gray-500 text-gray-500 hover:border-gray-500/60 hover:text-gray-500/60;
+    }
+
     .btn-gray {
         @apply bg-gray-100 border-gray-100 text-gray-900 hover:bg-gray-200;
     }
@@ -20,11 +28,13 @@
         @apply bg-transparent border-gray-200 text-gray-900 hover:bg-gray-100 hover:border-gray-100;
     }
 
-    .btn-error {
+    .btn-error,
+    .btn-danger {
         @apply bg-error border-error text-white hover:bg-error/80;
     }
 
-    .btn-outline-error {
+    .btn-outline-error,
+    .btn-outline-danger {
         @apply bg-transparent border-error text-error hover:border-error/60 hover:text-error/60;
     }
 

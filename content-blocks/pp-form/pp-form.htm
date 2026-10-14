@@ -1,0 +1,28 @@
+{# Le JS du plugin (data-rc-form) pose la classe rc-form-sent sur le <form> après l'envoi :
+   les états succès et champs passent par group-[.rc-form-sent]. Les accroches data-rc-* et rc-form-* sont celles de ce JS. #}
+<div {{ attributes|raw }}>
+    <form class="rc-form-el group/rc-form max-w-[40rem]"
+          data-rc-form
+          data-endpoint="/renick-content/form"
+          novalidate>
+        <div class="rc-form-success hidden items-center gap-x-3 rounded-md border border-green-200 bg-green-50 p-4 text-sm font-medium text-green-700 group-[.rc-form-sent]/rc-form:flex" role="status" aria-live="polite">
+            {{ data.success_message|default(rc_t('block.front.form_success', {}, locale))|nl2br }}
+        </div>
+        <div class="rc-form-error mb-4 rounded-md border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700" role="alert" hidden></div>
+        <div class="rc-form-fields group-[.rc-form-sent]/rc-form:hidden">
+            <input type="hidden" name="_form" value="{{ data.form_name|default('Contact') }}">
+            {# Honeypot : masqué aux utilisateurs et aux technologies d'assistance #}
+            <div class="sr-only" aria-hidden="true">
+                <label>{{ rc_t('block.front.form_honeypot', {}, locale) }}
+                    <input type="text" name="website" tabindex="-1" autocomplete="off">
+                </label>
+            </div>
+            <div class="flex flex-wrap gap-x-4">{{ children|default('')|raw }}</div>
+            {# forms.ts récupère le défi captcha à l'init ; un défi rendu côté serveur serait figé par le cache de rendu #}
+            <div class="rc-form-captcha mb-4 [&_label]:flex [&_label]:flex-col [&_label]:gap-y-2" data-rc-captcha
+                 data-captcha-label="{{ rc_t('block.front.form_captcha_label', {}, locale) }}"
+                 data-captcha-error="{{ rc_t('block.front.form_captcha_error', {}, locale) }}"></div>
+            <button type="submit" class="btn btn-primary disabled:cursor-not-allowed disabled:opacity-55">{{ data.submit_label|default(rc_t('block.front.form_submit', {}, locale)) }}</button>
+        </div>
+    </form>
+</div>

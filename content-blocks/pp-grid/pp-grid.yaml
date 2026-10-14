@@ -1,0 +1,28 @@
+handle: pp-grid
+name: Grille
+icon: icon-th
+group: layout
+version: 1
+settings: true
+container: true
+allowChildren:
+    - pp-column
+fields:
+    equal_height:
+        label: Hauteur égales
+        type: switch
+        default: true
+    centering:
+        label: Centrer les colonnes
+        type: switch
+        default: true
+    gutters:
+        label: Goutières
+        type: dropdown
+        options:
+            xs: Très petites
+            sm: Petites
+            md: Moyennes
+            lg: Larges
+            xl: Extra larges
+        default: md

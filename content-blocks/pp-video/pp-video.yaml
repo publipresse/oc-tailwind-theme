@@ -1,0 +1,15 @@
+handle: pp-video
+name: Vidéo
+icon: icon-video-camera
+group: media
+version: 1
+settings: true
+fields:
+    external_source:
+        translatable: false
+        label: Source externe (Youtube, Vimeo)
+        type: text
+    internal_source:
+        label: Source interne
+        type: mediafinder
+        maxItems: 1

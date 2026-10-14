@@ -1,0 +1,67 @@
+{% set variant = data.variant|default('hero') %}
+{% if variant not in ['hero', 'hero-split', 'panel', 'minimal', 'bookmark'] %}{% set variant = 'hero' %}{% endif %}
+{% set palette = ['primary', 'secondary', 'light', 'dark', 'outline-primary', 'outline-light'] %}
+{% set btnStyle = data.button_style|default('primary') in palette ? data.button_style|default('primary') : 'primary' %}
+{% set url = data.button_url|rc_url %}
+{% set url2 = data.second_url|rc_url %}
+{% set hasImage = data.image|default('') != '' %}
+
+<div {{ attributes|raw }} data-rc-cta="{{ variant }}">
+{% if variant == 'hero' %}
+    <div class="relative overflow-hidden rounded-2xl px-6 py-16 text-center sm:px-16 sm:py-20 {{ hasImage ? 'bg-cover bg-center text-white before:absolute before:inset-0 before:bg-gray-900/60' : 'border border-gray-200 bg-gray-50' }}"{% if hasImage %} style="background-image:url('{{ data.image|media|rc_css_url }}');"{% endif %}>
+        <div class="relative mx-auto max-w-[45rem]">
+            {% if data.title %}<h2 class="h2 tracking-tight text-balance">{{ data.title }}</h2>{% endif %}
+            {% if data.text %}<p class="mt-6 text-lg text-pretty {{ hasImage ? 'text-white/85' : 'text-gray-600' }}">{{ data.text|nl2br }}</p>{% endif %}
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                {% if data.button_label and url %}<a class="btn btn-{{ btnStyle }} btn-lg" href="{{ url }}">{{ data.button_label }}</a>{% endif %}
+                {% if data.second_label and url2 %}<a class="btn btn-lg {{ hasImage ? 'btn-outline-light' : 'btn-outline-gray' }}" href="{{ url2 }}">{{ data.second_label }}</a>{% endif %}
+            </div>
+            {% if data.footnote %}<p class="mt-6 text-sm {{ hasImage ? 'text-white/70' : 'text-gray-500' }}">{{ data.footnote }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif variant == 'hero-split' %}
+    <div class="grid items-center gap-x-12 gap-y-10 {{ hasImage ? 'lg:grid-cols-2' : '' }}">
+        <div>
+            {% if data.title %}<h2 class="h2 tracking-tight text-balance">{{ data.title }}</h2>{% endif %}
+            {% if data.text %}<p class="mt-6 text-lg text-gray-600 text-pretty">{{ data.text|nl2br }}</p>{% endif %}
+            <div class="mt-8 flex flex-wrap items-center gap-4">
+                {% if data.button_label and url %}<a class="btn btn-{{ btnStyle }}" href="{{ url }}">{{ data.button_label }}</a>{% endif %}
+                {% if data.second_label and url2 %}<a class="btn btn-outline-gray" href="{{ url2 }}">{{ data.second_label }}</a>{% endif %}
+            </div>
+            {% if data.footnote %}<p class="mt-6 text-sm text-gray-500">{{ data.footnote }}</p>{% endif %}
+        </div>
+        {% if hasImage %}
+        <img src="{{ data.image|media }}" alt="{{ data.title|default('') }}" loading="lazy" class="w-full rounded-lg object-cover shadow-lg ring-1 ring-gray-950/10">
+        {% endif %}
+    </div>
+{% elseif variant == 'panel' %}
+    <div class="flex flex-col gap-x-8 gap-y-6 rounded-2xl bg-primary px-6 py-10 text-white sm:px-10 md:flex-row md:items-center md:justify-between">
+        <div class="max-w-[45rem]">
+            {% if data.title %}<h2 class="h3 tracking-tight text-balance">{{ data.title }}</h2>{% endif %}
+            {% if data.text %}<p class="{{ data.title ? 'mt-2 ' : '' }}text-white/80 text-pretty">{{ data.text|nl2br }}</p>{% endif %}
+        </div>
+        {% if data.button_label and url %}
+        <div class="shrink-0">
+            <a class="btn btn-light" href="{{ url }}">{{ data.button_label }}</a>
+        </div>
+        {% endif %}
+    </div>
+{% elseif variant == 'minimal' %}
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-gray-200 bg-white px-5 py-4 shadow-xs">
+        <p class="mr-auto text-sm text-gray-600">{% if data.title %}<strong class="font-semibold text-gray-900">{{ data.title }}</strong>{% endif %}{% if data.text %} {{ data.text }}{% endif %}</p>
+        {% if data.button_label and url %}<a class="text-sm font-semibold whitespace-nowrap text-primary hover:text-primary/80" href="{{ url }}">{{ data.button_label }} <span aria-hidden="true">&rarr;</span></a>{% endif %}
+    </div>
+{% else %}
+    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs md:flex">
+        {% if hasImage %}
+        <img src="{{ data.image|rc_resize(560, 400, {mode: 'crop'}) }}" alt="{{ data.title|default('') }}" loading="lazy" class="aspect-4/3 w-full object-cover md:aspect-auto md:w-72 md:shrink-0">
+        {% endif %}
+        <div class="p-6">
+            {% if data.title %}<p class="h4 tracking-tight">{{ data.title }}</p>{% endif %}
+            {% if data.text %}<p class="mt-2 text-gray-600">{{ data.text|nl2br }}</p>{% endif %}
+            {% if data.footnote %}<p class="mt-2 text-xs text-gray-500">{{ data.footnote }}</p>{% endif %}
+            {% if data.button_label and url %}<a class="btn btn-{{ btnStyle }} btn-sm mt-5" href="{{ url }}" rel="noopener">{{ data.button_label }} <span aria-hidden="true">&rarr;</span></a>{% endif %}
+        </div>
+    </div>
+{% endif %}
+</div>

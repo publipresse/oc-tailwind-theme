@@ -1,0 +1,30 @@
+handle: pp-code
+name: Code
+icon: icon-code
+group: utility
+version: 1
+settings: true
+fields:
+    code:
+        translatable: false
+        label: Code
+        type: textarea
+    mode:
+        label: Mode
+        type: dropdown
+        options:
+            display: Afficher le code
+            execute: Interpréter le code
+        default: display
+    language:
+        label: Language
+        type: dropdown
+        options:
+            html: html
+            css: css
+            js: js
+            php: php
+            twig: twig
+            plain: plain
+        default: html
+        comment: Entête utilisée si le code est en mode Affichage

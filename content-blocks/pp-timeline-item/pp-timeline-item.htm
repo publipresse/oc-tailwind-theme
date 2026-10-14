@@ -1,0 +1,10 @@
+{# La ligne est pp-tl-row ; rc-pp-timeline-item (classe racine du bloc) est portée par le div de contenu #}
+{% set icon = rc_icon(data.icon|default(''), 16) %}
+<div class="pp-tl-row relative flex gap-x-4 pb-10 before:absolute before:top-9 before:-bottom-1 before:left-4 before:w-0.5 before:bg-gray-200 last:pb-1 last:before:hidden">
+    <div class="relative z-1 flex size-8 flex-none items-center justify-center rounded-full border-2 border-primary bg-white text-primary" aria-hidden="true">{% if icon %}{{ icon|raw }}{% else %}<span class="size-2 rounded-full bg-primary"></span>{% endif %}</div>
+    <div {{ attributes|replace({'class="': 'class="flex-auto pt-1 '})|raw }}>
+        {% if data.meta|default('') %}<p class="text-sm font-semibold text-primary">{{ data.meta }}</p>{% endif %}
+        {% if data.title|default('') %}<h3 class="mt-0.5 text-lg font-semibold">{{ data.title }}</h3>{% endif %}
+        <div class="mt-1 text-gray-600">{{ children|default('')|raw }}</div>
+    </div>
+</div>

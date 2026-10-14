@@ -1,0 +1,22 @@
+handle: pp-section
+name: Section
+icon: icon-square-o
+group: layout
+version: 1
+settings: true
+container: true
+fields:
+    title:
+        label: Titre (interne)
+        type: text
+    background_image:
+        label: Image de fond
+        type: mediafinder
+        mode: image
+        maxItems: 1
+    background_color:
+        label: Couleur de fond
+        type: colorpicker
+    font_color:
+        label: Couleur de la police
+        type: colorpicker

@@ -1,0 +1,28 @@
+handle: pp-download
+name: Téléchargements
+icon: icon-download
+group: media
+version: 1
+settings: true
+fields:
+    files:
+        label: Fichiers
+        type: repeater
+        titleFrom: label
+        fields:
+            file:
+                label: Fichier
+                type: mediafinder
+                mode: file
+                maxItems: 1
+            label:
+                label: Intitulé
+                type: text
+            download:
+                label: Activer le téléchargements
+                type: switch
+                default: true
+            view:
+                label: Activer l'ouverture
+                type: switch
+                default: true

@@ -1,0 +1,51 @@
+{% set center = data.center|default('') %}
+{% set centerParts = center|split(',') %}
+{# Les bornes doivent correspondre à rc_map_csv côté serveur : latitude ±90, longitude ±180 #}
+{% set centerOk = center matches '/^\\s*-?\\d{1,3}(\\.\\d+)?\\s*,\\s*-?\\d{1,3}(\\.\\d+)?\\s*$/'
+    and centerParts[0]|default('')|trim|abs <= 90
+    and centerParts[1]|default('')|trim|abs <= 180 %}
+{% set zoom = data.zoom|default('13') matches '/^\\d{1,2}$/' ? data.zoom|default('13') : '13' %}
+{% set height = data.height|default('md') in ['sm', 'md', 'lg'] ? data.height|default('md') : 'md' %}
+{% set heights = {'sm': 'h-70', 'md': 'h-105', 'lg': 'h-140'} %}
+{% set fixed = data.fixed_view|default(false) is same as(true) or data.fixed_view|default(false) in [1, '1', 'true', 'yes'] %}
+{% set coord = '/^-?\\d{1,3}(\\.\\d+)?$/' %}
+{% if centerOk %}
+<div {{ attributes|raw }}>
+    {% if preview %}
+        <div class="rc-map-canvas relative z-0 flex w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-gray-300 bg-gray-50 {{ heights[height] }}">
+            <div class="flex items-center gap-x-2 text-sm text-gray-500">{{ rc_icon('map-pin', 24) }} {{ rc_t('block.front.map_osm', {}, locale) }} ({{ center }}){{ fixed ? ' · fixed view' : '' }}</div>
+        </div>
+    {% else %}
+        {# Leaflet reprend la main sur ce conteneur (data-rc-map) ; les marqueurs ci-dessous ne sont que des données, masquées par components.css #}
+        <div class="rc-map-canvas relative z-0 w-full overflow-hidden rounded-xl bg-gray-100 shadow-xs ring-1 ring-gray-950/10 {{ heights[height] }}" data-rc-map data-center="{{ center|trim }}" data-zoom="{{ zoom }}"{% if fixed %} data-fixed="1"{% endif %}>
+            {% if data.markers is iterable %}
+                {% for row in data.markers %}
+                    {% set lat = (row.lat|default(''))|trim %}
+                    {% set lng = (row.lng|default(''))|trim %}
+                    {% if lat matches coord and lng matches coord and lat|abs <= 90 and lng|abs <= 180 %}
+                        <div data-rc-marker data-pos="{{ lat }},{{ lng }}">{{ row.label|default('')|trim }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {# Ancien format textarea : « lat, lng | libellé » par ligne #}
+                {% for line in data.markers|default('')|split("\n") %}
+                    {% set parts = (line ~ '')|split('|', 2) %}
+                    {% set pos = parts[0]|trim %}
+                    {% set posParts = pos|split(',') %}
+                    {% if pos matches '/^-?\\d{1,3}(\\.\\d+)?\\s*,\\s*-?\\d{1,3}(\\.\\d+)?$/'
+                        and posParts[0]|default('')|trim|abs <= 90
+                        and posParts[1]|default('')|trim|abs <= 180 %}
+                        <div data-rc-marker data-pos="{{ pos }}">{{ parts[1] is defined ? parts[1]|trim : '' }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if data.markers_csv|default('') %}
+                {% for row in rc_map_csv(data.markers_csv) %}
+                    <div data-rc-marker data-pos="{{ row.lat }},{{ row.lng }}">{{ row.label }}</div>
+                {% endfor %}
+            {% endif %}
+            <noscript>{{ rc_t('block.front.map_requires_js', {}, locale) }} <a class="text-primary underline" href="https://www.openstreetmap.org/#map={{ zoom }}/{{ center|replace({' ': ''})|replace({',': '/'}) }}" rel="noopener">openstreetmap.org</a>.</noscript>
+        </div>
+    {% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,25 @@
+{# Rendu avant son parent : `active` vient du x-data de pp-accordion #}
+{% set uid = 'rc-acc-' ~ (blockId ?: random(100000000)) %}
+{% set hl = data.heading_level|default('h2') %}
+{% set hl = hl in ['h2', 'h3', 'h4', 'h5', 'h6'] ? hl : 'h2' %}
+<div class="rc-accordion-item" data-rc-acc="{{ uid }}">
+    <{{ hl }} class="text-md font-semibold">
+        <button type="button" id="{{ uid }}-h"
+                class="flex w-full items-start justify-between gap-x-6 py-5 text-left transition-colors hover:text-primary focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
+                @click="active = active === '{{ uid }}' ? null : '{{ uid }}'"
+                :aria-expanded="active === '{{ uid }}'"
+                aria-controls="{{ uid }}">
+            <span class="flex items-start">
+                <span class="mr-3 hidden shrink-0 text-primary group-[.pp-accordion--faq]/acc:inline-flex">{{ rc_icon('circle-question-mark', 20) }}</span>
+                {{ rc_icon(data.title_icon|default(''), 18, 'mt-1 mr-2 shrink-0 text-primary') }}<span>{{ data.title|default('') }}</span>
+            </span>
+            <span class="mt-0.5 shrink-0 text-gray-400">
+                <span x-show="active !== '{{ uid }}'">{{ rc_icon('plus', 20) }}</span>
+                <span x-show="active === '{{ uid }}'" x-cloak>{{ rc_icon('minus', 20) }}</span>
+            </span>
+        </button>
+    </{{ hl }}>
+    <div id="{{ uid }}" role="region" aria-labelledby="{{ uid }}-h" x-show="active === '{{ uid }}'" x-collapse x-cloak>
+        <div class="pr-12 pb-5 text-gray-600">{{ children|default('')|raw }}</div>
+    </div>
+</div>

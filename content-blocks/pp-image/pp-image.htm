@@ -1,0 +1,25 @@
+{% set aspect = data.aspect|default('') in ['1x1', '4x3', '16x9', '21x9'] ? data.aspect : '' %}
+{% set fit = data.fit|default('cover') in ['cover', 'contain'] ? data.fit|default('cover') : 'cover' %}
+{% set focus = data.focus|default('') in ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'] ? data.focus : '' %}
+{% set aspects = {'1x1': 'aspect-square', '4x3': 'aspect-4/3', '16x9': 'aspect-video', '21x9': 'aspect-21/9'} %}
+{% set fits = {'cover': 'object-cover', 'contain': 'object-contain'} %}
+{% set focuses = {'top': 'object-top', 'bottom': 'object-bottom', 'left': 'object-left', 'right': 'object-right', 'top-left': 'object-left-top', 'top-right': 'object-right-top', 'bottom-left': 'object-left-bottom', 'bottom-right': 'object-right-bottom'} %}
+{% set frameCls = 'block overflow-hidden rounded-lg bg-gray-100' ~ (aspect ? ' ' ~ aspects[aspect] : '') %}
+{% set imgCls = aspect ? 'size-full ' ~ fits[fit] ~ (focus ? ' ' ~ focuses[focus] : '') : 'h-auto w-full' %}
+<figure {{ attributes|raw }}>
+    {% if data.image %}
+        {# Les images générées par IA arrivent en URL absolue ou /storage et sont utilisées telles quelles #}
+        {% set is_absolute = data.image starts with 'http://' or data.image starts with 'https://' or data.image starts with '/storage/' %}
+        {# Plafonné à 1600px de large ; le redimensionneur agrandit, donc les originaux plus petits gardent leur taille #}
+        {% set dims = is_absolute ? null : rc_image_size(data.image) %}
+        {% set width = dims and dims[0] > 1600 ? 1600 : null %}
+        {% set src = is_absolute ? data.image : (width ? data.image|rc_resize(width, null, {mode: 'auto'}) : data.image|media) %}
+        {% set src_webp = is_absolute ? null : data.image|rc_resize(width, null, {mode: 'auto', extension: 'webp'}) %}
+        {% set attrW = dims ? (width ?: dims[0]) : null %}
+        <picture class="{{ frameCls }}">
+            {% if src_webp and src_webp != src %}<source srcset="{{ src_webp }}" type="image/webp">{% endif %}
+            <img src="{{ src }}" alt="{{ data.alt|default('') }}" loading="lazy" class="{{ imgCls }}"{% if attrW %} width="{{ attrW }}" height="{{ (dims[1] * attrW / dims[0])|round }}"{% endif %}>
+        </picture>
+    {% endif %}
+    {% if data.caption %}<figcaption class="mt-2 text-sm text-gray-500">{{ data.caption }}</figcaption>{% endif %}
+</figure>

@@ -1,0 +1,20 @@
+{# Les attributs du bloc sont posés sur un div interne : le .swiper-slide reste exactement ce que Swiper attend #}
+<div class="swiper-slide">
+    <div {{ attributes|replace({'class="': 'class="relative h-full overflow-hidden rounded-xl '})|raw }}>
+        {% if data.image|default('') %}
+            {# Plafonné à 1600px de large ; le redimensionneur agrandit, donc les originaux plus petits gardent leur taille #}
+            {% set dims = rc_image_size(data.image) %}
+            {% set width = dims and dims[0] > 1600 ? 1600 : null %}
+            {% set src = width ? data.image|rc_resize(width, null, {mode: 'auto'}) : data.image|media %}
+            {% set src_webp = data.image|rc_resize(width, null, {mode: 'auto', extension: 'webp'}) %}
+            {% set attrW = dims ? (width ?: dims[0]) : null %}
+            <picture class="block">
+                {% if src_webp and src_webp != src %}<source srcset="{{ src_webp }}" type="image/webp">{% endif %}
+                <img src="{{ src }}" alt="{{ data.alt|default('') }}" loading="lazy" class="block aspect-16/7 w-full object-cover"{% if attrW %} width="{{ attrW }}" height="{{ (dims[1] * attrW / dims[0])|round }}"{% endif %}>
+            </picture>
+            {% if children|default('') %}<div class="absolute inset-x-0 bottom-0 bg-linear-to-b from-transparent to-gray-900/80 px-6 pt-12 pb-6 text-white">{{ children|raw }}</div>{% endif %}
+        {% else %}
+            <div class="pp-slide-content h-full">{{ children|default('')|raw }}</div>
+        {% endif %}
+    </div>
+</div>

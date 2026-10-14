@@ -1,0 +1,27 @@
+handle: pp-column
+name: Colonne
+icon: icon-columns
+group: layout
+version: 1
+settings: true
+container: true
+childOnly: true
+fields:
+    width:
+        label: Largeur
+        type: dropdown
+        options:
+            0: Auto (Occupe l'espace restant)
+            1: 1 / 12
+            2: 2 / 12
+            3: 3 / 12
+            4: 4 / 12
+            5: 5 / 12
+            6: 6 / 12
+            7: 7 / 12
+            8: 8 / 12
+            9: 9 / 12
+            10: 10 / 12
+            11: 11 / 12
+            12: 12 / 12
+        default: 0

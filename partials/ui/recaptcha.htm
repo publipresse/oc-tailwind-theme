@@ -121,7 +121,7 @@ function onStart()
 			function showError(message) {
 				if (field) {
 					field.textContent = message;
-					field.classList.add('jax-visible');
+					field.hidden = false;
 				}
 			}
 
@@ -146,7 +146,7 @@ function onStart()
 			});
 		})();
 	</script>
-	<p class="mt-2 text-sm text-error" data-validate-for="g-recaptcha-response" data-validate-name="{{ fieldname }}">{{ validation }}</p>
+	<p class="mt-2 text-sm text-error" data-validate-for="g-recaptcha-response" data-validate-name="{{ fieldname }}"{% if not validation %} hidden{% endif %}>{{ validation }}</p>
 {% else %}
     {% partial 'ui/alert' type = 'warning' message = "Le reCAPTCHA n’est pas configuré." close = false %}
 {% endif %}
