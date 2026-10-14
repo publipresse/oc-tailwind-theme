@@ -98,11 +98,14 @@ Lire les `props` en tête de chaque partial avant de l'utiliser.
 
 ## Méthode d'intégration Figma
 
+L'utilisateur fournit **un seul lien : celui de la maquette Figma globale**. C'est à Claude de parcourir le fichier via le MCP pour trouver les pages, frames et sections, puis de récupérer chaque nœud. Ne pas demander un lien par page ou par section.
+
 1. **Vérifier le MCP Figma** (`whoami`, puis `get_metadata` sur l'URL fournie). S'il ne répond pas ou n'a pas accès au fichier : **s'arrêter et remonter le problème à l'utilisateur**, ne pas intégrer à l'aveugle.
 2. **Analyser toute la maquette** avant de coder : lister les pages, puis repérer les blocs identiques ou similaires.
 3. **Définir le design system** dans le `@theme` de `config.css` : couleurs, typos, tailles de texte, espacements, radius, ombres, container, breakpoints. Partir des variables Figma (`get_variable_defs`) quand elles existent.
 4. **Créer les partials** des blocs récurrents (voir ci-dessous), puis les composants de `components.css` (boutons…).
-5. **Assembler les pages**, créer les blueprints Tailor et brancher les contenus éditables.
+5. **Intégrer les pages section par section** : pour chaque section, récupérer son nœud (`get_design_context` + `get_screenshot`), l'intégrer, comparer au screenshot, puis passer à la suivante. Ne jamais intégrer une page entière en une seule passe.
+6. Créer les blueprints Tailor et brancher les contenus éditables.
 
 ## Partials de blocs
 
